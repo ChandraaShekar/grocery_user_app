@@ -3,10 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Constants {
-  static final String email = "Email";
-  static final String password = "PasswordHash";
+  static final String authTokenValue = "authTokenValue";
   static final String loginId = "LoginId";
-  static final String imgUrl = "ImgUrl";
 
   // Images
   static final String splashScreen = "assets/images/splash.jpeg";

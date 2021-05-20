@@ -3,19 +3,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:user_app/auth/login.dart';
-import 'package:user_app/auth/registration.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/platform.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static String emailValue;
-  static String pwdValue;
+
   static String loginIdValue;
+  static String authTokenValue;
 
   static showToast(String msg, BuildContext context) {
     Toast.show(msg, context,
@@ -30,8 +32,7 @@ class MyApp extends StatelessWidget {
   Future<String> isLoggedIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     loginIdValue = preferences.getString(Constants.loginId);
-    emailValue = preferences.getString(Constants.email);
-    pwdValue = preferences.getString(Constants.password);
+    authTokenValue = preferences.getString(Constants.authTokenValue);
     return null;
   }
 

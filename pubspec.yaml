@@ -40,8 +40,8 @@ dependencies:
   url_launcher: 
   flutter_otp_text_field:
   cached_network_image:
-  # firebase_core: ^0.5.0+1
-  # firebase_auth: ^0.18.1+2
+  firebase_core: ^0.5.0+1
+  firebase_auth: ^0.18.1+2
 
 dev_dependencies:
   flutter_test:

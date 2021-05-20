@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "39043087257",
+    "project_id": "groceryapp-b0e60",
+    "storage_bucket": "groceryapp-b0e60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39043087257:android:95d3d20dcbb1818b887108",
+        "android_client_info": {
+          "package_name": "com.redginzr.sellerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39043087257-trjqrrcfqs8il3lnmvb9a9b88rvjm164.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2UOArZ73OQ2iAl74nk3Pazh18U73BULQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39043087257-trjqrrcfqs8il3lnmvb9a9b88rvjm164.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "39043087257-j140p44rils9o4nv0qr6nj8ijb585r67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.redginzr.sellerapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39043087257:android:7255d7562eb5e6ba887108",
+        "android_client_info": {
+          "package_name": "com.redginzr.userapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39043087257-fkev6317v1t8ki2ihdl7ruruldobcqli.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redginzr.userapp",
+            "certificate_hash": "a0d4c95f52163d359e7a0ed44501eb5c2e09ad20"
+          }
+        },
+        {
+          "client_id": "39043087257-trjqrrcfqs8il3lnmvb9a9b88rvjm164.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2UOArZ73OQ2iAl74nk3Pazh18U73BULQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39043087257-trjqrrcfqs8il3lnmvb9a9b88rvjm164.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "39043087257-j140p44rils9o4nv0qr6nj8ijb585r67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.redginzr.sellerapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
