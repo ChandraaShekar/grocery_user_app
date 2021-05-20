@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/cart/checkout_address.dart';
-import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/cart_card.dart';
 

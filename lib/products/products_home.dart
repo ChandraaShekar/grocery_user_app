@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:user_app/products/category_details.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/product_card.dart';
 
