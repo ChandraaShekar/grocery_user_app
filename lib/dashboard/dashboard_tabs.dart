@@ -15,12 +15,14 @@ class DashboardTabs extends StatefulWidget {
   _DashboardTabsState createState() => _DashboardTabsState();
 }
 
-class _DashboardTabsState extends State<DashboardTabs> with TickerProviderStateMixin{
-
-TabController _controller;
-
-@override
+class _DashboardTabsState extends State<DashboardTabs>
+    with TickerProviderStateMixin {
+  TabController _controller;
+  List<String> headings = ['Store', 'Cart', 'Favorites', 'Profile'];
+  String currentHeading = "Store";
+  @override
   void initState() {
+    currentHeading = headings[0];
     _controller = new TabController(length: 4, vsync: this);
     super.initState();
   }
@@ -28,82 +30,102 @@ TabController _controller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header.appBar('Store',
-      Row(
-        children: [
-         IconButton(icon: Icon(Ionicons.ios_search), onPressed: (){
-         Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductSearch()));
-         }),
-         IconButton(icon: Icon(Ionicons.ios_notifications_outline,size: 26,),onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications()));
-          },
-         ),
-        ],
-      )
-      ,false),
+      appBar: Header.appBar(
+          '$currentHeading',
+          Row(
+            children: [
+              IconButton(
+                  icon: Icon(Ionicons.ios_search),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProductSearch()));
+                  }),
+              IconButton(
+                icon: Icon(
+                  Ionicons.ios_notifications_outline,
+                  size: 26,
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Notifications()));
+                },
+              ),
+            ],
+          ),
+          false),
       drawer: PlatformState.getDrawer(context),
       body: Container(
         child: Column(
           children: [
-             Container(
-  child: new TabBar(
-    controller: _controller,
-    labelColor: Constants.iconColor,
-    isScrollable: true,
-   indicatorColor: Constants.iconColor,
-    unselectedLabelColor: Colors.grey,
-    tabs: [
-      Container(
-        width: MediaQuery.of(context).size.width*0.15,
-        child: Tab(
-         icon: Icon(Entypo.shop,color: Constants.iconColor,),
-        ),
-      ),
-      Container(
-                width: MediaQuery.of(context).size.width*0.15,
-        child: Tab(
-         icon: Icon(AntDesign.shoppingcart,color: Constants.iconColor,),
-        ),
-      ),
-      Container(
-                width: MediaQuery.of(context).size.width*0.15,
-        child: Tab(
-        icon: Icon(AntDesign.hearto,color: Constants.iconColor,),
-        ),
-      ),
-      Container(
-                width: MediaQuery.of(context).size.width*0.15,
-        child: Tab(
-        icon: Icon(Ionicons.md_person,color: Constants.iconColor,),
-        ),
-      ),
-    ],
-  ),
-),
-
-Expanded(
-  child:   Container(
-    child: new TabBarView(
-      controller: _controller,
-      children: <Widget>[
-        ProductsHome(),
-        CartList(),
-        WishListProducts(),
-        Container(
-          child: Center(
-            child: Text('home'),
-          ),
-        ),
-        
-  
-      ]
-    )
-  ),
-)
-
-
+            Container(
+              child: new TabBar(
+                onTap: (x) => setState(() {
+                  currentHeading = headings[x];
+                }),
+                controller: _controller,
+                labelColor: Constants.iconColor,
+                isScrollable: true,
+                indicatorColor: Constants.iconColor,
+                unselectedLabelColor: Colors.grey,
+                tabs: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: Tab(
+                      icon: Icon(
+                        Entypo.shop,
+                        color: Constants.iconColor,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: Tab(
+                      icon: Icon(
+                        AntDesign.shoppingcart,
+                        color: Constants.iconColor,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: Tab(
+                      icon: Icon(
+                        AntDesign.hearto,
+                        color: Constants.iconColor,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: Tab(
+                      icon: Icon(
+                        Ionicons.md_person,
+                        color: Constants.iconColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                  child: new TabBarView(
+                      controller: _controller,
+                      children: <Widget>[
+                    ProductsHome(),
+                    CartList(),
+                    WishListProducts(),
+                    Container(
+                      child: Center(
+                        child: Text('home'),
+                      ),
+                    ),
+                  ])),
+            )
           ],
-        ),       
+        ),
       ),
     );
   }

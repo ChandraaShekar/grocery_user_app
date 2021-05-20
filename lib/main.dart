@@ -8,14 +8,13 @@ import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/platform.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   static String loginIdValue;
   static String authTokenValue;
 
@@ -47,7 +46,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent),
+          bottomSheetTheme:
+              BottomSheetThemeData(backgroundColor: Colors.transparent),
           primaryColor: Constants.kMain,
           hintColor: Color(0xfff2f4f5),
           textTheme:
