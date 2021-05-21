@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/widgets/wish_button.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final String qty;
   final bool wishList;
   final String imgUrl;
@@ -11,6 +11,13 @@ class ProductCard extends StatelessWidget {
   final String price;
 
   ProductCard({this.qty, this.wishList, this.imgUrl, this.name, this.price});
+
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  bool isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,29 +42,24 @@ class ProductCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5)),
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
-                        child: Text(this.qty),
+                        child: Text(this.widget.qty),
                       ),
                     ),
                     Expanded(
                       child: Container(),
                     ),
-                    this.wishList
-                        ? Icon(
-                            AntDesign.heart,
-                            size: 20,
-                            color: Constants.wishListSelectedColor,
-                          )
-                        : Icon(
-                            AntDesign.hearto,
-                            size: 20,
-                            color: Constants.wishListUnSelectedColor,
-                          )
+                    WishButton(
+                      isSelected: true,
+                      onChanged: (value) {
+                        print("OUT OF WIDGET $value");
+                      },
+                    )
                   ],
                 ),
               ),
             ),
             CachedNetworkImage(
-              imageUrl: this.imgUrl,
+              imageUrl: this.widget.imgUrl,
               imageBuilder: (context, imageProvider) => Container(
                 width: 140,
                 height: 105,
@@ -79,14 +81,14 @@ class ProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(12.0, 4, 0, 2),
               child: Text(
-                this.name,
+                this.widget.name,
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
             Padding(
                 padding: const EdgeInsets.fromLTRB(12.0, 2, 0, 2),
                 child: Text(
-                  'Rs ' + this.price,
+                  'Rs ' + this.widget.price,
                   style: TextStyle(fontWeight: FontWeight.w500),
                 ))
           ],

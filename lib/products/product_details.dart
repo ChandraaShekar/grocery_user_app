@@ -7,6 +7,7 @@ import 'package:user_app/utils/primary_button.dart';
 import 'package:user_app/widgets/counter.dart';
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/product_card.dart';
+import 'package:user_app/widgets/wish_button.dart';
 
 class ProductDetails extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     'https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg',
     'https://4.imimg.com/data4/CW/MF/MY-35654338/fresh-red-onions-500x500.jpg'
   ];
-
+  bool isLiked = false;
   int _current = 0;
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -43,10 +44,11 @@ class _ProductDetailsState extends State<ProductDetails> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: GestureDetector(
-                      onTap: () {}, child: Icon(AntDesign.hearto, size: 18)),
+                WishButton(
+                  isSelected: isLiked,
+                  onChanged: (val) {
+                    print(val);
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
