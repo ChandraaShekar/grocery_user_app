@@ -82,7 +82,7 @@ class _ProductCardState extends State<ProductCard> {
               padding: const EdgeInsets.fromLTRB(12.0, 4, 0, 2),
               child: Text(
                 this.widget.name,
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
               ),
             ),
             Padding(

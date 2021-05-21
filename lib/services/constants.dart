@@ -81,8 +81,9 @@ class Constants {
   static final Color drawerIconColor = Color(0xffFB9082);
 
   static final String rupeeSymbol = '₹';
-
-  static final Color primryColor = Color(0xffFB9082);
+  static final Color headingTextBlack = const Color(0xff2D2D2D);
+  static final Color secondaryTextColor = const Color(0xff707070);
+  static final Color primaryColor = Color(0xffFB9082);
   static final Color secondaryColor = Color(0xff29C17E);
   static final Color warningColor = Color(0xffFFD157);
   static final Color dangerColor = Color(0xffE86775);

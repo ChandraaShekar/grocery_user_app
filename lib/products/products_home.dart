@@ -38,14 +38,16 @@ class _ProductsHomeState extends State<ProductsHome> {
       body: SingleChildScrollView(
         child: Container(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             child: Column(
               children: [
                 Row(
                   children: [
                     Text(
                       down ? 'Show Categories' : 'Show Less',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: size.height / 58),
                     ),
                     IconButton(
                       icon: Icon(
@@ -67,7 +69,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 150,
+                          height: size.height / 5.5,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0)),
                           child: CarouselSlider(
@@ -135,19 +137,23 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       );
                               })),
                         ),
+                        SizedBox(height: 5),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           child: Row(
                             children: [
                               Text(
                                 'Grocery App Member Deals',
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: size.height / 60),
                               ),
                               Expanded(child: Container()),
                               GestureDetector(
                                 child: Text("View all >",
                                     style: TextStyle(
                                         color: Colors.grey,
+                                        fontSize: size.height / 60,
                                         fontWeight: FontWeight.w600)),
                               )
                             ],
@@ -178,13 +184,16 @@ class _ProductsHomeState extends State<ProductsHome> {
                             children: [
                               Text(
                                 'Grocery App Deals',
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: size.height / 60),
                               ),
                               Expanded(child: Container()),
                               GestureDetector(
                                 child: Text("View all >",
                                     style: TextStyle(
                                         color: Colors.grey,
+                                        fontSize: size.height / 60,
                                         fontWeight: FontWeight.w600)),
                               )
                             ],

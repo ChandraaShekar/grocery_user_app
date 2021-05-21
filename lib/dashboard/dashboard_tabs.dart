@@ -76,6 +76,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         Entypo.shop,
                         color: Constants.iconColor,
+                        size: 26,
                       ),
                     ),
                   ),
@@ -85,6 +86,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         AntDesign.shoppingcart,
                         color: Constants.iconColor,
+                        size: 26,
                       ),
                     ),
                   ),
@@ -94,6 +96,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         AntDesign.hearto,
                         color: Constants.iconColor,
+                        size: 24,
                       ),
                     ),
                   ),
@@ -103,6 +106,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         Ionicons.md_person,
                         color: Constants.iconColor,
+                        size: 26,
                       ),
                     ),
                   ),

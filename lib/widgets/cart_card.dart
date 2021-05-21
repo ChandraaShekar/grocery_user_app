@@ -53,13 +53,15 @@ class CartCard extends StatelessWidget {
                   children: [
                     Text(
                       this.name,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          letterSpacing: 0.4),
                     ),
                     Text(
                       'Rs. ' + this.price,
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
                     ),
                     Container(
                       decoration: BoxDecoration(

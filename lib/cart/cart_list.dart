@@ -54,11 +54,12 @@ class _CartListState extends State<CartList> {
                             children: [
                               Text(
                                 'Sub Total',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 16),
                               ),
                               Text(
                                 '₹ ' + subtotal,
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
                               )
                             ]),
                       ),
@@ -69,14 +70,15 @@ class _CartListState extends State<CartList> {
                             children: [
                               Text(
                                 'Delivery',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 16),
                               ),
                               SizedBox(
                                 width: 15,
                               ),
                               Text(
                                 '₹ ' + delivery,
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
                               )
                             ]),
                       ),
@@ -87,11 +89,12 @@ class _CartListState extends State<CartList> {
                             children: [
                               Text(
                                 'Tax',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 16),
                               ),
                               Text(
                                 '₹ ' + tax,
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
                               )
                             ]),
                       ),
@@ -107,7 +110,8 @@ class _CartListState extends State<CartList> {
                               ),
                               Text(
                                 '₹ ' + total,
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600),
                               )
                             ]),
                       ),

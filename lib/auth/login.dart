@@ -17,7 +17,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  
   TextEditingController _phoneNumberController = TextEditingController();
   double _height;
 
@@ -35,7 +34,6 @@ class _LoginState extends State<Login> {
     }
     return result;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@ class _LoginState extends State<Login> {
                               Text(
                                 "Welcome,",
                                 style: TextStyle(
-                                    fontSize: size.height / 24,
+                                    fontSize: size.height / 30,
                                     color: Colors.black,
                                     letterSpacing: 1,
                                     fontWeight: FontWeight.w800),
@@ -78,7 +76,7 @@ class _LoginState extends State<Login> {
                                 "Sign in to Continue",
                                 style: TextStyle(
                                     color: Colors.black87,
-                                    fontSize: size.height / 54,
+                                    fontSize: size.height / 50,
                                     letterSpacing: 1),
                               ),
                             ],
@@ -116,21 +114,21 @@ class _LoginState extends State<Login> {
                 top: size.height / 2,
                 right: size.width / 16,
               ),
-              Positioned(
-                child: CustomPaint(
-                  painter: CirclePainter(20, Constants.bottomLeftCircleColor),
-                  size: Size(20, 20),
-                ),
-                top: size.height / 1.69,
-                left: size.width / 4,
-              ),
+              // Positioned(
+              //   child: CustomPaint(
+              //     painter: CirclePainter(20, Constants.bottomLeftCircleColor),
+              //     size: Size(20, 20),
+              //   ),
+              //   top: size.height / 1.69,
+              //   left: size.width / 4,
+              // ),
               Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 100),
+                    padding: const EdgeInsets.only(top: 120),
                     child: CarouselSlider(
                       options: CarouselOptions(
-                         viewportFraction: 1,
+                        viewportFraction: 1,
                         autoPlay: false,
                         enableInfiniteScroll: false,
                         autoPlayInterval: Duration(seconds: 3),
@@ -157,12 +155,12 @@ class _LoginState extends State<Login> {
                                       child: Image.asset(
                                         imgUrl,
                                         width: size.width,
-                                        height: 160,
+                                        height: size.height / 4,
                                         fit: BoxFit.contain,
                                       )),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 0, top: 160),
+                                        left: 0, top: 200),
                                     child: Container(
                                         child: Column(
                                       mainAxisAlignment:
@@ -174,7 +172,7 @@ class _LoginState extends State<Login> {
                                           child: Text(
                                             "Get insights by looking into your",
                                             style: TextStyle(
-                                              fontSize: size.height / 38,
+                                              fontSize: size.height / 50,
                                               color: Colors.black,
                                             ),
                                           ),
@@ -183,7 +181,7 @@ class _LoginState extends State<Login> {
                                           child: Text(
                                             " payment history",
                                             style: TextStyle(
-                                              fontSize: size.height / 38,
+                                              fontSize: size.height / 50,
                                               color: Colors.black,
                                             ),
                                           ),
@@ -202,23 +200,24 @@ class _LoginState extends State<Login> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: map<Widget>(images, (index, url) {
-                          return _current == index ?Container(
-                            width: 9,
-                            height: 9,
-                            margin: EdgeInsets.symmetric(horizontal: 4),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Constants.buttonBgColor
-                                  ),
-                          ):Container(
-                            width: 9,
-                            height: 9,
-                            margin: EdgeInsets.symmetric(horizontal: 4),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color:Constants.buttonBgColor)
-                                  ),
-                          );
+                          return _current == index
+                              ? Container(
+                                  width: 9,
+                                  height: 9,
+                                  margin: EdgeInsets.symmetric(horizontal: 4),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Constants.buttonBgColor),
+                                )
+                              : Container(
+                                  width: 9,
+                                  height: 9,
+                                  margin: EdgeInsets.symmetric(horizontal: 4),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: Constants.buttonBgColor)),
+                                );
                         })),
                   ),
                   Container(
@@ -227,7 +226,7 @@ class _LoginState extends State<Login> {
                     color: Colors.transparent,
                     child: Padding(
                       padding:
-                          const EdgeInsets.only(top: 40, left: 20, right: 10),
+                          const EdgeInsets.only(top: 20, left: 20, right: 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,32 +237,39 @@ class _LoginState extends State<Login> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Transform(
-                                   transform: Matrix4.translationValues(0, 6, 0.0),
-                                                                  child: Text(
+                                  transform:
+                                      Matrix4.translationValues(0, 6, 0.0),
+                                  child: Text(
                                     "Please enter your phone number",
                                     style: TextStyle(
-                                        fontSize: size.height / 38,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
+                                        fontSize: size.height / 50,
+                                        letterSpacing: 0.3,
+                                        color: Constants.headingTextBlack,
+                                        fontWeight: FontWeight.w600),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
-                                Row(crossAxisAlignment: CrossAxisAlignment.end,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
-                                   Padding(
-                                     padding: const EdgeInsets.only(bottom:3.0),
-                                     child: Text("+91",style: TextStyle(
-                                              fontSize: size.height / 31,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: 0.7),),
-                                   ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 15),
+                                      child: Text(
+                                        "+91",
+                                        style: TextStyle(
+                                            fontSize: size.height / 30,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.7),
+                                      ),
+                                    ),
                                     Container(
                                       width: size.width / 1.4,
                                       height: size.height / 12,
                                       child: TextField(
                                         style: TextStyle(
-                                            fontSize: size.height / 31,
+                                            fontSize: size.height / 30,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.7),
@@ -281,27 +287,29 @@ class _LoginState extends State<Login> {
                                 SizedBox(height: 10),
                                 Text(
                                   'OTP Will be sent to your phone number',
-                                  style: TextStyle(color: Colors.black87,fontSize: 12),
+                                  style: TextStyle(
+                                      color: Constants.secondaryTextColor,
+                                      fontSize: size.height / 60),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 15),
                           PrimaryButton(
                             backgroundColor: Constants.kButtonBackgroundColor,
                             textColor: Constants.kButtonTextColor,
                             text: "CONTINUE",
                             width: size.width * 0.9 - 10,
                             onPressed: () {
-                             if(_phoneNumberController.text.length<10){
-                               MyApp.showToast('Enter Valid Phone Number', context);
-                             }else{
-                              startPhoneAuth();
-                             } 
+                              if (_phoneNumberController.text.length < 10) {
+                                MyApp.showToast(
+                                    'Enter Valid Phone Number', context);
+                              } else {
+                                startPhoneAuth();
+                              }
                               // setState(() {
                               //   phonenum = '+91' + phoneNo;
                               // });
-
                             },
                           ),
                         ],
@@ -318,14 +326,10 @@ class _LoginState extends State<Login> {
   }
 
   startPhoneAuth() {
-    
-      
-      Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          OtpPage(phoneNumber: _phoneNumberController.text)));
-    }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                OtpPage(phoneNumber: _phoneNumberController.text)));
   }
-
- 
+}

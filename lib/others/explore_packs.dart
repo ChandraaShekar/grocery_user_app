@@ -11,32 +11,34 @@ class ExplorePacks extends StatefulWidget {
 class _ExplorePacksState extends State<ExplorePacks> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
 
-    Size size=MediaQuery.of(context).size;
-    
     return Scaffold(
-      appBar:Header.appBar(Constants.explorePacksTag, null, true),
+      appBar: Header.appBar(Constants.explorePacksTag, null, true),
       body: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context,index){
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PackageDescription("15 Days Pack")));
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PackageDescription("15 Days Pack")));
                 },
                 child: ClipRRect(
-                 borderRadius: BorderRadius.circular(8.0),
-                 child: Image.asset(
-                           Constants.offerImage,
-                           width: size.width,
-                           height: 100,
-                           fit: BoxFit.cover,
-                       )),
-            ),
-          );
-        }
-      ),
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      Constants.offerImage,
+                      width: size.width,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    )),
+              ),
+            );
+          }),
     );
   }
 }

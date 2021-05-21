@@ -27,12 +27,13 @@ class _PrimaryCustomButtonState extends State<PrimaryCustomButton> {
         child: TextButton(
             child: Text('${this.title}',
                 style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
+                    letterSpacing: 0.5,
                     fontWeight: FontWeight.bold,
                     color: Colors.white)),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
-                    (states) => Constants.primryColor)),
+                    (states) => Constants.primaryColor)),
             onPressed: this.onPressed),
       ),
     );
