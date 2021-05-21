@@ -4,24 +4,26 @@ import 'package:user_app/services/constants.dart';
 class PrimaryCustomButton extends StatefulWidget {
   final String title;
   final Function onPressed;
-  PrimaryCustomButton({Key key, this.title, this.onPressed}) : super(key: key);
+  final double width;
+  PrimaryCustomButton({Key key, this.title, this.onPressed, this.width})
+      : super(key: key);
 
   @override
   _PrimaryCustomButtonState createState() =>
-      _PrimaryCustomButtonState(this.title, this.onPressed);
+      _PrimaryCustomButtonState(this.title, this.onPressed, this.width);
 }
 
 class _PrimaryCustomButtonState extends State<PrimaryCustomButton> {
   final String title;
   final Function onPressed;
-
-  _PrimaryCustomButtonState(this.title, this.onPressed);
+  final double width;
+  _PrimaryCustomButtonState(this.title, this.onPressed, this.width);
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Container(
-        height: 35,
-        width: MediaQuery.of(context).size.width * 0.4,
+        height: 40,
+        width: width ?? MediaQuery.of(context).size.width * 0.4,
         child: TextButton(
             child: Text('${this.title}',
                 style: TextStyle(

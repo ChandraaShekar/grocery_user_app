@@ -94,7 +94,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                     width: size.width,
                                     child: ClipRRect(
                                         borderRadius:
-                                            BorderRadius.circular(8.0),
+                                            BorderRadius.circular(12.0),
                                         child: Image.asset(
                                           Constants.offerImage,
                                           width: size.width,

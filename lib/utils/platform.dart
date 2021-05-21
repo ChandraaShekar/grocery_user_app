@@ -1,4 +1,3 @@
-
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/auth/login.dart';
 import 'package:user_app/main.dart';
@@ -32,215 +31,192 @@ class PlatformState extends State<Platform> {
       width: MediaQuery.of(context).size.width,
       child: Drawer(
           child: Container(
-       // color: Constants.kDrawerBackground,
+        // color: Constants.kDrawerBackground,
         child: Padding(
           padding: const EdgeInsets.only(left: 0),
           child: ListView(
             children: <Widget>[
               Row(
                 children: [
-                   IconButton(
+                  IconButton(
                     icon: Icon(Icons.clear),
                     onPressed: () => Navigator.pop(context),
                   ),
                   Expanded(
                       child: Center(
                           child: Text(
-                      'Grocery Shopping',
+                    'Grocery Shopping',
                     style: Constants.header,
                   ))),
-                 
                 ],
               ),
               Divider(
                 color: Colors.transparent,
               ),
               ListTile(
-                leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                  Feather.home,
-                  color: Constants.drawerIconColor,
-                ),
-                ),
-                title: Text(
-                  Constants.homeTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                  
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      Feather.home,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.homeTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
                     Navigator.pop(context);
-                  }
-              ),
-              Divider(
-                color: Colors.transparent,
-              ),
-                ListTile(
-                leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                  MaterialCommunityIcons.newspaper_variant_outline,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.orderHistoryTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderHistory()));
-                  }
-                ),
-                Divider(
-                color: Colors.transparent,
-                ),
-                ListTile(
-                leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                   FontAwesome5.smile_wink,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.explorePacksTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ExplorePacks()));
-                  }
-              ),
+                  }),
               Divider(
                 color: Colors.transparent,
               ),
               ListTile(
-                leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                  FontAwesome.dollar,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.paymentsTag,
-                  style: Constants.sideHeading, 
-                ),
-                onTap: () {
-                 //  Navigator.push(context, MaterialPageRoute(builder: (context)=>OrdersHistory()));
-                  }
-              ),
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      MaterialCommunityIcons.newspaper_variant_outline,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.orderHistoryTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OrderHistory()));
+                  }),
               Divider(
-                color: Colors.transparent,
-              ),
-               ListTile(
-                   leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                  Icons.settings,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.settingsTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Settings()));
-                  }
-              ),
-                Divider(
                 color: Colors.transparent,
               ),
               ListTile(
-                 leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                   AntDesign.warning,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.tncTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>TandC()));
-                  }
-              ),
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      FontAwesome5.smile_wink,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.explorePacksTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ExplorePacks()));
+                  }),
               Divider(
                 color: Colors.transparent,
               ),
-               ListTile(
-                leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                  Entypo.help,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.helpTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Help()));
-                  }
-              ),
+              ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      Icons.settings,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.settingsTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Settings()));
+                  }),
               Divider(
                 color: Colors.transparent,
               ),
-               ListTile(
-               leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-             
-                  Feather.gift,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.referTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Refer()));
-                  }
-              ),
+              ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      AntDesign.warning,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.tncTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => TandC()));
+                  }),
               Divider(
                 color: Colors.transparent,
               ),
-               ListTile(
-               leading:CircleAvatar(
-                  backgroundColor: Constants.drawerBgColor,
-                  child:  Icon(
-                  SimpleLineIcons.logout,
-                  color: Constants.drawerIconColor,
-                 ),
-                ),
-                title: Text(
-                  Constants.logoutTag,
-                  style: Constants.sideHeading,
-                ),
-                onTap: () {
-                          MyApp.logout();
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      Login.tag, (Route<dynamic> route) => false);
-                  }
-              ),
+              ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      Entypo.help,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.helpTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Help()));
+                  }),
               Divider(
                 color: Colors.transparent,
               ),
-
-             
+              ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      Feather.gift,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.referTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Refer()));
+                  }),
+              Divider(
+                color: Colors.transparent,
+              ),
+              ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      SimpleLineIcons.logout,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    Constants.logoutTag,
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    MyApp.logout();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        Login.tag, (Route<dynamic> route) => false);
+                  }),
+              Divider(
+                color: Colors.transparent,
+              ),
               Center(
                   child: Text(
                 'Version : 1.0',
                 style: Constants.headerX,
               )),
-               Divider(
+              Divider(
                 color: Colors.transparent,
               ),
-
             ],
           ),
         ),
@@ -250,7 +226,7 @@ class PlatformState extends State<Platform> {
 
   @override
   Widget build(BuildContext context) {
-   // return Dashboard();
-   return Container();
+    // return Dashboard();
+    return Container();
   }
 }

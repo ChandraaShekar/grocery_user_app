@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                           color: Constants.qtyBgColor,
-                          borderRadius: BorderRadius.circular(3)),
+                          borderRadius: BorderRadius.circular(5)),
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Text(this.qty),
@@ -65,8 +65,6 @@ class ProductCard extends StatelessWidget {
                   image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
-                    // colorFilter:
-                    //     ColorFilter.mode(Colors.red, BlendMode.colorBurn)
                   ),
                 ),
               ),
