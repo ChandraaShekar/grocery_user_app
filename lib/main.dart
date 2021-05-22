@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +20,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   static String loginIdValue;
   static String authTokenValue;
+  static Map userInfo;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   static showToast(String msg, BuildContext context) {
     Toast.show(msg, context,
@@ -26,13 +31,17 @@ class MyApp extends StatelessWidget {
   static logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
+    FirebaseAuth.instance.signOut();
   }
 
-  Future<String> isLoggedIn() async {
+  Future<Map> isLoggedIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     loginIdValue = preferences.getString(Constants.loginId);
     authTokenValue = preferences.getString(Constants.authTokenValue);
-    return null;
+    var uinfo = preferences.getString(Constants.userInfo) ?? "{}";
+    userInfo = jsonDecode(uinfo) ?? {};
+    print("USERINFO: $userInfo");
+    return userInfo;
   }
 
   final routes = <String, WidgetBuilder>{
@@ -54,7 +63,7 @@ class MyApp extends StatelessWidget {
               GoogleFonts.montserratTextTheme(Theme.of(context).textTheme)),
       home: new FutureBuilder(
           future: isLoggedIn(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 {
@@ -74,10 +83,17 @@ class MyApp extends StatelessWidget {
                 }
               default:
                 {
-                  if (snapshot.hasError || loginIdValue == null)
+                  if (snapshot.hasError ||
+                      snapshot.data.isEmpty ||
+                      userInfo == null)
                     return Login();
-                  else
+                  else if (snapshot.data.isNotEmpty &&
+                      userInfo['account_status'] == 'ACTIVE')
                     return DashboardTabs();
+                  else
+                    return Scaffold(
+                      body: Center(child: CircularProgressIndicator()),
+                    );
                 }
             }
           }),

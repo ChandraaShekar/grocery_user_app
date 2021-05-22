@@ -49,7 +49,7 @@ class _ProductCardState extends State<ProductCard> {
                       child: Container(),
                     ),
                     WishButton(
-                      isSelected: true,
+                      isSelected: false,
                       onChanged: (value) {
                         print("OUT OF WIDGET $value");
                       },
@@ -72,9 +72,7 @@ class _ProductCardState extends State<ProductCard> {
               ),
               placeholder: (context, url) => Container(
                 height: 100,
-                child: Center(
-                  child: Text('Loading..'),
-                ),
+                child: Center(child: CircularProgressIndicator()),
               ),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),

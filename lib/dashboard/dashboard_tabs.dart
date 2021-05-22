@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:user_app/api/productapi.dart';
 import 'package:user_app/cart/cart_list.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/others/notifications.dart';
 import 'package:user_app/products/product_search.dart';
 import 'package:user_app/products/products_home.dart';
@@ -19,10 +21,11 @@ class _DashboardTabsState extends State<DashboardTabs>
     with TickerProviderStateMixin {
   TabController _controller;
   List<String> headings = ['Store', 'Cart', 'Favorites', 'Profile'];
-  String currentHeading = "Store";
+  String currentHeading = "Welcome, ${MyApp.userInfo['name']}";
+  List featured, sale, banners, categories;
   @override
   void initState() {
-    currentHeading = headings[0];
+    // currentHeading = headings[0];
     _controller = new TabController(length: 4, vsync: this);
     super.initState();
   }

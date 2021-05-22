@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 class Constants {
   static final String authTokenValue = "authTokenValue";
   static final String loginId = "LoginId";
+  static final String userInfo = "userInfo";
+
+  static final String baseUrl = "https://8bitchaps.com/gap_user/public/";
 
   // Images
   static final String splashScreen = "assets/images/splash.jpeg";

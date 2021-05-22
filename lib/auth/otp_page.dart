@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'dart:core';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:user_app/api/loginapi.dart';
+import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
 
@@ -129,20 +133,43 @@ class _OtpPageState extends State<OtpPage> {
                             if (value.user != null) {
                               final User user = auth.currentUser;
                               final uid = user.uid;
-                              //shared preferences store
                               MyApp.loginIdValue = uid;
-                              MyApp.authTokenValue =
-                                  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdG9yZUluZm8iOnsiaWQiOiIxIiwic3RvcmVfaWQiOiJiZDgwNTczZi05MjZmLTQwYjItOTcxYS03MjI0NzBmZCIsInN0b3JlX25hbWUiOiJEb3lsZS1GbGF0bGV5Iiwic3RvcmVfYWRkcmVzcyI6Ijg1MTA0IExvb21pcyBDaXJjbGUiLCJzdG9yZV9nc3Rfbm8iOiI5NDM1NDYyMjk0Iiwic3RvcmVfbG9jYXRpb24iOiJmbG9hdCIsIm93bmVyX25hbWUiOiJCYXNpbGl1cyBNaXNzZWxicm9vayIsImNvbnRhY3Rfbm8iOiI0NTEtNjQyLTUzIiwiZW1haWwiOiJibWlzc2VsYnJvb2swQG1sYi5jb20iLCJub3RpZmljYXRpb25fdG9rZW4iOiI4NTUyMDQzOTM5Iiwibm90aWZpY2F0aW9uX3N1YnNjcmlwdGlvbiI6Ijc0OTI2NTQ2NzciLCJhY2NvdW50X3N0YXR1cyI6IjEiLCJzZWNvbmRhcnlfY29udGFjdCI6IjcxNSA3OTIgODIiLCJmb29kX2xpY2Vuc2Vfbm8iOiI2OTQ4NDY0OTU1Iiwib3duZXJfYWRoYXJfbm8iOiI4MzQ5ODc5NTIxIiwib3duZXJfcGFuX251bWJlciI6IjU1LTAzNi01MDUiLCJhZGRlZF9hdCI6IjIwMjEtMDUtMTAgMTQ6MjA6MzQiLCJ1cGRhdGVkX2F0IjoiMjAyMS0wNS0xMCAxODowNToyOSJ9LCJpYXQiOjE2MjA3MTY0NjcsImV4cCI6MTY1MTgyMDQ2N30.Du6El-lOA3Nc2vsdoEsDT8mY8y6kkUdaFBdRprW_Ub000";
+                              MyApp.authTokenValue = "";
                               setState(() {});
-                              //for accessing it you can call directly at any place ex- MyApp.authTokenValue. if you want to add more shared preferences add in main at 2 places and give there names in constants page
+                              var authToken = await user.getIdToken();
+                              LoginApiHandler loginHandler =
+                                  new LoginApiHandler(
+                                      {"auth_token": authToken});
+                              var response = await loginHandler.login();
+                              print(response);
+                              if (response[0] == 200) {
+                                // NaviMyApp.showToast(response[1]['message'], context);
+                                SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(Constants.userInfo,
+                                    jsonEncode(response[1]['user']));
+                                MyApp.userInfo = response[1]['user'];
 
-                              print(MyApp.authTokenValue);
-
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Registration()),
-                                  (route) => false);
+                                sharedPreferences.setString(
+                                    Constants.authTokenValue,
+                                    jsonEncode(response[1]['access_token']));
+                                MyApp.authTokenValue =
+                                    response[1]['access_token'];
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DashboardTabs()));
+                              } else if (response[0] == 404) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Registration()));
+                              } else {
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => ()));
+                              }
                             }
                           });
                         } catch (e) {

@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:user_app/api/registerapi.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
+
+import '../main.dart';
 
 class Registration extends StatefulWidget {
   @override
@@ -11,13 +18,14 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   TextEditingController name, email, pincode;
   String nameErr = '', emailErr = '', pincodeErr = '';
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
-    name = TextEditingController();
-    email = TextEditingController();
-    pincode = TextEditingController();
+    name = new TextEditingController();
+    email = new TextEditingController();
+    pincode = new TextEditingController();
   }
 
   @override
@@ -123,11 +131,46 @@ class _RegistrationState extends State<Registration> {
                         ),
                       SizedBox(height: 35),
                       PrimaryButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DashboardTabs()));
+                        onPressed: () async {
+                          final User user = auth.currentUser;
+                          String authToken = await user.getIdToken(true);
+                          var data = {
+                            'auth_token': authToken,
+                            'name': name.text,
+                            'address': "NONE",
+                            'user_lat': "NONE",
+                            'user_lng': "NONE",
+                            'pincode': pincode.text,
+                            'phone_no': user.phoneNumber,
+                            'email': email.text
+                          };
+                          RegisterApiHandler registerHandler =
+                              new RegisterApiHandler(data);
+                          var response = await registerHandler.register();
+                          MyApp.showToast(response[1]['message'], context);
+                          if (response[0] == 200) {
+                            SharedPreferences sharedPreferences =
+                                await SharedPreferences.getInstance();
+                            sharedPreferences.setString(Constants.userInfo,
+                                jsonEncode(response[1]['user']));
+                            MyApp.userInfo = response[1]['user'];
+
+                            sharedPreferences.setString(
+                                Constants.authTokenValue,
+                                jsonEncode(response[1]['access_token']));
+                            MyApp.authTokenValue = response[1]['access_token'];
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DashboardTabs()));
+                          }
+                          // else if (response[0] == 400) {
+
+                          // } else if (response[0] == 400) {
+                          // }
+                          else {
+                            print(response);
+                          }
                         },
                         backgroundColor: Constants.kButtonBackgroundColor,
                         textColor: Constants.kButtonTextColor,
