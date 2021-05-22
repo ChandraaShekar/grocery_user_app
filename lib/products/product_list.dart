@@ -104,7 +104,7 @@ class _ProductListState extends State<ProductList> {
                                       : "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
-                                    width: 140,
+                                    width: size.width / 3.2,
                                     height: 105,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
@@ -126,7 +126,7 @@ class _ProductListState extends State<ProductList> {
                                       horizontal: 12.0),
                                   child: Container(
                                     height: 100,
-                                    width: 120,
+                                    width: size.width / 1.8,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -134,9 +134,13 @@ class _ProductListState extends State<ProductList> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          height: 35,
+                                          height: 40,
                                           child: Text(
-                                              "${productList[i]['product_info'][0]['product_name']}"),
+                                            "${productList[i]['product_info'][0]['product_name']}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: size.height / 56),
+                                          ),
                                         ),
                                         Container(
                                             child: Padding(
