@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:user_app/api/wishlistapi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/wish_button.dart';
 
@@ -9,14 +11,22 @@ class ProductCard extends StatefulWidget {
   final String imgUrl;
   final String name;
   final String price;
+  final String productId;
 
-  ProductCard({this.qty, this.wishList, this.imgUrl, this.name, this.price});
+  ProductCard(
+      {this.qty,
+      this.wishList,
+      this.imgUrl,
+      this.name,
+      this.price,
+      this.productId});
 
   @override
   _ProductCardState createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
+  WishlistApiHandler wishlistHandler = new WishlistApiHandler();
   bool isLiked = false;
 
   @override
@@ -49,9 +59,19 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                       ),
                       WishButton(
-                        isSelected: false,
-                        onChanged: (value) {
-                          print("OUT OF WIDGET $value");
+                        isSelected: widget.wishList,
+                        onChanged: (value) async {
+                          if (value) {
+                            List resp = await wishlistHandler
+                                .addToWishList('${widget.productId}');
+                            MyApp.wishListIds.add(widget.productId);
+                            MyApp.showToast('${resp[1]['message']}', context);
+                          } else {
+                            List resp = await wishlistHandler
+                                .removeFromWishList('${widget.productId}');
+                            MyApp.wishListIds.remove(widget.productId);
+                            MyApp.showToast('${resp[1]['message']}', context);
+                          }
                         },
                       )
                     ],

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/api/productapi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/products/product_details.dart';
 import 'package:user_app/products/product_list.dart';
 import 'package:user_app/services/constants.dart';
@@ -243,9 +244,13 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                                           'product_id'])));
                                                 },
                                                 child: ProductCard(
+                                                  productId: productInfo[0]
+                                                      ['product_id'],
                                                   qty:
                                                       "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
-                                                  wishList: false,
+                                                  wishList: MyApp.wishListIds
+                                                      .contains(productInfo[0]
+                                                          ['product_id']),
                                                   imgUrl: productImages[0]
                                                           ['image_url']
                                                       .toString()
@@ -253,7 +258,12 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                           'https://'),
                                                   name:
                                                       '${productInfo[0]['product_name']}',
-                                                  price: '120',
+                                                  price: productInfo[0]
+                                                              ['offer_price'] !=
+                                                          '0'
+                                                      ? productInfo[0]
+                                                          ['offer_price']
+                                                      : productInfo[0]['price'],
                                                 ),
                                               );
                                             }),
@@ -332,6 +342,8 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                   qty:
                                                       "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
                                                   wishList: false,
+                                                  productId: productInfo[0]
+                                                      ['product_id'],
                                                   imgUrl: (productImages
                                                           .isNotEmpty)
                                                       ? productImages[0]

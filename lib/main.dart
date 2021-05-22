@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:user_app/api/wishlistapi.dart';
 import 'package:user_app/auth/login.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/services/constants.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   static String loginIdValue;
   static String authTokenValue;
   static Map userInfo;
-  FirebaseAuth auth = FirebaseAuth.instance;
+  static List wishListIds = [];
 
   static showToast(String msg, BuildContext context) {
     Toast.show(msg, context,
@@ -36,11 +37,16 @@ class MyApp extends StatelessWidget {
 
   Future<Map> isLoggedIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    WishlistApiHandler wishlistHandler = new WishlistApiHandler();
     loginIdValue = preferences.getString(Constants.loginId);
     authTokenValue = preferences.getString(Constants.authTokenValue);
     var uinfo = preferences.getString(Constants.userInfo) ?? "{}";
     userInfo = jsonDecode(uinfo) ?? {};
-    print("USERINFO: $userInfo");
+    List wishListResp = await wishlistHandler.getWishlistIds();
+    if (wishListResp[0] == 200) {
+      wishListIds = wishListResp[1];
+    }
+    print(wishListIds);
     return userInfo;
   }
 

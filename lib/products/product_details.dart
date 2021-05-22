@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/api/productapi.dart';
+import 'package:user_app/api/wishlistapi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/widgets/counter.dart';
@@ -17,9 +19,7 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  String code = '1000789';
-  String country = 'India';
-  String company = 'Jubliant Foods';
+  WishlistApiHandler wishlistHandler = new WishlistApiHandler();
   List images = [
     'https://www.thespruceeats.com/thmb/QxqFC_PtR8hR7I9-tsCB3S9b7R8=/2128x1409/filters:fill(auto,1)/GettyImages-116360266-57fa9c005f9b586c357e92cd.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg',
@@ -27,6 +27,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   ];
   List recomendations = [];
   var productInfo;
+  int itemCount = 0;
   bool isLiked = false;
   int _current = 0;
   List<T> map<T>(List list, Function handler) {
@@ -46,7 +47,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   void load() async {
     ProductApiHandler productHandler = new ProductApiHandler();
     List resp = await productHandler.getProductFromId(widget.productId);
-    print(resp);
     setState(() {
       productInfo = resp[1];
       if (productInfo['product_images'].length > 0) {
@@ -80,12 +80,29 @@ class _ProductDetailsState extends State<ProductDetails> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
-                WishButton(
-                  isSelected: isLiked,
-                  onChanged: (val) {
-                    print(val);
-                  },
-                ),
+                productInfo == null
+                    ? SizedBox()
+                    : WishButton(
+                        isSelected: MyApp.wishListIds.contains(
+                            productInfo['product_info'][0]['product_id']),
+                        onChanged: (val) async {
+                          if (val) {
+                            List resp = await wishlistHandler.addToWishList(
+                                '${productInfo['product_info'][0]['product_id']}');
+                            print(resp);
+                            MyApp.wishListIds.add(
+                                productInfo['product_info'][0]['product_id']);
+                            MyApp.showToast('${resp[1]['message']}', context);
+                          } else {
+                            List resp = await wishlistHandler.removeFromWishList(
+                                '${productInfo['product_info'][0]['product_id']}');
+                            print(resp);
+                            MyApp.wishListIds.remove(
+                                productInfo['product_info'][0]['product_id']);
+                            MyApp.showToast('${resp[1]['message']}', context);
+                          }
+                        },
+                      ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: GestureDetector(
@@ -150,7 +167,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 4.0, horizontal: 7.0),
                                           child: Text(
-                                            "${(int.parse(productInfo['product_info'][0]['offer_price']) / int.parse(productInfo['product_info'][0]['price']) * 100).toInt()}% OFF",
+                                            "${((int.parse(productInfo['product_info'][0]['price']) - int.parse(productInfo['product_info'][0]['offer_price'])) / int.parse(productInfo['product_info'][0]['price']) * 100).toInt()}% OFF",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w600,
@@ -190,7 +207,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           autoPlayInterval: Duration(seconds: 3),
                           scrollDirection: Axis.horizontal,
                           initialPage: 0,
-                          height: 200,
+                          height: 360,
                           onPageChanged: (index, reason) {
                             setState(() {
                               _current = index;
@@ -260,9 +277,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   incDecwidth: 28,
                                   leftCounterColor: Constants.buttonBgColor,
                                   rightCounterColor: Constants.buttonBgColor,
-                                  incPressed: () {},
-                                  decPressed: () {},
-                                  text: '0',
+                                  incPressed: () {
+                                    if (itemCount < 10) {
+                                      itemCount += 1;
+                                    }
+                                    setState(() {});
+                                  },
+                                  decPressed: () {
+                                    if (itemCount > 0) {
+                                      itemCount -= 1;
+                                    }
+                                    setState(() {});
+                                  },
+                                  text: '$itemCount',
                                   widgetWidth: 140,
                                 )),
                             SizedBox(
@@ -271,7 +298,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
-                              child: PrimaryCustomButton(title: "ADD TO CART"),
+                              child: PrimaryCustomButton(
+                                title: "ADD TO CART",
+                                onPressed: () {
+                                  if (itemCount <= 0) {
+                                    MyApp.showToast(
+                                        '$itemCount items cannot be added to cart',
+                                        context);
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
