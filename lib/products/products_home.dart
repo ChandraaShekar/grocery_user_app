@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/api/productapi.dart';
+import 'package:user_app/products/product_details.dart';
 import 'package:user_app/products/product_list.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/product_card.dart';
@@ -19,12 +20,6 @@ class _ProductsHomeState extends State<ProductsHome> {
     Constants.offerImage,
     Constants.only4uImage,
     Constants.offerImage
-  ];
-
-  List images = [
-    'https://www.thespruceeats.com/thmb/QxqFC_PtR8hR7I9-tsCB3S9b7R8=/2128x1409/filters:fill(auto,1)/GettyImages-116360266-57fa9c005f9b586c357e92cd.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg',
-    'https://4.imimg.com/data4/CW/MF/MY-35654338/fresh-red-onions-500x500.jpg'
   ];
   int _current = 0;
   List<T> map<T>(List list, Function handler) {
@@ -114,7 +109,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                     viewportFraction: 1,
                                     autoPlay: true,
                                     enableInfiniteScroll: false,
-                                    autoPlayInterval: Duration(seconds: 3),
+                                    autoPlayInterval: Duration(seconds: 6),
                                     scrollDirection: Axis.horizontal,
                                     //  pauseAutoPlayOnTouch: Duration(seconds: 5),
                                     initialPage: 0,
@@ -234,18 +229,32 @@ class _ProductsHomeState extends State<ProductsHome> {
                                               var productImages =
                                                   featured[index]
                                                       ['product_images'];
-                                              return ProductCard(
-                                                qty:
-                                                    "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
-                                                wishList: false,
-                                                imgUrl: productImages[0]
-                                                        ['image_url']
-                                                    .toString()
-                                                    .replaceAll(
-                                                        'http://', 'https://'),
-                                                name:
-                                                    '${productInfo[0]['product_name']}',
-                                                price: '120',
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProductDetails(
+                                                                  productId:
+                                                                      productInfo[
+                                                                              0]
+                                                                          [
+                                                                          'product_id'])));
+                                                },
+                                                child: ProductCard(
+                                                  qty:
+                                                      "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
+                                                  wishList: false,
+                                                  imgUrl: productImages[0]
+                                                          ['image_url']
+                                                      .toString()
+                                                      .replaceAll('http://',
+                                                          'https://'),
+                                                  name:
+                                                      '${productInfo[0]['product_name']}',
+                                                  price: '120',
+                                                ),
                                               );
                                             }),
                                       ),
@@ -306,26 +315,40 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                   sale[index]['product_info'];
                                               var productImages =
                                                   sale[index]['product_images'];
-                                              return ProductCard(
-                                                qty:
-                                                    "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
-                                                wishList: false,
-                                                imgUrl: (productImages
-                                                        .isNotEmpty)
-                                                    ? productImages[0]
-                                                            ['image_url']
-                                                        .toString()
-                                                        .replaceAll('http://',
-                                                            'https://')
-                                                    : "https://dummyimage.com/360x360.png/5fa2dd/ffffff",
-                                                name:
-                                                    '${productInfo[0]['product_name']}',
-                                                price: productInfo[0]
-                                                            ['offer_price'] !=
-                                                        '0'
-                                                    ? productInfo[0]
-                                                        ['offer_price']
-                                                    : productInfo[0]['price'],
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProductDetails(
+                                                                  productId:
+                                                                      productInfo[
+                                                                              0]
+                                                                          [
+                                                                          'product_id'])));
+                                                },
+                                                child: ProductCard(
+                                                  qty:
+                                                      "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
+                                                  wishList: false,
+                                                  imgUrl: (productImages
+                                                          .isNotEmpty)
+                                                      ? productImages[0]
+                                                              ['image_url']
+                                                          .toString()
+                                                          .replaceAll('http://',
+                                                              'https://')
+                                                      : "https://dummyimage.com/360x360.png/5fa2dd/ffffff",
+                                                  name:
+                                                      '${productInfo[0]['product_name']}',
+                                                  price: productInfo[0]
+                                                              ['offer_price'] !=
+                                                          '0'
+                                                      ? productInfo[0]
+                                                          ['offer_price']
+                                                      : productInfo[0]['price'],
+                                                ),
                                               );
                                             }),
                                       ),

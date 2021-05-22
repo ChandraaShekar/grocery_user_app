@@ -26,70 +26,74 @@ class _ProductCardState extends State<ProductCard> {
       width: 160,
       child: Card(
         elevation: 5,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Container(
-                width: 160,
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Constants.qtyBgColor,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Text(this.widget.qty),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                child: Container(
+                  width: 160,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Constants.qtyBgColor,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Text(this.widget.qty),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    WishButton(
-                      isSelected: false,
-                      onChanged: (value) {
-                        print("OUT OF WIDGET $value");
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-            CachedNetworkImage(
-              imageUrl: this.widget.imgUrl,
-              imageBuilder: (context, imageProvider) => Container(
-                width: 140,
-                height: 105,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+                      WishButton(
+                        isSelected: false,
+                        onChanged: (value) {
+                          print("OUT OF WIDGET $value");
+                        },
+                      )
+                    ],
                   ),
                 ),
               ),
-              placeholder: (context, url) => Container(
-                height: 100,
-                child: Center(child: CircularProgressIndicator()),
+              CachedNetworkImage(
+                imageUrl: this.widget.imgUrl,
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 140,
+                  height: 105,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => Container(
+                  height: 100,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12.0, 4, 0, 2),
-              child: Text(
-                this.widget.name,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 2.0, horizontal: 5.0),
+                  child: Text(
+                    this.widget.name,
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                  ),
+                ),
               ),
-            ),
-            Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 2, 0, 2),
-                child: Text(
-                  'Rs ' + this.widget.price,
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ))
-          ],
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(12.0, 2, 0, 2),
+                  child: Text(
+                    'Rs ' + this.widget.price,
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ))
+            ],
+          ),
         ),
       ),
     );

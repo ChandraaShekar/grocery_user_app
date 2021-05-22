@@ -15,7 +15,7 @@ class ServiceWithHeader {
       'Authorization': 'Bearer ' + MyApp.authTokenValue.replaceAll('"', ''),
     };
     final response = await http.get(Uri.parse(url), headers: headersMap);
-    print(response.body.toString());
+    // print(response.body.toString());
     String data = response.body;
     if (data.length > 0) {
       return [response.statusCode, jsonDecode(data)];
