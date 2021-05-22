@@ -22,14 +22,14 @@ class _PrimaryCustomButtonState extends State<PrimaryCustomButton> {
   Widget build(BuildContext context) {
     return Container(
       child: Container(
-        height: 40,
+        height: 50,
         width: width ?? MediaQuery.of(context).size.width * 0.4,
         child: TextButton(
             child: Text('${this.title}',
                 style: TextStyle(
                     fontSize: 16,
                     letterSpacing: 0.5,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
                     color: Colors.white)),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
