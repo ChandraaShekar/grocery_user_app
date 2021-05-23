@@ -33,6 +33,11 @@ class MyApp extends StatelessWidget {
 
   static logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    loginIdValue = "";
+    authTokenValue = "";
+    userInfo.clear();
+    wishListIds.clear();
+    cartList.clear();
     sharedPreferences.clear();
     FirebaseAuth.instance.signOut();
   }
