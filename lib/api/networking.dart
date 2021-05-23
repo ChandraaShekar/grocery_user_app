@@ -34,12 +34,14 @@ class ServiceWithHeaderDataPost {
   // post method with header
 
   Future data() async {
+    Map<String, String> headersData = <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + MyApp.authTokenValue.replaceAll('"', ''),
+    };
+    print(headersData);
     final response = await http.post(
       Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': "Bearer ${MyApp.authTokenValue}",
-      },
+      headers: headersData,
       body: jsonEncode(b),
     );
     print('url' + this.url);

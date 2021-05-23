@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/cart/checkout_address.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/cart_card.dart';
 
@@ -9,6 +11,7 @@ class CartList extends StatefulWidget {
 }
 
 class _CartListState extends State<CartList> {
+  CartApiHandler cartHandler = new CartApiHandler();
   String subtotal = '3940';
   String delivery = '89';
   String tax = '50';
@@ -25,15 +28,46 @@ class _CartListState extends State<CartList> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 3,
+                  itemCount: MyApp.cartList.length,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return CartCard(
-                      name: 'Nestle',
-                      imgUrl:
-                          'https://www.bigbasket.com/media/uploads/p/m/40023008_2-nestle-nesquik-chocolate-syrup-imported.jpg',
-                      price: '200',
-                      qty: '1 KG',
+                      name: '${MyApp.cartList[index]['product_name']}',
+                      imgUrl: MyApp.cartList[index]['image_url'] != null
+                          ? MyApp.cartList[index]['image_url']
+                              .toString()
+                              .replaceAll("http://", "https://")
+                          : 'https://www.bigbasket.com/media/uploads/p/m/40023008_2-nestle-nesquik-chocolate-syrup-imported.jpg',
+                      price:
+                          '${MyApp.cartList[index]['offer_price'] != '0' ? MyApp.cartList[index]['offer_price'] : MyApp.cartList[index]['price']}',
+                      qty:
+                          '${MyApp.cartList[index]['quantity']} ${MyApp.cartList[index]['metrics']}',
+                      cartQuantity: MyApp.cartList[index]['cartQuantity'],
+                      productId: MyApp.cartList[index]['product_id'],
+                      onDelete: (i) async {
+                        List resp = await cartHandler.deleteFromCart(
+                            MyApp.cartList[index]['product_id']);
+                        MyApp.showToast(resp[1]['message'], context);
+                        if (resp[0] == 200) {
+                          setState(() {
+                            MyApp.cartList.removeAt(i);
+                          });
+                        }
+                      },
+                      onQuantityChange: (val) async {
+                        List resp = await cartHandler.updateCart({
+                          "product_id": MyApp.cartList[index]['product_id'],
+                          "quantity": val.toString()
+                        });
+                        if (resp[0] == 200) {
+                          setState(() {
+                            MyApp.cartList[index]['cartQuantity'] =
+                                val.toString();
+                          });
+                        } else {
+                          MyApp.showToast(resp[1]['message'], context);
+                        }
+                      },
                     );
                   }),
               Padding(

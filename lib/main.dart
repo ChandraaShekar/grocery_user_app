@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/wishlistapi.dart';
 import 'package:user_app/auth/login.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   static String authTokenValue;
   static Map userInfo;
   static List wishListIds = [];
+  static List cartList = [];
 
   static showToast(String msg, BuildContext context) {
     Toast.show(msg, context,
@@ -38,15 +40,20 @@ class MyApp extends StatelessWidget {
   Future<Map> isLoggedIn() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     WishlistApiHandler wishlistHandler = new WishlistApiHandler();
+    CartApiHandler cartHandler = new CartApiHandler();
     loginIdValue = preferences.getString(Constants.loginId);
     authTokenValue = preferences.getString(Constants.authTokenValue);
     var uinfo = preferences.getString(Constants.userInfo) ?? "{}";
     userInfo = jsonDecode(uinfo) ?? {};
     List wishListResp = await wishlistHandler.getWishlistIds();
+    List cartListResp = await cartHandler.getCart();
     if (wishListResp[0] == 200) {
       wishListIds = wishListResp[1];
     }
-    print(wishListIds);
+    if (cartListResp[0] == 200) {
+      cartList = cartListResp[1];
+    }
+    print(cartList);
     return userInfo;
   }
 

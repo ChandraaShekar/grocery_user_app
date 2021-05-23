@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:user_app/api/productapi.dart';
 import 'package:user_app/cart/cart_list.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/others/notifications.dart';

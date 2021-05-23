@@ -1,16 +1,35 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:user_app/api/cartApi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/counter.dart';
 
-class CartCard extends StatelessWidget {
+class CartCard extends StatefulWidget {
   final String imgUrl;
   final String name;
   final String price;
   final String qty;
+  final String cartQuantity;
+  final String productId;
+  final ValueChanged<int> onDelete;
+  final ValueChanged<int> onQuantityChange;
 
-  CartCard({this.imgUrl, this.name, this.price, this.qty});
+  CartCard(
+      {this.imgUrl,
+      this.name,
+      this.price,
+      this.qty,
+      this.cartQuantity,
+      this.productId,
+      this.onDelete,
+      this.onQuantityChange});
 
+  @override
+  _CartCardState createState() => _CartCardState();
+}
+
+class _CartCardState extends State<CartCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -26,7 +45,7 @@ class CartCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(3),
                   child: CachedNetworkImage(
-                    imageUrl: this.imgUrl,
+                    imageUrl: this.widget.imgUrl,
                     imageBuilder: (context, imageProvider) => Container(
                       width: 80,
                       height: 100,
@@ -51,15 +70,23 @@ class CartCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      this.name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          letterSpacing: 0.4),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 260,
+                      child: Text(
+                        (this.widget.name.substring(
+                                0,
+                                (widget.name.length > 20
+                                    ? 20
+                                    : widget.name.length))) +
+                            "${widget.name.length > 20 ? '...' : ''}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            letterSpacing: 0.4),
+                      ),
                     ),
                     Text(
-                      'Rs. ' + this.price,
+                      'Rs. ' + this.widget.price,
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
                     ),
@@ -70,7 +97,7 @@ class CartCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 5.0, horizontal: 10.0),
-                        child: Text(this.qty,
+                        child: Text(this.widget.qty,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 10)),
                       ),
@@ -93,7 +120,11 @@ class CartCard extends StatelessWidget {
                             color: Constants.dangerColor,
                             size: 20,
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            var index = MyApp.cartList.indexWhere((element) =>
+                                element['product_id'] == widget.productId);
+                            widget.onDelete(index);
+                          },
                         ),
                       ],
                     ),
@@ -102,9 +133,29 @@ class CartCard extends StatelessWidget {
                       incDecwidth: 25,
                       leftCounterColor: Constants.buttonBgColor,
                       rightCounterColor: Constants.buttonBgColor,
-                      incPressed: () {},
-                      decPressed: () {},
-                      text: '0',
+                      incPressed: () {
+                        int index = MyApp.cartList.indexWhere((element) =>
+                            element['product_id'] == widget.productId);
+                        var x = int.parse('${widget.cartQuantity}');
+                        if (index >= 0) {
+                          if (x < 10) {
+                            var newVal = x + 1;
+                            print(MyApp.cartList[index]['cartQuantity']);
+                            widget.onQuantityChange(newVal);
+                          }
+                        }
+                      },
+                      decPressed: () {
+                        int index = MyApp.cartList.indexWhere((element) =>
+                            element['product_id'] == widget.productId);
+                        var x = int.parse('${widget.cartQuantity}');
+                        if (x > 1) {
+                          var newVal = x - 1;
+                          print(MyApp.cartList[index]['cartQuantity']);
+                          widget.onQuantityChange(newVal);
+                        }
+                      },
+                      text: '${widget.cartQuantity}',
                       widgetWidth: 110,
                     )
                   ],

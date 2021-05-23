@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/productapi.dart';
 import 'package:user_app/api/wishlistapi.dart';
 import 'package:user_app/main.dart';
@@ -300,11 +301,27 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: PrimaryCustomButton(
                                 title: "ADD TO CART",
-                                onPressed: () {
+                                onPressed: () async {
+                                  print("pressed");
                                   if (itemCount <= 0) {
                                     MyApp.showToast(
                                         '$itemCount items cannot be added to cart',
                                         context);
+                                  } else {
+                                    CartApiHandler cartHandler =
+                                        new CartApiHandler();
+                                    var resp = await cartHandler.addToCart({
+                                      "product_id": productInfo['product_info']
+                                          [0]['product_id'],
+                                      "quantity": "$itemCount"
+                                    });
+                                    MyApp.showToast(
+                                        resp[1]['message'], context);
+
+                                    List getResp = await cartHandler.getCart();
+                                    setState(() {
+                                      MyApp.cartList = getResp[1];
+                                    });
                                   }
                                 },
                               ),
