@@ -40,11 +40,14 @@ class _WishListProductsState extends State<WishListProducts> {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductDetails(
-                                  productId: products[index]['product_info'][0]
-                                      ['product_id'])));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductDetails(
+                                      productId: products[index]['product_info']
+                                          [0]['product_id'])))
+                          .then((value) => setState(() {
+                                load();
+                              }));
                     },
                     child: WishListProductCard(
                       name: products[index]['product_info'][0]['product_name'],

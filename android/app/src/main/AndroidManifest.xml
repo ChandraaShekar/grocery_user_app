@@ -3,6 +3,9 @@
    <application
         android:label="user_app"
         android:icon="@mipmap/ic_launcher">
+        <!-- GOOGLE MAPS API -->
+              <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB2UOArZ73OQ2iAl74nk3Pazh18U73BULQ"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

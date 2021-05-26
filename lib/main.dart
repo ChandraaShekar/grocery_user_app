@@ -73,6 +73,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+          accentColor: Constants.primaryColor,
           bottomSheetTheme:
               BottomSheetThemeData(backgroundColor: Colors.transparent),
           primaryColor: Constants.kMain,

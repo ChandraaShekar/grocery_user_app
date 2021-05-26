@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:user_app/api/packsApi.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/widgets/pack_desc_card.dart';
 
 class PackageDescription extends StatefulWidget {
-  final String packName;
+  final String packId, packName;
 
-  PackageDescription(this.packName);
+  PackageDescription({this.packId, this.packName});
 
   @override
   _PackageDescriptionState createState() => _PackageDescriptionState();
 }
 
 class _PackageDescriptionState extends State<PackageDescription> {
+  PacksApiHandler packsHandler = new PacksApiHandler();
+  Map packInfo;
+
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
+
+  void load() async {
+    List resp = await packsHandler.getPackInfo(widget.packId);
+
+    print(resp);
+    setState(() {
+      packInfo = resp[1];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -80,7 +99,8 @@ class _PackageDescriptionState extends State<PackageDescription> {
               ),
             ]),
       ),
-      appBar: Header.appBar(widget.packName, null, true),
+      appBar:
+          Header.appBar(packInfo == null ? '' : widget.packName, null, true),
       body: SingleChildScrollView(
         child: Container(
             child: Column(children: [
@@ -102,21 +122,23 @@ class _PackageDescriptionState extends State<PackageDescription> {
               )
             ],
           ),
-          ListView.builder(
-              itemCount: 10,
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return PackDescCard(
-                  imgUrl:
-                      'https://www.bigbasket.com/media/uploads/p/m/40023008_2-nestle-nesquik-chocolate-syrup-imported.jpg',
-                  onPressed: () {
-                    _displayTextInputDialog(context);
-                  },
-                  name: 'Ginger',
-                  qty: '1 KG',
-                );
-              }),
+          (packInfo == null)
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: 10,
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return PackDescCard(
+                      imgUrl:
+                          'https://www.bigbasket.com/media/uploads/p/m/40023008_2-nestle-nesquik-chocolate-syrup-imported.jpg',
+                      onPressed: () {
+                        _displayTextInputDialog(context);
+                      },
+                      name: 'Ginger',
+                      qty: '1 KG',
+                    );
+                  }),
           SizedBox(
             height: 140,
           ),
