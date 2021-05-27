@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -181,11 +181,14 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       children: [
                                         Row(
                                           children: [
+                                            SizedBox(width: 5),
                                             Text(
                                               'Best Deals',
                                               style: TextStyle(
+                                                  color: Constants.greyHeading,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: size.height / 60),
+                                                  letterSpacing: 0.3,
+                                                  fontSize: size.height / 58),
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -200,19 +203,35 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                                 type:
                                                                     "featured")));
                                               },
-                                              child: Text("View all >",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize:
-                                                          size.height / 60,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
+                                              child: Row(
+                                                children: [
+                                                  Text("View all",
+                                                      style: TextStyle(
+                                                          color: Constants
+                                                              .secondaryTextColor,
+                                                          fontSize:
+                                                              size.height / 60,
+                                                          letterSpacing: 0.5,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  SizedBox(
+                                                    width: 2,
+                                                  ),
+                                                  Icon(
+                                                    FontAwesome
+                                                        .chevron_circle_right,
+                                                    color: Constants
+                                                        .secondaryTextColor,
+                                                    size: size.height / 60,
+                                                  )
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
+                                              vertical: 10.0),
                                           child: Container(
                                             height: size.width / 1.8,
                                             child: ListView.builder(
@@ -276,20 +295,50 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       ],
                                     )
                                   : null,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Image(
+                                            width: size.width * 0.45,
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/images/deals.png')),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Image(
+                                            width: size.width * 0.45,
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/images/big.png')),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
                               (featured.length > 0)
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 5.0),
+                                          vertical: 10.0, horizontal: 5.0),
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width,
                                         child: Row(
                                           children: [
                                             Text(
-                                              'Red Ginzr, Featured deals',
+                                              'Red Ginzr Featured deals',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: size.height / 60),
+                                                  letterSpacing: 0.4,
+                                                  color: Constants.greyHeading,
+                                                  fontSize: size.height / 58),
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -304,13 +353,29 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                                 type:
                                                                     "featured")));
                                               },
-                                              child: Text("View all >",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize:
-                                                          size.height / 60,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
+                                              child: Row(
+                                                children: [
+                                                  Text("View all",
+                                                      style: TextStyle(
+                                                          color: Constants
+                                                              .secondaryTextColor,
+                                                          fontSize:
+                                                              size.height / 60,
+                                                          letterSpacing: 0.5,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  SizedBox(
+                                                    width: 2,
+                                                  ),
+                                                  Icon(
+                                                    FontAwesome
+                                                        .chevron_circle_right,
+                                                    color: Constants
+                                                        .secondaryTextColor,
+                                                    size: size.height / 60,
+                                                  )
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),
@@ -320,7 +385,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                               (featured.length > 0)
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0),
+                                          vertical: 5.0),
                                       child: Container(
                                         height: 220,
                                         child: ListView.builder(
@@ -373,10 +438,23 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       ),
                                     )
                                   : SizedBox(),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(2, 15, 0, 10),
+                                child: Row(
+                                  children: [
+                                    Image(
+                                        width: size.width * 0.94,
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                            'assets/images/minimum.png'))
+                                  ],
+                                ),
+                              ),
                               (sale.length > 0)
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0),
+                                          vertical: 10.0, horizontal: 5.0),
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -385,8 +463,9 @@ class _ProductsHomeState extends State<ProductsHome> {
                                             Text(
                                               'Items on Sale',
                                               style: TextStyle(
+                                                  color: Constants.greyHeading,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: size.height / 60),
+                                                  fontSize: size.height / 58),
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -400,13 +479,29 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                                     "Featured Products",
                                                                 type: "sale")));
                                               },
-                                              child: Text("View all >",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize:
-                                                          size.height / 60,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
+                                              child: Row(
+                                                children: [
+                                                  Text("View all",
+                                                      style: TextStyle(
+                                                          color: Constants
+                                                              .secondaryTextColor,
+                                                          fontSize:
+                                                              size.height / 60,
+                                                          letterSpacing: 0.5,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  SizedBox(
+                                                    width: 2,
+                                                  ),
+                                                  Icon(
+                                                    FontAwesome
+                                                        .chevron_circle_right,
+                                                    color: Constants
+                                                        .secondaryTextColor,
+                                                    size: size.height / 60,
+                                                  )
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),
@@ -416,7 +511,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                               (sale.length > 0)
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0),
+                                          vertical: 5.0),
                                       child: Container(
                                         height: 220,
                                         child: ListView.builder(
@@ -469,6 +564,46 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       ),
                                     )
                                   : SizedBox(),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(3, 15, 0, 10),
+                                child: Row(
+                                  children: [
+                                    Image(
+                                        width: size.width * 0.94,
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                            'assets/images/refer.png'))
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Image(
+                                            width: size.width * 0.45,
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/images/art.png')),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Image(
+                                            width: size.width * 0.45,
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/images/we.png')),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           )),
                           if (!down)

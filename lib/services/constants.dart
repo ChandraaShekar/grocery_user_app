@@ -85,6 +85,7 @@ class Constants {
 
   static final String rupeeSymbol = '₹';
   static final Color headingTextBlack = const Color(0xff2D2D2D);
+  static final Color greyHeading = const Color(0xff404040);
   static final Color secondaryTextColor = const Color(0xff707070);
   static final Color primaryColor = Color(0xffFB9082);
   static final Color secondaryColor = Color(0xff29C17E);

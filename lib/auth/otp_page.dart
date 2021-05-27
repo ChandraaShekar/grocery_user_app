@@ -66,6 +66,7 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -86,12 +87,16 @@ class _OtpPageState extends State<OtpPage> {
                   children: [
                     Text(
                       "6 digit code sent to ",
-                      style: TextStyle(color: Constants.secondaryTextColor),
+                      style: TextStyle(
+                          color: Constants.secondaryTextColor,
+                          fontSize: size.height / 55),
                     ),
                     Text(
                       '+91 ' + widget.phoneNumber,
                       style: TextStyle(
-                          color: Colors.blue[600], fontWeight: FontWeight.w800),
+                          color: Colors.blue[600],
+                          fontSize: size.height / 55,
+                          fontWeight: FontWeight.w800),
                     ),
                   ],
                 ),

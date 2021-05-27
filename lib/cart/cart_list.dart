@@ -21,11 +21,14 @@ class _CartListState extends State<CartList> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(50.0),
         child: Container(
           child: MyApp.cartList.length == 0
               ? Center(
-                  child: Text("Your cart is empty"),
+                  child: Text(
+                    "Your cart is empty",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

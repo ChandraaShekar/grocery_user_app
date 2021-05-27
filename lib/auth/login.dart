@@ -254,12 +254,12 @@ class _LoginState extends State<Login> {
                                   children: <Widget>[
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(bottom: 15),
+                                          const EdgeInsets.only(bottom: 30),
                                       child: Text(
                                         "+91",
                                         style: TextStyle(
                                             fontSize: size.height / 30,
-                                            color: Colors.black87,
+                                            color: Constants.headingTextBlack,
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.7),
                                       ),
@@ -270,9 +270,9 @@ class _LoginState extends State<Login> {
                                       child: TextField(
                                         style: TextStyle(
                                             fontSize: size.height / 30,
-                                            color: Colors.black,
+                                            color: Constants.headingTextBlack,
                                             fontWeight: FontWeight.w600,
-                                            letterSpacing: 0.7),
+                                            letterSpacing: 2.0),
                                         controller: _phoneNumberController,
                                         decoration: InputDecoration(
                                           hintText: 'Enter Phone Number ',
@@ -284,7 +284,7 @@ class _LoginState extends State<Login> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                // SizedBox(height: 10),
                                 Text(
                                   'OTP Will be sent to your phone number',
                                   style: TextStyle(

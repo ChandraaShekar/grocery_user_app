@@ -86,9 +86,9 @@ class _DashboardTabsState extends State<DashboardTabs>
                     width: MediaQuery.of(context).size.width * 0.15,
                     child: Tab(
                       icon: Icon(
-                        AntDesign.shoppingcart,
+                        Feather.shopping_cart,
                         color: Constants.iconColor,
-                        size: 26,
+                        size: 24,
                       ),
                     ),
                   ),

@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,12 @@ class _BigProductCardState extends State<BigProductCard> {
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(this.widget.productInfo[0]['quantity']),
+                          child: Text(
+                            this.widget.productInfo[0]['quantity'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Constants.greyHeading),
+                          ),
                         ),
                       ),
                       WishButton(
@@ -72,13 +77,14 @@ class _BigProductCardState extends State<BigProductCard> {
                   ),
                 ),
               ),
+              SizedBox(height: 5),
               CachedNetworkImage(
                 imageUrl: widget.productImages[0]['image_url']
                     .toString()
                     .replaceAll('http://', 'https://'),
                 imageBuilder: (context, imageProvider) => Container(
                   width: 140,
-                  height: 105,
+                  height: size.height / 7.8,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: imageProvider,
@@ -98,15 +104,20 @@ class _BigProductCardState extends State<BigProductCard> {
                       vertical: 2.0, horizontal: 5.0),
                   child: Text(
                     widget.productInfo[0]['product_name'],
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Constants.headingTextBlack,
+                        fontSize: size.height / 63),
                   ),
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.fromLTRB(12.0, 2, 0, 2),
+                  padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
                   child: Text(
-                    'Rs ' + widget.productInfo[0]['price'],
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    'Rs. ' + widget.productInfo[0]['price'],
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Constants.secondaryTextColor),
                   ))
             ],
           ),

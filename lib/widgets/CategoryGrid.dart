@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/products/product_list.dart';
+import 'package:user_app/services/constants.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class CategoryGrid extends StatefulWidget {
   final List categoriesList;
@@ -14,9 +16,9 @@ class _CategoryGridState extends State<CategoryGrid> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 3,
+      height: size.height / 3.4,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
         child: Column(
           children: [
             Row(
@@ -24,7 +26,10 @@ class _CategoryGridState extends State<CategoryGrid> {
                 Text(
                   'Categories',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600, fontSize: size.height / 60),
+                      color: Constants.greyHeading,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.3,
+                      fontSize: size.height / 58),
                 ),
                 Expanded(child: Container()),
                 GestureDetector(
@@ -35,16 +40,30 @@ class _CategoryGridState extends State<CategoryGrid> {
                             builder: (context) => ProductList(
                                 title: "Categories", type: "categories")));
                   },
-                  child: Text("View all >",
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: size.height / 60,
-                          fontWeight: FontWeight.w600)),
+                  child: Row(
+                    children: [
+                      Text("View all",
+                          style: TextStyle(
+                              color: Constants.secondaryTextColor,
+                              fontSize: size.height / 60,
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.w600)),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      Icon(
+                        FontAwesome.chevron_circle_right,
+                        color: Constants.secondaryTextColor,
+                        size: size.height / 60,
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
+            SizedBox(height: 5),
             Container(
-              color: Colors.white,
+              // color: Colors.white,
               width: MediaQuery.of(context).size.width,
               child: GridView.count(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -95,10 +114,16 @@ class _CategoryGridState extends State<CategoryGrid> {
                                     Icon(Icons.error),
                               ),
                             ),
+                            SizedBox(height: 1),
                             Expanded(
                               child: Container(
                                 child: Text(
-                                    "${widget.categoriesList[index]["category"]}"),
+                                  "${widget.categoriesList[index]["category"]}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             )
                           ],
