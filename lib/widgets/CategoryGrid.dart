@@ -16,7 +16,7 @@ class _CategoryGridState extends State<CategoryGrid> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 3.4,
+      height: 250,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
         child: Column(
@@ -29,7 +29,7 @@ class _CategoryGridState extends State<CategoryGrid> {
                       color: Constants.greyHeading,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.3,
-                      fontSize: size.height / 58),
+                      fontSize: size.height / 55),
                 ),
                 Expanded(child: Container()),
                 GestureDetector(
@@ -45,7 +45,7 @@ class _CategoryGridState extends State<CategoryGrid> {
                       Text("View all",
                           style: TextStyle(
                               color: Constants.secondaryTextColor,
-                              fontSize: size.height / 60,
+                              fontSize: size.height / 55,
                               letterSpacing: 0.5,
                               fontWeight: FontWeight.w600)),
                       SizedBox(
@@ -121,6 +121,7 @@ class _CategoryGridState extends State<CategoryGrid> {
                                   "${widget.categoriesList[index]["category"]}",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
+                                    fontSize: size.height / 58,
                                     color: Colors.black,
                                   ),
                                 ),

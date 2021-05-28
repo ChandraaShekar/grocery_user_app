@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/cart/checkout_address.dart';
 import 'package:user_app/main.dart';
+import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/cart_card.dart';
 
@@ -19,15 +20,18 @@ class _CartListState extends State<CartList> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(10.0),
         child: Container(
           child: MyApp.cartList.length == 0
               ? Center(
                   child: Text(
                     "Your cart is empty",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: size.height / 50,
+                        fontWeight: FontWeight.w500),
                   ),
                 )
               : Column(
@@ -87,7 +91,7 @@ class _CartListState extends State<CartList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 30,
+                              height: 20,
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
@@ -97,12 +101,14 @@ class _CartListState extends State<CartList> {
                                   children: [
                                     Text(
                                       'Sub Total',
-                                      style: TextStyle(fontSize: 16),
+                                      style:
+                                          TextStyle(fontSize: size.height / 58),
                                     ),
                                     Text(
                                       '₹ ' + subtotal,
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          letterSpacing: 0.4,
+                                          fontSize: size.height / 50,
                                           fontWeight: FontWeight.w600),
                                     )
                                   ]),
@@ -115,7 +121,8 @@ class _CartListState extends State<CartList> {
                                   children: [
                                     Text(
                                       'Delivery',
-                                      style: TextStyle(fontSize: 16),
+                                      style:
+                                          TextStyle(fontSize: size.height / 58),
                                     ),
                                     SizedBox(
                                       width: 15,
@@ -123,7 +130,8 @@ class _CartListState extends State<CartList> {
                                     Text(
                                       '₹ ' + delivery,
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          letterSpacing: 0.4,
+                                          fontSize: size.height / 50,
                                           fontWeight: FontWeight.w600),
                                     )
                                   ]),
@@ -136,12 +144,14 @@ class _CartListState extends State<CartList> {
                                   children: [
                                     Text(
                                       'Tax',
-                                      style: TextStyle(fontSize: 16),
+                                      style:
+                                          TextStyle(fontSize: size.height / 58),
                                     ),
                                     Text(
                                       '₹ ' + tax,
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          letterSpacing: 0.4,
+                                          fontSize: size.height / 50,
                                           fontWeight: FontWeight.w600),
                                     )
                                   ]),
@@ -155,12 +165,15 @@ class _CartListState extends State<CartList> {
                                   children: [
                                     Text(
                                       'Total',
-                                      style: TextStyle(fontSize: 18),
+                                      style:
+                                          TextStyle(fontSize: size.height / 58),
                                     ),
                                     Text(
                                       '₹ ' + total,
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          color: Constants.headingTextBlack,
+                                          letterSpacing: 0.5,
+                                          fontSize: size.height / 45,
                                           fontWeight: FontWeight.w600),
                                     )
                                   ]),

@@ -31,6 +31,7 @@ class CartCard extends StatefulWidget {
 class _CartCardState extends State<CartCard> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Card(
       elevation: 2,
       child: Padding(
@@ -80,14 +81,17 @@ class _CartCardState extends State<CartCard> {
                             "${widget.name.length > 20 ? '...' : ''}",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            letterSpacing: 0.4),
+                            fontSize: size.height / 52,
+                            letterSpacing: 0.3),
                       ),
                     ),
                     Text(
                       'Rs. ' + this.widget.price,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      style: TextStyle(
+                        color: Constants.secondaryTextColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: size.height / 55,
+                      ),
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -117,7 +121,7 @@ class _CartCardState extends State<CartCard> {
                           child: Icon(
                             Icons.delete,
                             color: Constants.dangerColor,
-                            size: 20,
+                            size: size.height / 45,
                           ),
                           onTap: () {
                             var index = MyApp.cartList.indexWhere((element) =>

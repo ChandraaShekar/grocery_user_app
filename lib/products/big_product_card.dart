@@ -107,7 +107,8 @@ class _BigProductCardState extends State<BigProductCard> {
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Constants.headingTextBlack,
-                        fontSize: size.height / 63),
+                        letterSpacing: 0.3,
+                        fontSize: size.height / 60),
                   ),
                 ),
               ),
@@ -117,6 +118,8 @@ class _BigProductCardState extends State<BigProductCard> {
                     'Rs. ' + widget.productInfo[0]['price'],
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
+                        letterSpacing: 0.3,
+                        fontSize: size.height / 60,
                         color: Constants.secondaryTextColor),
                   ))
             ],

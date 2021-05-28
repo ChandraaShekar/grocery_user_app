@@ -31,6 +31,7 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       height: 180,
       width: 160,
@@ -102,7 +103,10 @@ class _ProductCardState extends State<ProductCard> {
                       vertical: 2.0, horizontal: 5.0),
                   child: Text(
                     this.widget.name,
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.3,
+                        fontSize: size.height / 60),
                   ),
                 ),
               ),
@@ -110,7 +114,10 @@ class _ProductCardState extends State<ProductCard> {
                   padding: const EdgeInsets.fromLTRB(12.0, 2, 0, 2),
                   child: Text(
                     'Rs ' + this.widget.price,
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        fontSize: size.height / 60,
+                        letterSpacing: 0.3,
+                        fontWeight: FontWeight.w500),
                   ))
             ],
           ),

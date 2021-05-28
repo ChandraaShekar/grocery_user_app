@@ -31,6 +31,7 @@ class _DashboardTabsState extends State<DashboardTabs>
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: Header.appBar(
           '$currentHeading',
@@ -78,7 +79,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         Entypo.shop,
                         color: Constants.iconColor,
-                        size: 26,
+                        size: size.height / 32,
                       ),
                     ),
                   ),
@@ -88,7 +89,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         Feather.shopping_cart,
                         color: Constants.iconColor,
-                        size: 24,
+                        size: size.height / 35,
                       ),
                     ),
                   ),
@@ -98,7 +99,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         AntDesign.hearto,
                         color: Constants.iconColor,
-                        size: 24,
+                        size: size.height / 35,
                       ),
                     ),
                   ),
@@ -108,7 +109,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                       icon: Icon(
                         Ionicons.md_person,
                         color: Constants.iconColor,
-                        size: 26,
+                        size: size.height / 30,
                       ),
                     ),
                   ),

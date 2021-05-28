@@ -188,7 +188,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                   color: Constants.greyHeading,
                                                   fontWeight: FontWeight.w600,
                                                   letterSpacing: 0.3,
-                                                  fontSize: size.height / 58),
+                                                  fontSize: size.height / 55),
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -210,7 +210,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                           color: Constants
                                                               .secondaryTextColor,
                                                           fontSize:
-                                                              size.height / 60,
+                                                              size.height / 55,
                                                           letterSpacing: 0.5,
                                                           fontWeight:
                                                               FontWeight.w600)),
@@ -338,7 +338,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                   fontWeight: FontWeight.w600,
                                                   letterSpacing: 0.4,
                                                   color: Constants.greyHeading,
-                                                  fontSize: size.height / 58),
+                                                  fontSize: size.height / 55),
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -360,7 +360,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                           color: Constants
                                                               .secondaryTextColor,
                                                           fontSize:
-                                                              size.height / 60,
+                                                              size.height / 55,
                                                           letterSpacing: 0.5,
                                                           fontWeight:
                                                               FontWeight.w600)),
@@ -465,7 +465,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                               style: TextStyle(
                                                   color: Constants.greyHeading,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: size.height / 58),
+                                                  fontSize: size.height / 55),
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -486,7 +486,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                           color: Constants
                                                               .secondaryTextColor,
                                                           fontSize:
-                                                              size.height / 60,
+                                                              size.height / 55,
                                                           letterSpacing: 0.5,
                                                           fontWeight:
                                                               FontWeight.w600)),
@@ -570,7 +570,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                 child: Row(
                                   children: [
                                     Image(
-                                        width: size.width * 0.94,
+                                        width: size.width * 0.92,
                                         fit: BoxFit.cover,
                                         image: AssetImage(
                                             'assets/images/refer.png'))

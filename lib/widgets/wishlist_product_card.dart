@@ -15,6 +15,7 @@ class WishListProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: Card(
@@ -56,11 +57,17 @@ class WishListProductCard extends StatelessWidget {
                   children: [
                     Text(
                       this.name,
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: size.height / 52,
+                          letterSpacing: 0.3,
+                          fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      '₹ ' + this.price,
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      'Rs. ' + this.price,
+                      style: TextStyle(
+                          color: Constants.secondaryTextColor,
+                          fontSize: size.height / 52,
+                          fontWeight: FontWeight.w800),
                     ),
                   ],
                 ),
