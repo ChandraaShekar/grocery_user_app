@@ -36,7 +36,7 @@ class _ProductCardState extends State<ProductCard> {
       height: 180,
       width: 160,
       child: Card(
-        elevation: 5,
+        elevation: 1,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(

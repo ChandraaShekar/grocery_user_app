@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:user_app/api/wishlistapi.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/widgets/text_widget.dart';
 import 'package:user_app/widgets/wish_button.dart';
 
 class BigProductCard extends StatefulWidget {
@@ -23,7 +24,8 @@ class _BigProductCardState extends State<BigProductCard> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Card(
-      elevation: 5,
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         height: size.width / 1.5,
         width: size.width / 2.25,
@@ -107,52 +109,25 @@ class _BigProductCardState extends State<BigProductCard> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 2.0, horizontal: 5.0),
-                        child: Text(
-                          widget.productInfo[0]['product_name'] + "egtggr",
-                          maxLines: 2,
-                          softWrap: true,
-                          textWidthBasis: TextWidthBasis.parent,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Constants.headingTextBlack,
-                              letterSpacing: 0.3,
-                              fontSize: size.height / 60),
+                        child: TextWidget(
+                          widget.productInfo[0]['product_name'],
+                          textType: "title",
+                          // maxLines: 2,
+                          // softWrap: true,
+                          // textWidthBasis: TextWidthBasis.parent,
+                          // style: TextStyle(
+                          //     fontWeight: FontWeight.w600,
+                          //     color: Constants.headingTextBlack,
+                          //     letterSpacing: 0.3,
+                          //     fontSize: size.height / 50),
                         ),
                       ),
                     ),
-                    // -------------------------
-
-                    // Flexible(
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.symmetric(
-                    //         vertical: 2.0, horizontal: 5.0),
-                    //     child: RichText(
-                    //       // overflow: TextOverflow.ellipsis,
-                    //       strutStyle: StrutStyle(
-                    //           fontWeight: FontWeight.w600,
-                    //           fontSize: size.height / 60),
-                    //       text: TextSpan(
-                    //           style: TextStyle(
-                    //             color: Constants.headingTextBlack,
-                    //             letterSpacing: 0.3,
-                    //           ),
-                    //           text: (widget.productInfo[0]['product_name'] +
-                    //                   " egtggr")
-                    //               .toString()
-                    //               .trim()),
-                    //     ),
-                    //   ),
-                    // ),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
-                        child: Text(
-                          'Rs. ' + widget.productInfo[0]['price'],
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.3,
-                              fontSize: size.height / 60,
-                              color: Constants.secondaryTextColor),
-                        ))
+                        child: TextWidget(
+                            'Rs. ' + widget.productInfo[0]['price'],
+                            textType: "subtitle-grey"))
                   ],
                 ),
               ),

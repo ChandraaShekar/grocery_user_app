@@ -10,6 +10,7 @@ import 'package:user_app/products/product_list.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/CategoryGrid.dart';
 import 'package:user_app/widgets/product_card.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class ProductsHome extends StatefulWidget {
   @override
@@ -117,8 +118,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 5, bottom: 10),
+                                padding: const EdgeInsets.only(top: 5),
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children:
@@ -151,61 +151,57 @@ class _ProductsHomeState extends State<ProductsHome> {
                               (featured.length > 0)
                                   ? Column(
                                       children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(width: 5),
-                                            Text(
-                                              'Best Deals',
-                                              style: TextStyle(
-                                                  color: Constants.greyHeading,
-                                                  fontWeight: FontWeight.w600,
-                                                  letterSpacing: 0.3,
-                                                  fontSize: size.height / 55),
-                                            ),
-                                            Expanded(child: Container()),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ProductList(
-                                                                title:
-                                                                    "Featured Products",
-                                                                type:
-                                                                    "featured")));
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Text("View all",
-                                                      style: TextStyle(
-                                                          color: Constants
-                                                              .secondaryTextColor,
-                                                          fontSize:
-                                                              size.height / 55,
-                                                          letterSpacing: 0.5,
-                                                          fontWeight:
-                                                              FontWeight.w600)),
-                                                  SizedBox(
-                                                    width: 2,
-                                                  ),
-                                                  Icon(
-                                                    FontAwesome
-                                                        .chevron_circle_right,
-                                                    color: Constants
-                                                        .secondaryTextColor,
-                                                    size: size.height / 60,
-                                                  )
-                                                ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 8),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(width: 5),
+                                              TextWidget(
+                                                'Best Deals',
+                                                textType: "subheading",
                                               ),
-                                            )
-                                          ],
+                                              Expanded(child: Container()),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProductList(
+                                                                  title:
+                                                                      "Featured Products",
+                                                                  type:
+                                                                      "featured")));
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    TextWidget(
+                                                      "View all",
+                                                      textType:
+                                                          "subheading-grey",
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Icon(
+                                                      FontAwesome
+                                                          .chevron_circle_right,
+                                                      color: Constants
+                                                          .secondaryTextColor,
+                                                      size: size.height / 60,
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 10.0),
                                           child: Container(
-                                            height: size.width / 1.8,
+                                            height: size.width / 1.7,
                                             child: ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
