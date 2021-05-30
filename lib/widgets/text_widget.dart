@@ -14,55 +14,61 @@ class TextWidget extends StatelessWidget {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           // letterSpacing: 0.2,
-          fontSize: size.height / 36,
+          fontSize: size.height / 45,
           color: Constants.headingTextBlack);
     } else if (x == "subheading") {
       y = TextStyle(
           fontWeight: FontWeight.w800,
           letterSpacing: 0.5,
-          fontSize: size.height / 40,
+          fontSize: size.height / 45,
           color: Constants.headingTextBlack);
     } else if (x == "subheading-grey") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          fontSize: size.height / 44,
+          fontSize: size.height / 50,
           color: Constants.secondaryTextColor);
     } else if (x == "title") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          fontSize: size.height / 45,
+          fontSize: size.height / 56,
           color: Constants.headingTextBlack);
     } else if (x == "subtitle-black") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          fontSize: size.height / 54,
+          fontSize: size.height / 60,
           color: Constants.headingTextBlack);
     } else if (x == "subtitle-grey") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          fontSize: size.height / 54,
+          fontSize: size.height / 60,
           color: Constants.secondaryTextColor);
     } else if (x == "card-price") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          fontSize: size.height / 45,
+          fontSize: size.height / 58,
           color: Constants.secondaryTextColor);
     } else if (x == "para") {
       y = TextStyle(
           fontWeight: FontWeight.w500,
           letterSpacing: 0.5,
-          fontSize: size.height / 54,
+          fontSize: size.height / 56,
+          color: Constants.headingTextBlack);
+    } else if (x == "para-bold") {
+      y = TextStyle(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+          fontSize: size.height / 52,
           color: Constants.headingTextBlack);
     } else if (x == "label") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.2,
-          fontSize: size.height / 54,
+          fontSize: size.height / 60,
           color: Constants.headingTextBlack);
     }
     return y;

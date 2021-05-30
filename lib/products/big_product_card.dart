@@ -54,7 +54,8 @@ class _BigProductCardState extends State<BigProductCard> {
                         ),
                       ),
                       WishButton(
-                        isSelected: false,
+                        isSelected: MyApp.wishListIds
+                            .contains(widget.productInfo[0]['product_id']),
                         onChanged: (value) async {
                           if (value) {
                             List resp = await wishlistHandler.addToWishList(
