@@ -38,7 +38,6 @@ class _BigProductCardState extends State<BigProductCard> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0),
                 child: Container(
-                  width: 160,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -48,11 +47,9 @@ class _BigProductCardState extends State<BigProductCard> {
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Text(
+                          child: TextWidget(
                             this.widget.productInfo[0]['quantity'],
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Constants.greyHeading),
+                            textType: "label",
                           ),
                         ),
                       ),
@@ -81,12 +78,14 @@ class _BigProductCardState extends State<BigProductCard> {
               ),
               SizedBox(height: 5),
               CachedNetworkImage(
-                imageUrl: widget.productImages[0]['image_url']
-                    .toString()
-                    .replaceAll('http://', 'https://'),
+                imageUrl:
+                    "https://media.istockphoto.com/photos/three-potatoes-picture-id157430678?k=6&m=157430678&s=612x612&w=0&h=3A77PeFuUUqoC4EVZaydkd6tSakZSWO61T21bMn4KLQ=",
+                // imageUrl: widget.productImages[0]['image_url']
+                //     .toString()
+                //     .replaceAll('http://', 'https://'),
                 imageBuilder: (context, imageProvider) => Container(
                   width: size.width / 2.25,
-                  height: size.width / 3.55,
+                  height: size.width / 3.8,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: imageProvider,
@@ -101,34 +100,38 @@ class _BigProductCardState extends State<BigProductCard> {
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 2.0, horizontal: 5.0),
-                        child: TextWidget(
-                          widget.productInfo[0]['product_name'],
-                          textType: "title",
-                          // maxLines: 2,
-                          // softWrap: true,
-                          // textWidthBasis: TextWidthBasis.parent,
-                          // style: TextStyle(
-                          //     fontWeight: FontWeight.w600,
-                          //     color: Constants.headingTextBlack,
-                          //     letterSpacing: 0.3,
-                          //     fontSize: size.height / 50),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 2.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 5.0),
+                          child: TextWidget(
+                            widget.productInfo[0]['product_name'],
+                            textType: "title",
+                            // maxLines: 2,
+                            // softWrap: true,
+                            // textWidthBasis: TextWidthBasis.parent,
+                            // style: TextStyle(
+                            //     fontWeight: FontWeight.w600,
+                            //     color: Constants.headingTextBlack,
+                            //     letterSpacing: 0.3,
+                            //     fontSize: size.height / 50),
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
-                        child: TextWidget(
-                            'Rs. ' + widget.productInfo[0]['price'],
-                            textType: "subtitle-grey"))
-                  ],
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
+                          child: TextWidget(
+                              'Rs. ' + widget.productInfo[0]['price'],
+                              textType: "card-price"))
+                    ],
+                  ),
                 ),
               ),
             ],

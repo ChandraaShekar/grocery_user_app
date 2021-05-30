@@ -50,7 +50,7 @@ class TextWidget extends StatelessWidget {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          fontSize: size.height / 54,
+          fontSize: size.height / 45,
           color: Constants.secondaryTextColor);
     } else if (x == "para") {
       y = TextStyle(
@@ -62,7 +62,7 @@ class TextWidget extends StatelessWidget {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.2,
-          fontSize: size.height / 60,
+          fontSize: size.height / 54,
           color: Constants.headingTextBlack);
     }
     return y;

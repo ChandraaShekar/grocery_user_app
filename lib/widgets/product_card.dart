@@ -33,12 +33,12 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: 180,
-      width: 160,
+      height: size.width / 1.9,
+      width: size.width / 2.1,
       child: Card(
         elevation: 1,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,7 +46,6 @@ class _ProductCardState extends State<ProductCard> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0),
                 child: Container(
-                  width: 160,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -83,7 +82,7 @@ class _ProductCardState extends State<ProductCard> {
                 imageUrl: this.widget.imgUrl,
                 imageBuilder: (context, imageProvider) => Container(
                   width: 140,
-                  height: 105,
+                  height: 95,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: imageProvider,

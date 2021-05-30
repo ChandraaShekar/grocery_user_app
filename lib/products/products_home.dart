@@ -77,7 +77,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: size.height / 5.5,
+                                height: size.height / 4.5,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0)),
                                 child: CarouselSlider(
@@ -118,7 +118,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 5),
+                                padding: const EdgeInsets.only(top: 15),
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children:
@@ -248,23 +248,23 @@ class _ProductsHomeState extends State<ProductsHome> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      children: [
-                                        Image(
-                                            width: size.width * 0.45,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      child: Container(
+                                        child: Image(
+                                            width: size.width * 0.44,
                                             fit: BoxFit.cover,
                                             image: AssetImage(
                                                 'assets/images/deals.png')),
-                                      ],
+                                      ),
                                     ),
-                                    Column(
-                                      children: [
-                                        Image(
-                                            width: size.width * 0.45,
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/big.png')),
-                                      ],
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      child: Image(
+                                          width: size.width * 0.44,
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/images/big.png')),
                                     )
                                   ],
                                 ),
@@ -278,13 +278,9 @@ class _ProductsHomeState extends State<ProductsHome> {
                                             MediaQuery.of(context).size.width,
                                         child: Row(
                                           children: [
-                                            Text(
+                                            TextWidget(
                                               'Red Ginzr Featured deals',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  letterSpacing: 0.4,
-                                                  color: Constants.greyHeading,
-                                                  fontSize: size.height / 55),
+                                              textType: "subheading",
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -301,15 +297,10 @@ class _ProductsHomeState extends State<ProductsHome> {
                                               },
                                               child: Row(
                                                 children: [
-                                                  Text("View all",
-                                                      style: TextStyle(
-                                                          color: Constants
-                                                              .secondaryTextColor,
-                                                          fontSize:
-                                                              size.height / 55,
-                                                          letterSpacing: 0.5,
-                                                          fontWeight:
-                                                              FontWeight.w600)),
+                                                  TextWidget(
+                                                    "View all",
+                                                    textType: "subheading-grey",
+                                                  ),
                                                   SizedBox(
                                                     width: 2,
                                                   ),
@@ -357,28 +348,32 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                                           [
                                                                           'product_id'])));
                                                 },
-                                                child: ProductCard(
-                                                  productId: productInfo[0]
-                                                      ['product_id'],
-                                                  qty:
-                                                      "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
-                                                  wishList: MyApp.wishListIds
-                                                      .contains(productInfo[0]
-                                                          ['product_id']),
-                                                  imgUrl: productImages[0]
-                                                          ['image_url']
-                                                      .toString()
-                                                      .replaceAll('http://',
-                                                          'https://'),
-                                                  name:
-                                                      '${productInfo[0]['product_name']}',
-                                                  price: productInfo[0]
-                                                              ['offer_price'] !=
-                                                          '0'
-                                                      ? productInfo[0]
-                                                          ['offer_price']
-                                                      : productInfo[0]['price'],
+                                                child: BigProductCard(
+                                                  productImages: productImages,
+                                                  productInfo: productInfo,
                                                 ),
+                                                // child: BigProductCard(
+                                                //   productId: productInfo[0]
+                                                //       ['product_id'],
+                                                //   qty:
+                                                //       "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
+                                                //   wishList: MyApp.wishListIds
+                                                //       .contains(productInfo[0]
+                                                //           ['product_id']),
+                                                //   imgUrl: productImages[0]
+                                                //           ['image_url']
+                                                //       .toString()
+                                                //       .replaceAll('http://',
+                                                //           'https://'),
+                                                //   name:
+                                                //       '${productInfo[0]['product_name']}',
+                                                //   price: productInfo[0]
+                                                //               ['offer_price'] !=
+                                                //           '0'
+                                                //       ? productInfo[0]
+                                                //           ['offer_price']
+                                                //       : productInfo[0]['price'],
+                                                // ),
                                               );
                                             }),
                                       ),
@@ -406,12 +401,9 @@ class _ProductsHomeState extends State<ProductsHome> {
                                             MediaQuery.of(context).size.width,
                                         child: Row(
                                           children: [
-                                            Text(
+                                            TextWidget(
                                               'Items on Sale',
-                                              style: TextStyle(
-                                                  color: Constants.greyHeading,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: size.height / 55),
+                                              textType: "subheading",
                                             ),
                                             Expanded(child: Container()),
                                             GestureDetector(
@@ -427,15 +419,10 @@ class _ProductsHomeState extends State<ProductsHome> {
                                               },
                                               child: Row(
                                                 children: [
-                                                  Text("View all",
-                                                      style: TextStyle(
-                                                          color: Constants
-                                                              .secondaryTextColor,
-                                                          fontSize:
-                                                              size.height / 55,
-                                                          letterSpacing: 0.5,
-                                                          fontWeight:
-                                                              FontWeight.w600)),
+                                                  TextWidget(
+                                                    "View all",
+                                                    textType: "subheading-grey",
+                                                  ),
                                                   SizedBox(
                                                     width: 2,
                                                   ),
@@ -482,28 +469,9 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                                           [
                                                                           'product_id'])));
                                                 },
-                                                child: ProductCard(
-                                                  qty:
-                                                      "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
-                                                  wishList: false,
-                                                  productId: productInfo[0]
-                                                      ['product_id'],
-                                                  imgUrl: (productImages
-                                                          .isNotEmpty)
-                                                      ? productImages[0]
-                                                              ['image_url']
-                                                          .toString()
-                                                          .replaceAll('http://',
-                                                              'https://')
-                                                      : "https://dummyimage.com/360x360.png/5fa2dd/ffffff",
-                                                  name:
-                                                      '${productInfo[0]['product_name']}',
-                                                  price: productInfo[0]
-                                                              ['offer_price'] !=
-                                                          '0'
-                                                      ? productInfo[0]
-                                                          ['offer_price']
-                                                      : productInfo[0]['price'],
+                                                child: BigProductCard(
+                                                  productImages: productImages,
+                                                  productInfo: productInfo,
                                                 ),
                                               );
                                             }),
