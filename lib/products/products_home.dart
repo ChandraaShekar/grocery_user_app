@@ -40,8 +40,10 @@ class _ProductsHomeState extends State<ProductsHome> {
   }
 
   void loadData() async {
-    ProductApiHandler productHandler = new ProductApiHandler();
+    ProductApiHandler productHandler = new ProductApiHandler(
+        body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
     var response = await productHandler.getHomeProducts();
+    print(response[1]);
     setState(() {
       featured = response[1]['featured'];
       sale = response[1]['sale'];
@@ -55,7 +57,7 @@ class _ProductsHomeState extends State<ProductsHome> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: (featured == null || sale == null || categories == null)
+        child: (featured == null)
             ? Container(
                 height: size.height,
                 child: Center(
@@ -67,36 +69,6 @@ class _ProductsHomeState extends State<ProductsHome> {
                   padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                   child: Column(
                     children: [
-                      // TextButton(
-                      //   onPressed: () {
-                      //     down = !down;
-                      //     setState(() {});
-                      //   },
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      //     child: Row(
-                      //       children: [
-                      //         Padding(
-                      //           padding:
-                      //               const EdgeInsets.symmetric(horizontal: 8.0),
-                      //           child: Text(
-                      //             down ? 'Show Categories' : 'Show Less',
-                      //             style: TextStyle(
-                      //                 fontWeight: FontWeight.w600,
-                      //                 fontSize: size.height / 58,
-                      //                 color: Colors.black),
-                      //           ),
-                      //         ),
-                      //         Icon(
-                      //             down
-                      //                 ? AntDesign.caretdown
-                      //                 : AntDesign.caretup,
-                      //             size: 14,
-                      //             color: Colors.black),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Stack(
                         children: [
                           SingleChildScrollView(
@@ -266,28 +238,6 @@ class _ProductsHomeState extends State<ProductsHome> {
                                                       productImages:
                                                           productImages,
                                                     ),
-                                                    // ProductCard(
-                                                    //   productId: productInfo[0]
-                                                    //       ['product_id'],
-                                                    //   qty:
-                                                    //       "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
-                                                    //   wishList: MyApp.wishListIds
-                                                    //       .contains(productInfo[0]
-                                                    //           ['product_id']),
-                                                    //   imgUrl: productImages[0]
-                                                    //           ['image_url']
-                                                    //       .toString()
-                                                    //       .replaceAll('http://',
-                                                    //           'https://'),
-                                                    //   name:
-                                                    //       '${productInfo[0]['product_name']}',
-                                                    //   price: productInfo[0]
-                                                    //               ['offer_price'] !=
-                                                    //           '0'
-                                                    //       ? productInfo[0]
-                                                    //           ['offer_price']
-                                                    //       : productInfo[0]['price'],
-                                                    // ),
                                                   );
                                                 }),
                                           ),

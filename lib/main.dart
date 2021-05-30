@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
           bottomSheetTheme:
               BottomSheetThemeData(backgroundColor: Colors.transparent),
           primaryColor: Constants.kMain,
+          scaffoldBackgroundColor: Color(0xfff7fcfe),
           hintColor: Color(0xfff2f4f5),
           textTheme:
               GoogleFonts.montserratTextTheme(Theme.of(context).textTheme)),

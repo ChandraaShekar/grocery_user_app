@@ -14,7 +14,8 @@ class ProductApiHandler {
   ProductApiHandler({this.body});
 
   Future<dynamic> getHomeProducts() async {
-    ServiceWithHeader urlHelper = ServiceWithHeader(getHomeProductsUrl);
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(getHomeProductsUrl, this.body);
     var urlsData = await urlHelper.data();
     return urlsData;
   }

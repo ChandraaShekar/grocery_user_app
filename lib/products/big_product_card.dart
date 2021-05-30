@@ -25,7 +25,7 @@ class _BigProductCardState extends State<BigProductCard> {
     return Card(
       elevation: 5,
       child: Container(
-        height: size.width / 2.2,
+        height: size.width / 1.5,
         width: size.width / 2.25,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -83,8 +83,8 @@ class _BigProductCardState extends State<BigProductCard> {
                     .toString()
                     .replaceAll('http://', 'https://'),
                 imageBuilder: (context, imageProvider) => Container(
-                  width: 140,
-                  height: size.height / 7.8,
+                  width: size.width / 2.25,
+                  height: size.width / 3.55,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: imageProvider,
@@ -99,29 +99,63 @@ class _BigProductCardState extends State<BigProductCard> {
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 2.0, horizontal: 5.0),
-                  child: Text(
-                    widget.productInfo[0]['product_name'],
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Constants.headingTextBlack,
-                        letterSpacing: 0.3,
-                        fontSize: size.height / 60),
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 5.0),
+                        child: Text(
+                          widget.productInfo[0]['product_name'] + "egtggr",
+                          maxLines: 2,
+                          softWrap: true,
+                          textWidthBasis: TextWidthBasis.parent,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Constants.headingTextBlack,
+                              letterSpacing: 0.3,
+                              fontSize: size.height / 60),
+                        ),
+                      ),
+                    ),
+                    // -------------------------
+
+                    // Flexible(
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.symmetric(
+                    //         vertical: 2.0, horizontal: 5.0),
+                    //     child: RichText(
+                    //       // overflow: TextOverflow.ellipsis,
+                    //       strutStyle: StrutStyle(
+                    //           fontWeight: FontWeight.w600,
+                    //           fontSize: size.height / 60),
+                    //       text: TextSpan(
+                    //           style: TextStyle(
+                    //             color: Constants.headingTextBlack,
+                    //             letterSpacing: 0.3,
+                    //           ),
+                    //           text: (widget.productInfo[0]['product_name'] +
+                    //                   " egtggr")
+                    //               .toString()
+                    //               .trim()),
+                    //     ),
+                    //   ),
+                    // ),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
+                        child: Text(
+                          'Rs. ' + widget.productInfo[0]['price'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.3,
+                              fontSize: size.height / 60,
+                              color: Constants.secondaryTextColor),
+                        ))
+                  ],
                 ),
               ),
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
-                  child: Text(
-                    'Rs. ' + widget.productInfo[0]['price'],
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.3,
-                        fontSize: size.height / 60,
-                        color: Constants.secondaryTextColor),
-                  ))
             ],
           ),
         ),
