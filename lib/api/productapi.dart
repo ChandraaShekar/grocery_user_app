@@ -7,6 +7,7 @@ var getSaleproductsUrl = Constants.baseUrl + 'user/get-sale-products';
 var getAllproductsUrl = Constants.baseUrl + 'user/all-products';
 var getCategoryproductsUrl = Constants.baseUrl + 'user/get-products/';
 var getproductFromIdUrl = Constants.baseUrl + 'user/get-product-info/';
+var getAllCategoriesUrl = Constants.baseUrl + 'user/all-categories';
 
 class ProductApiHandler {
   final body;
@@ -21,13 +22,15 @@ class ProductApiHandler {
   }
 
   Future<dynamic> getFeaturedProducts() async {
-    ServiceWithHeader urlHelper = ServiceWithHeader(getFeaturedproductsUrl);
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(getFeaturedproductsUrl, this.body);
     var urlsData = await urlHelper.data();
     return urlsData;
   }
 
   Future<dynamic> getSaleProducts() async {
-    ServiceWithHeader urlHelper = ServiceWithHeader(getSaleproductsUrl);
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(getSaleproductsUrl, this.body);
     var urlsData = await urlHelper.data();
     return urlsData;
   }
@@ -40,7 +43,8 @@ class ProductApiHandler {
 
   Future<dynamic> getCategoryProducts(String category) async {
     String url = getCategoryproductsUrl + category;
-    ServiceWithHeader urlHelper = ServiceWithHeader(url);
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(url, this.body);
     var urlsData = await urlHelper.data();
     return urlsData;
   }
@@ -48,6 +52,12 @@ class ProductApiHandler {
   Future<dynamic> getProductFromId(String productId) async {
     String url = getproductFromIdUrl + productId;
     ServiceWithHeader urlHelper = ServiceWithHeader(url);
+    var urlsData = await urlHelper.data();
+    return urlsData;
+  }
+
+  Future<dynamic> getAllCategories() async {
+    ServiceWithHeader urlHelper = ServiceWithHeader(getAllCategoriesUrl);
     var urlsData = await urlHelper.data();
     return urlsData;
   }

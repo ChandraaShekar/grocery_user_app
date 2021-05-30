@@ -30,10 +30,12 @@ class _ProductListState extends State<ProductList> {
   }
 
   void load() async {
-    ProductApiHandler productHandler = new ProductApiHandler();
+    ProductApiHandler productHandler = new ProductApiHandler(
+        body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
     if (widget.type.isNotEmpty) {
       if (widget.type == "featured") {
         List resp = await productHandler.getFeaturedProducts();
+        print(resp);
         if (resp[0] == 200) {
           setState(() {
             productList = resp[1];

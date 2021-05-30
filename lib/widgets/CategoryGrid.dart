@@ -115,15 +115,10 @@ class _CategoryGridState extends State<CategoryGrid> {
                             SizedBox(height: 5),
                             Expanded(
                               child: Container(
-                                child: Text(
-                                  "${widget.categoriesList[index]["category"]}",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 0.5,
-                                    fontSize: size.height / 50,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                height: 100,
+                                child: TextWidget(
+                                    "${widget.categoriesList[index]["category"]}",
+                                    textType: "subtitle-black"),
                               ),
                             )
                           ],
