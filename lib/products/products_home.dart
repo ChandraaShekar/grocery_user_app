@@ -426,7 +426,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                 child: Row(
                                   children: [
                                     Image(
-                                        width: size.width * 0.94,
+                                        width: size.width * 0.92,
                                         fit: BoxFit.cover,
                                         image: AssetImage(
                                             'assets/images/minimum.png'))

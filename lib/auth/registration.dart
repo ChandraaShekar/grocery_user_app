@@ -126,13 +126,34 @@ class _RegistrationState extends State<Registration> {
                       ),
                       if (pincodeErr != '')
                         Text(
-                          ' *Required',
+                          pincodeErr,
                           style: TextStyle(color: Colors.red),
                         ),
                       SizedBox(height: 35),
                       PrimaryButton(
                         onPressed: () async {
-                          final User user = auth.currentUser;
+                          bool validated=true;
+                          if(name.text.toString()==''){
+                            nameErr='error';
+                            validated=false;
+                          }else{
+                            nameErr='';
+                          }
+                          if(pincode.text.toString()==''){
+                            pincodeErr=' *Required';
+                            validated=false;
+                          }else{
+                            pincodeErr='';
+                          }
+                          if(pincode.text.toString().length<6){
+                            pincodeErr=' enter proper pincode';
+                            validated=false;
+                          }else{
+                            pincodeErr='';
+                          }
+                          setState(() {});
+                          if(validated){
+                            final User user = auth.currentUser;
                           String authToken = await user.getIdToken(true);
                           var data = {
                             'auth_token': authToken,
@@ -142,7 +163,7 @@ class _RegistrationState extends State<Registration> {
                             'user_lng': "NONE",
                             'pincode': pincode.text,
                             'phone_no': user.phoneNumber,
-                            'email': email.text
+                            'email': email.text!=null?email.text:''
                           };
                           RegisterApiHandler registerHandler =
                               new RegisterApiHandler(data);
@@ -170,6 +191,7 @@ class _RegistrationState extends State<Registration> {
                           // }
                           else {
                             print(response);
+                          }
                           }
                         },
                         backgroundColor: Constants.kButtonBackgroundColor,

@@ -106,7 +106,7 @@ class _ProductListState extends State<ProductList> {
                                       : "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
-                                    width: size.width / 3.2,
+                                    width: size.width / 3.4,
                                     height: 105,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
