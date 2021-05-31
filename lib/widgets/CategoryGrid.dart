@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/products/product_list.dart';
-import 'package:user_app/services/constants.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
 class CategoryGrid extends StatefulWidget {
@@ -22,43 +20,6 @@ class _CategoryGridState extends State<CategoryGrid> {
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Row(
-                children: [
-                  TextWidget(
-                    'Categories',
-                    textType: "subheading",
-                  ),
-                  Expanded(child: Container()),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductList(
-                                  title: "Categories", type: "categories")));
-                    },
-                    child: Row(
-                      children: [
-                        TextWidget(
-                          "View all",
-                          textType: "subheading-grey",
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Icon(
-                          FontAwesome.chevron_circle_right,
-                          color: Constants.secondaryTextColor,
-                          size: size.height / 60,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
             SizedBox(height: 5),
             Container(
               // color: Colors.white,

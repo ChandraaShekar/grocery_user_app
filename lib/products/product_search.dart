@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:user_app/api/searchApi.dart';
 import 'package:user_app/products/product_details.dart';
 import 'package:user_app/services/constants.dart';
-import 'package:user_app/widgets/wishlist_product_card.dart';
 
 class ProductSearch extends StatefulWidget {
   @override

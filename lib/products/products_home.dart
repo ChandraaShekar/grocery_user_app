@@ -1,15 +1,13 @@
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/api/productapi.dart';
-import 'package:user_app/main.dart';
 import 'package:user_app/products/big_product_card.dart';
+import 'package:user_app/products/category_details.dart';
 import 'package:user_app/products/product_details.dart';
 import 'package:user_app/products/product_list.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/CategoryGrid.dart';
-import 'package:user_app/widgets/product_card.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
 class ProductsHome extends StatefulWidget {
@@ -146,7 +144,51 @@ class _ProductsHomeState extends State<ProductsHome> {
                                             );
                                     })),
                               ),
-                              CategoryGrid(categoriesList: categories),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: Row(
+                                      children: [
+                                        TextWidget(
+                                          'Categories',
+                                          textType: "subheading",
+                                        ),
+                                        Expanded(child: Container()),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AllCatgories()));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              TextWidget(
+                                                "View all",
+                                                textType: "subheading-grey",
+                                              ),
+                                              SizedBox(
+                                                width: 2,
+                                              ),
+                                              Icon(
+                                                FontAwesome
+                                                    .chevron_circle_right,
+                                                color: Constants
+                                                    .secondaryTextColor,
+                                                size: size.height / 60,
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  CategoryGrid(categoriesList: categories),
+                                ],
+                              ),
                               (featured.length > 0)
                                   ? Column(
                                       children: [
