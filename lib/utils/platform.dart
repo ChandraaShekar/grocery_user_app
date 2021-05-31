@@ -9,6 +9,7 @@ import 'package:user_app/others/tandc.dart';
 import 'package:user_app/others/settings.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 enum PAGE_INDEX {
   DASHBOARD,
@@ -30,26 +31,21 @@ class PlatformState extends State<Platform> {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Drawer(
-          child: Container(
-        // color: Constants.kDrawerBackground,
-        child: Padding(
+          child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () => Navigator.pop(context),
+          ),
+          foregroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: TextWidget('Grocery Shopping', textType: "heading"),
+        ),
+        body: Padding(
           padding: const EdgeInsets.only(left: 0),
           child: ListView(
             children: <Widget>[
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                    'Grocery Shopping',
-                    style: Constants.header,
-                  ))),
-                ],
-              ),
               Divider(
                 color: Colors.transparent,
               ),

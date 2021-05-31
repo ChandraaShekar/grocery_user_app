@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class WishListProductCard extends StatelessWidget {
   final String imgUrl;
@@ -17,21 +18,22 @@ class WishListProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 2),
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Container(
-          height: 90,
+          height: size.height / 8,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 12, 12, 12),
             child: Row(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(3),
+                  borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
                     imageUrl: this.imgUrl,
                     imageBuilder: (context, imageProvider) => Container(
-                      width: 70,
-                      height: 80,
+                      width: size.width / 5,
+                      height: size.width / 5,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: imageProvider,
@@ -55,20 +57,14 @@ class WishListProductCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      this.name,
-                      style: TextStyle(
-                          fontSize: size.height / 52,
-                          letterSpacing: 0.3,
-                          fontWeight: FontWeight.w600),
+                    Container(
+                      width: size.width / 2,
+                      child: TextWidget(
+                        this.name,
+                        textType: "title",
+                      ),
                     ),
-                    Text(
-                      'Rs. ' + this.price,
-                      style: TextStyle(
-                          color: Constants.secondaryTextColor,
-                          fontSize: size.height / 52,
-                          fontWeight: FontWeight.w800),
-                    ),
+                    TextWidget('Rs. ' + this.price, textType: "card-price"),
                   ],
                 ),
                 Expanded(
@@ -83,8 +79,12 @@ class WishListProductCard extends StatelessWidget {
                           color: Constants.qtyBgColor,
                           borderRadius: BorderRadius.circular(3)),
                       child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Text(this.qty),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 6),
+                        child: TextWidget(
+                          this.qty,
+                          textType: "label",
+                        ),
                       ),
                     ),
                     this.wishList

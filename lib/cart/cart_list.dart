@@ -5,6 +5,7 @@ import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/cart_card.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class CartList extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _CartListState extends State<CartList> {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Container(
           child: MyApp.cartList.length == 0
               ? Center(
@@ -99,19 +100,18 @@ class _CartListState extends State<CartList> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    TextWidget(
                                       'Sub Total',
-                                      style:
-                                          TextStyle(fontSize: size.height / 58),
+                                      textType: "para",
                                     ),
-                                    Text(
+                                    TextWidget(
                                       '₹ ' + subtotal,
-                                      style: TextStyle(
-                                          letterSpacing: 0.4,
-                                          fontSize: size.height / 50,
-                                          fontWeight: FontWeight.w600),
+                                      textType: "para-bold",
                                     )
                                   ]),
+                            ),
+                            SizedBox(
+                              height: 2,
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
@@ -119,22 +119,21 @@ class _CartListState extends State<CartList> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    TextWidget(
                                       'Delivery',
-                                      style:
-                                          TextStyle(fontSize: size.height / 58),
+                                      textType: "para",
                                     ),
                                     SizedBox(
                                       width: 15,
                                     ),
-                                    Text(
+                                    TextWidget(
                                       '₹ ' + delivery,
-                                      style: TextStyle(
-                                          letterSpacing: 0.4,
-                                          fontSize: size.height / 50,
-                                          fontWeight: FontWeight.w600),
+                                      textType: "para-bold",
                                     )
                                   ]),
+                            ),
+                            SizedBox(
+                              height: 2,
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
@@ -142,17 +141,13 @@ class _CartListState extends State<CartList> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Tax',
-                                      style:
-                                          TextStyle(fontSize: size.height / 58),
+                                    TextWidget(
+                                      'Service Tax',
+                                      textType: "para",
                                     ),
-                                    Text(
+                                    TextWidget(
                                       '₹ ' + tax,
-                                      style: TextStyle(
-                                          letterSpacing: 0.4,
-                                          fontSize: size.height / 50,
-                                          fontWeight: FontWeight.w600),
+                                      textType: "para-bold",
                                     )
                                   ]),
                             ),
@@ -163,10 +158,9 @@ class _CartListState extends State<CartList> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    TextWidget(
                                       'Total',
-                                      style:
-                                          TextStyle(fontSize: size.height / 58),
+                                      textType: "para-bold",
                                     ),
                                     Text(
                                       '₹ ' + total,

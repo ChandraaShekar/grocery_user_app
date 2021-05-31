@@ -9,6 +9,7 @@ import 'package:user_app/products/wishlist_products.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/platform.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class DashboardTabs extends StatefulWidget {
   static final String tag = Constants.homeTag;

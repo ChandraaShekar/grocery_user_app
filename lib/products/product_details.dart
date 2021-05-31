@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/api/cartApi.dart';
@@ -48,6 +50,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   void load() async {
     ProductApiHandler productHandler = new ProductApiHandler();
     List resp = await productHandler.getProductFromId(widget.productId);
+    log(resp.toString());
     setState(() {
       productInfo = resp[1];
       if (productInfo['product_images'].length > 0) {

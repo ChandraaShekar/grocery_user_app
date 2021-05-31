@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class CounterBtn extends StatelessWidget {
   final Function incPressed;
@@ -42,9 +43,9 @@ class CounterBtn extends StatelessWidget {
                 ),
                 backgroundColor: this.leftCounterColor,
               )),
-          Text(
+          TextWidget(
             text,
-            style: TextStyle(fontSize: 16),
+            textType: "title",
           ),
           Container(
             width: this.incDecwidth,

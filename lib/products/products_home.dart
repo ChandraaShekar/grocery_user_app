@@ -64,7 +64,7 @@ class _ProductsHomeState extends State<ProductsHome> {
               )
             : Container(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: Column(
                     children: [
                       Stack(
@@ -193,8 +193,8 @@ class _ProductsHomeState extends State<ProductsHome> {
                                   ? Column(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 8),
+                                          padding: const EdgeInsets.only(
+                                              right: 8, top: 5),
                                           child: Row(
                                             children: [
                                               SizedBox(width: 5),
