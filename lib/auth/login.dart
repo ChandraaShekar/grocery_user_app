@@ -160,7 +160,7 @@ class _LoginState extends State<Login> {
                                       )),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 0, top: 175),
+                                        left: 0, top: 195),
                                     child: Container(
                                         child: Column(
                                       mainAxisAlignment:
@@ -276,13 +276,12 @@ class _LoginState extends State<Login> {
                                         controller: _phoneNumberController,
                                         decoration: InputDecoration(
                                           // or  prefixIcon: Text('+91'),
-                                          prefixText: '+91',
-                                          prefixStyle:
-                                          TextStyle(
-                                            fontSize: size.height / 30,
-                                            color: Constants.headingTextBlack,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 0.7),
+                                          prefixText: '+91 ',
+                                          prefixStyle: TextStyle(
+                                              fontSize: size.height / 30,
+                                              color: Constants.headingTextBlack,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.7),
                                           hintText: 'Enter Phone Number ',
                                           contentPadding: const EdgeInsets.only(
                                               top: 10, left: 15),

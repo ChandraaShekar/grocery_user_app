@@ -11,6 +11,7 @@ import 'package:user_app/utils/header.dart';
 import 'package:user_app/widgets/counter.dart';
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/product_card.dart';
+import 'package:user_app/widgets/text_widget.dart';
 import 'package:user_app/widgets/wish_button.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -108,10 +109,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                         },
                       ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                       onTap: () {},
-                      child: Icon(Icons.shopping_cart_outlined, size: 18)),
+                      child: Icon(Icons.shopping_bag_outlined, size: 22)),
                 ),
               ],
             ),
@@ -128,13 +129,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
+                        child: TextWidget(
                           '${productInfo['product_info'][0]['product_name']}',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              letterSpacing: 1),
+                          textType: "subheading",
                         ),
                       ),
                       Padding(
@@ -142,17 +139,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                             left: 8.0, right: 8, bottom: 8),
                         child: Row(
                           children: [
-                            Text(
+                            TextWidget(
                               Constants.rupeeSymbol +
                                   " ${productInfo['product_info'][0]['offer_price'] != '0' ? productInfo['product_info'][0]['offer_price'] : productInfo['product_info'][0]['price']}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              textType: "title",
                             ),
                             SizedBox(width: 15),
                             productInfo['product_info'][0]['offer_price'] != '0'
                                 ? Container(
                                     child: Row(
                                     children: [
-                                      Text('MRP: ' + Constants.rupeeSymbol),
+                                      Text(
+                                        'MRP: ' + Constants.rupeeSymbol,
+                                        // textType: "title-light",
+                                      ),
                                       Text(
                                           "${productInfo['product_info'][0]['price']}",
                                           style: TextStyle(
@@ -170,12 +170,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 4.0, horizontal: 7.0),
-                                          child: Text(
+                                          child: TextWidget(
                                             "${((double.parse(productInfo['product_info'][0]['price']) - double.parse(productInfo['product_info'][0]['offer_price'])) / double.parse(productInfo['product_info'][0]['price']) * 100).toInt()}% OFF",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12),
+                                            // style: TextStyle(
+                                            //   color: Colors.white,
+                                            //   fontWeight: FontWeight.w600,
+                                            //   fontSize: size.height / 70,
+                                            // ),
+                                            textType: "label-white",
                                           ),
                                         ),
                                       ),
@@ -193,9 +195,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 7.0, vertical: 4.0),
-                                child: Text(
+                                child: TextWidget(
                                   "${productInfo['product_info'][0]['quantity']} ${productInfo['product_info'][0]['metrics']}",
-                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                  textType: "label",
                                 ),
                               ),
                             )
@@ -211,7 +213,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           autoPlayInterval: Duration(seconds: 3),
                           scrollDirection: Axis.horizontal,
                           initialPage: 0,
-                          height: 360,
+                          height: size.height / 3,
                           onPageChanged: (index, reason) {
                             setState(() {
                               _current = index;
@@ -271,18 +273,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
+                              child: TextWidget(
                                 'Quantity',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.grey),
+                                textType: "para",
                               ),
                             ),
                             Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: CounterBtn(
-                                  incDecheight: 28,
-                                  incDecwidth: 28,
+                                  incDecheight: size.height / 25,
+                                  incDecwidth: size.height / 25,
                                   leftCounterColor: Constants.buttonBgColor,
                                   rightCounterColor: Constants.buttonBgColor,
                                   incPressed: () {
@@ -343,17 +343,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(
+                              TextWidget(
                                 'Description',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.grey),
+                                textType: "title",
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
-                                child: Text(
-                                    "${productInfo['product_info'][0]['product_description']}"),
+                                child: TextWidget(
+                                  "${productInfo['product_info'][0]['product_description']}",
+                                  textType: "para",
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -363,18 +363,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 8.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 12.0),
-                              child: Text(
+                              child: TextWidget(
                                 'Recommended Products',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.grey),
+                                textType: "title",
                               ),
                             ),
                             Container(

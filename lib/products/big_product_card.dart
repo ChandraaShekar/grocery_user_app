@@ -125,7 +125,7 @@ class _BigProductCardState extends State<BigProductCard> {
                         ),
                       ),
                       Padding(
-                          padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
+                          padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 2),
                           child: TextWidget(
                               "Rs. " + widget.productInfo[0]['price'],
                               textType: "card-price"))

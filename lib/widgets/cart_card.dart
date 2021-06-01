@@ -98,6 +98,9 @@ class _CartCardState extends State<CartCard> {
                           //         "${widget.name.length > 20 ? '...' : ''}",
                           //     textType: "title"),
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         TextWidget(
                           'Rs. ' + this.widget.price,
                           textType: "card-price",
