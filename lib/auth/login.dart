@@ -160,7 +160,7 @@ class _LoginState extends State<Login> {
                                       )),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 0, top: 200),
+                                        left: 0, top: 175),
                                     child: Container(
                                         child: Column(
                                       mainAxisAlignment:
@@ -252,20 +252,20 @@ class _LoginState extends State<Login> {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 30),
-                                      child: Text(
-                                        "+91",
-                                        style: TextStyle(
-                                            fontSize: size.height / 30,
-                                            color: Constants.headingTextBlack,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 0.7),
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding:
+                                    //       const EdgeInsets.only(bottom: 30),
+                                    //   child: Text(
+                                    //     "+91",
+                                    //     style: TextStyle(
+                                    //         fontSize: size.height / 30,
+                                    //         color: Constants.headingTextBlack,
+                                    //         fontWeight: FontWeight.w600,
+                                    //         letterSpacing: 0.7),
+                                    //   ),
+                                    // ),
                                     Container(
-                                      width: size.width / 1.4,
+                                      width: size.width / 1.2,
                                       height: size.height / 12,
                                       child: TextField(
                                         style: TextStyle(
@@ -275,6 +275,14 @@ class _LoginState extends State<Login> {
                                             letterSpacing: 2.0),
                                         controller: _phoneNumberController,
                                         decoration: InputDecoration(
+                                          // or  prefixIcon: Text('+91'),
+                                          prefixText: '+91',
+                                          prefixStyle:
+                                          TextStyle(
+                                            fontSize: size.height / 30,
+                                            color: Constants.headingTextBlack,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.7),
                                           hintText: 'Enter Phone Number ',
                                           contentPadding: const EdgeInsets.only(
                                               top: 10, left: 15),

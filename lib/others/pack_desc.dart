@@ -45,7 +45,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
             topLeft: Radius.circular(30),
           ),
         ),
-        height: size.height / 5.5,
+        height: size.height / 4.55,
         width: MediaQuery.of(context).size.width,
         child: Column(
             mainAxisSize: MainAxisSize.max,

@@ -102,6 +102,7 @@ class _OtpPageState extends State<OtpPage> {
                 ),
                 SizedBox(height: 8),
                 OtpTextField(
+                  textStyle: TextStyle(fontWeight: FontWeight.w600),
                   numberOfFields: 6,
                   enabledBorderColor: Colors.grey,
                   focusedBorderColor: Constants.kMain,
