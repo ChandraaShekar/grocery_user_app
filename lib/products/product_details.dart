@@ -117,13 +117,13 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
           ),
           true),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Container(
-            child: (productInfo == null)
-                ? Center(child: CircularProgressIndicator())
-                : Column(
+      body: (productInfo == null)
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -171,7 +171,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 4.0, horizontal: 7.0),
                                           child: Text(
-                                            "${((int.parse(productInfo['product_info'][0]['price']) - int.parse(productInfo['product_info'][0]['offer_price'])) / int.parse(productInfo['product_info'][0]['price']) * 100).toInt()}% OFF",
+                                            "${((double.parse(productInfo['product_info'][0]['price']) - double.parse(productInfo['product_info'][0]['offer_price'])) / double.parse(productInfo['product_info'][0]['price']) * 100).toInt()}% OFF",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w600,
@@ -225,10 +225,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 width: size.width,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12.0),
-                                    child: Image.network(
-                                      imgUrl,
-                                      width: size.width,
-                                      fit: BoxFit.contain,
+                                    child: Hero(
+                                      tag:
+                                          '${productInfo['product_info'][0]['product_id']}',
+                                      child: Image.network(
+                                        imgUrl,
+                                        width: size.width,
+                                        fit: BoxFit.contain,
+                                      ),
                                     )),
                               );
                             },
@@ -424,9 +428,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ],
                   ),
-          ),
-        ),
-      ),
+                ),
+              ),
+            ),
     );
   }
 }

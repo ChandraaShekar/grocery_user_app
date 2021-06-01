@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:user_app/products/product_list.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
@@ -15,7 +16,6 @@ class _CategoryGridState extends State<CategoryGrid> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-      // height: 250,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
         child: Column(
@@ -25,11 +25,12 @@ class _CategoryGridState extends State<CategoryGrid> {
               // color: Colors.white,
               width: MediaQuery.of(context).size.width,
               child: GridView.count(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  padding: EdgeInsets.only(top: 0, bottom: 10),
                   crossAxisCount: 4,
                   shrinkWrap: true,
                   crossAxisSpacing: 4.0,
                   mainAxisSpacing: 25.0,
+                  childAspectRatio: .83,
                   physics: NeverScrollableScrollPhysics(),
                   children: List.generate(
                       (widget.categoriesList.length > 8
@@ -50,13 +51,14 @@ class _CategoryGridState extends State<CategoryGrid> {
                       child: Container(
                         child: Column(
                           children: [
-                            Container(
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
                               child: CachedNetworkImage(
                                 imageUrl: widget.categoriesList[index]["image"],
                                 imageBuilder: (context, imageProvider) =>
                                     Container(
-                                  width: size.width / 6,
-                                  height: size.width / 6,
+                                  width: size.width / 5.5,
+                                  height: size.width / 5.5,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: imageProvider,
@@ -64,10 +66,15 @@ class _CategoryGridState extends State<CategoryGrid> {
                                     ),
                                   ),
                                 ),
-                                placeholder: (context, url) => Container(
-                                  height: 100,
-                                  child: Center(
-                                      child: CircularProgressIndicator()),
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Colors.grey[300],
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    width: size.width / 5.5,
+                                    height: size.width / 5.5,
+                                    color: Colors.grey[300],
+                                  ),
                                 ),
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
@@ -75,11 +82,12 @@ class _CategoryGridState extends State<CategoryGrid> {
                             ),
                             SizedBox(height: 5),
                             Expanded(
-                              child: Container(
-                                height: 100,
-                                child: TextWidget(
-                                    "${widget.categoriesList[index]["category"]}",
-                                    textType: "subtitle-black"),
+                              child: Center(
+                                child: Container(
+                                  child: TextWidget(
+                                      "${widget.categoriesList[index]["category"]}",
+                                      textType: "subtitle-black"),
+                                ),
                               ),
                             )
                           ],
