@@ -14,10 +14,30 @@ class CartList extends StatefulWidget {
 
 class _CartListState extends State<CartList> {
   CartApiHandler cartHandler = new CartApiHandler();
-  String subtotal = '3940';
-  String delivery = '89';
-  String tax = '50';
-  String total = '4200';
+  double subtotal = 0;
+  double delivery = 0;
+  double tax = 0;
+  double total = 0;
+
+  @override
+  void initState() {
+    loadPrice();
+    super.initState();
+  }
+
+  void loadPrice() async {
+    subtotal = 0;
+    MyApp.cartList.forEach((element) {
+      subtotal += double.parse(element['offer_price'] != '0'
+              ? element['offer_price']
+              : element['price']) *
+          int.parse(element['cartQuantity']);
+    });
+
+    tax = (subtotal * 5).toInt() / 100;
+    total = ((subtotal + tax + delivery) * 100).toInt() / 100;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +85,7 @@ class _CartListState extends State<CartList> {
                                   MyApp.cartList.removeAt(i);
                                 });
                               }
+                              loadPrice();
                             },
                             onQuantityChange: (val) async {
                               List resp = await cartHandler.updateCart({
@@ -80,6 +101,7 @@ class _CartListState extends State<CartList> {
                               } else {
                                 MyApp.showToast(resp[1]['message'], context);
                               }
+                              loadPrice();
                             },
                           );
                         }),
@@ -105,7 +127,7 @@ class _CartListState extends State<CartList> {
                                       textType: "para",
                                     ),
                                     TextWidget(
-                                      '₹ ' + subtotal,
+                                      '₹ ' + subtotal.toString(),
                                       textType: "para-bold",
                                     )
                                   ]),
@@ -127,7 +149,7 @@ class _CartListState extends State<CartList> {
                                       width: 15,
                                     ),
                                     TextWidget(
-                                      '₹ ' + delivery,
+                                      '₹ ' + delivery.toString(),
                                       textType: "para-bold",
                                     )
                                   ]),
@@ -146,7 +168,7 @@ class _CartListState extends State<CartList> {
                                       textType: "para",
                                     ),
                                     TextWidget(
-                                      '₹ ' + tax,
+                                      '₹ ' + tax.toString(),
                                       textType: "para-bold",
                                     )
                                   ]),
@@ -163,7 +185,7 @@ class _CartListState extends State<CartList> {
                                       textType: "para-bold",
                                     ),
                                     Text(
-                                      '₹ ' + total,
+                                      '₹ ' + total.toString(),
                                       style: TextStyle(
                                           color: Constants.headingTextBlack,
                                           letterSpacing: 0.5,

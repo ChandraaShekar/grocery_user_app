@@ -7,6 +7,7 @@ import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/text_widget.dart';
 import 'package:user_app/widgets/wish_button.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BigProductCard extends StatefulWidget {
   final List productInfo, productImages;
@@ -78,27 +79,33 @@ class _BigProductCardState extends State<BigProductCard> {
                 ),
               ),
               SizedBox(height: 5),
-              CachedNetworkImage(
-                imageUrl:
-                    "https://media.istockphoto.com/photos/three-potatoes-picture-id157430678?k=6&m=157430678&s=612x612&w=0&h=3A77PeFuUUqoC4EVZaydkd6tSakZSWO61T21bMn4KLQ=",
-                // imageUrl: widget.productImages[0]['image_url']
-                //     .toString()
-                //     .replaceAll('http://', 'https://'),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: size.width / 2.25,
-                  height: size.width / 3.8,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
+              Hero(
+                tag: "${widget.productInfo[0]['product_id']}",
+                child: CachedNetworkImage(
+                  imageUrl: widget.productImages[0]['image_url']
+                      .toString()
+                      .replaceAll('http://', 'https://'),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: size.width / 2.25,
+                    height: size.width / 3.8,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
+                  placeholder: (context, url) => Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: size.width / 2.25,
+                      height: size.width / 3.8,
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
-                placeholder: (context, url) => Container(
-                  height: 100,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               Expanded(
                 child: Padding(
@@ -113,23 +120,14 @@ class _BigProductCardState extends State<BigProductCard> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 2.0, horizontal: 5.0),
                           child: TextWidget(
-                            widget.productInfo[0]['product_name'],
-                            textType: "title",
-                            // maxLines: 2,
-                            // softWrap: true,
-                            // textWidthBasis: TextWidthBasis.parent,
-                            // style: TextStyle(
-                            //     fontWeight: FontWeight.w600,
-                            //     color: Constants.headingTextBlack,
-                            //     letterSpacing: 0.3,
-                            //     fontSize: size.height / 50),
-                          ),
+                              widget.productInfo[0]['product_name'],
+                              textType: "title"),
                         ),
                       ),
                       Padding(
                           padding: const EdgeInsets.fromLTRB(5.0, 2, 0, 2),
                           child: TextWidget(
-                              'Rs. ' + widget.productInfo[0]['price'],
+                              "Rs. " + widget.productInfo[0]['price'],
                               textType: "card-price"))
                     ],
                   ),
