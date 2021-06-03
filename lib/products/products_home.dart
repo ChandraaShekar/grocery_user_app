@@ -42,7 +42,7 @@ class _ProductsHomeState extends State<ProductsHome> {
     ProductApiHandler productHandler = new ProductApiHandler(
         body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
     var response = await productHandler.getHomeProducts();
-    print(response[1]);
+    // print(response[1]);
     setState(() {
       featured = response[1]['featured'];
       sale = response[1]['sale'];

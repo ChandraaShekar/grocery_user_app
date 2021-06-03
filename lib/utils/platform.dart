@@ -5,6 +5,7 @@ import 'package:user_app/others/explore_packs.dart';
 import 'package:user_app/others/help.dart';
 import 'package:user_app/others/order_history.dart';
 import 'package:user_app/others/refer.dart';
+import 'package:user_app/others/socket_test.dart';
 import 'package:user_app/others/tandc.dart';
 import 'package:user_app/others/settings.dart';
 import 'package:user_app/services/constants.dart';
@@ -181,6 +182,25 @@ class PlatformState extends State<Platform> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Refer()));
+                  }),
+              Divider(
+                color: Colors.transparent,
+              ),
+              ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      Feather.gift,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: Text(
+                    "Socket Test",
+                    style: Constants.sideHeading,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SocketTest()));
                   }),
               Divider(
                 color: Colors.transparent,

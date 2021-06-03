@@ -79,33 +79,30 @@ class _BigProductCardState extends State<BigProductCard> {
                 ),
               ),
               SizedBox(height: 5),
-              Hero(
-                tag: "${widget.productInfo[0]['product_id']}",
-                child: CachedNetworkImage(
-                  imageUrl: widget.productImages[0]['image_url']
-                      .toString()
-                      .replaceAll('http://', 'https://'),
-                  imageBuilder: (context, imageProvider) => Container(
+              CachedNetworkImage(
+                imageUrl: widget.productImages[0]['image_url']
+                    .toString()
+                    .replaceAll('http://', 'https://'),
+                imageBuilder: (context, imageProvider) => Container(
+                  width: size.width / 2.25,
+                  height: size.width / 3.8,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: Container(
                     width: size.width / 2.25,
                     height: size.width / 3.8,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    color: Colors.grey[300],
                   ),
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.white,
-                    child: Container(
-                      width: size.width / 2.25,
-                      height: size.width / 3.8,
-                      color: Colors.grey[300],
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               Expanded(
                 child: Padding(

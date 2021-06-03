@@ -35,7 +35,12 @@ class _ProductSearchState extends State<ProductSearch> {
                   });
                 }
                 log(val);
-                var resp = await searchHandler.searchWithWord(val);
+                var resp = await searchHandler.searchWithWord({
+                  "lat": "17.43220004743208",
+                  "lng": "78.42959340000002",
+                  "search_term": "$val",
+                });
+                log("${resp[1]}");
                 if (resp[0] == 200) {
                   log("success");
                   setState(() {

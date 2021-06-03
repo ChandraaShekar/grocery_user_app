@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:user_app/api/packsApi.dart';
 import 'package:user_app/others/pack_desc.dart';
 import 'package:user_app/services/constants.dart';
@@ -71,9 +72,13 @@ class _ExplorePacksState extends State<ExplorePacks> {
                                 ),
                               ),
                             ),
-                            placeholder: (context, url) => Container(
-                              height: 100,
-                              child: Center(child: CircularProgressIndicator()),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.white,
+                              child: Container(
+                                width: size.width,
+                                height: size.height / 4,
+                              ),
                             ),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),

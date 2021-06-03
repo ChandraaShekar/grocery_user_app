@@ -58,7 +58,6 @@ class MyApp extends StatelessWidget {
     if (cartListResp[0] == 200) {
       cartList = cartListResp[1];
     }
-    print(cartList);
     return userInfo;
   }
 
