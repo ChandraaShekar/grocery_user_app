@@ -4,6 +4,7 @@ import 'package:user_app/api/productapi.dart';
 import 'package:user_app/products/product_details.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductList extends StatefulWidget {
   final String title;
@@ -115,10 +116,15 @@ class _ProductListState extends State<ProductList> {
                                       ),
                                     ),
                                   ),
-                                  placeholder: (context, url) => Container(
-                                    height: 100,
-                                    child: Center(
-                                        child: CircularProgressIndicator()),
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                    baseColor: Colors.grey[300],
+                                    highlightColor: Colors.white,
+                                    child: Container(
+                                      width: size.width / 3.4,
+                                      height: 105,
+                                      color: Colors.grey[300],
+                                    ),
                                   ),
                                   errorWidget: (context, url, error) =>
                                       Icon(Icons.error),

@@ -365,7 +365,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 5.0),
                                       child: Container(
-                                        height: 220,
+                                        height: size.width / 1.7,
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount: featured.length,
@@ -487,7 +487,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 5.0),
                                       child: Container(
-                                        height: 220,
+                                        height: size.width / 1.7,
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount: sale.length,

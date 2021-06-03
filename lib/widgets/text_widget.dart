@@ -20,7 +20,7 @@ class TextWidget extends StatelessWidget {
       y = TextStyle(
           fontWeight: FontWeight.w800,
           letterSpacing: 0.5,
-          fontSize: size.height / 45,
+          fontSize: size.height / 50,
           color: Constants.headingTextBlack);
     } else if (x == "subheading-grey") {
       y = TextStyle(
@@ -46,6 +46,12 @@ class TextWidget extends StatelessWidget {
           letterSpacing: 0.5,
           fontSize: size.height / 60,
           color: Constants.secondaryTextColor);
+    } else if (x == "title-light") {
+      y = TextStyle(
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.5,
+          fontSize: size.height / 56,
+          color: Constants.headingTextBlack);
     } else if (x == "card-price") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
@@ -70,6 +76,12 @@ class TextWidget extends StatelessWidget {
           letterSpacing: 0.2,
           fontSize: size.height / 60,
           color: Constants.headingTextBlack);
+    } else if (x == "label-white") {
+      y = TextStyle(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.2,
+          fontSize: size.height / 65,
+          color: Colors.white);
     }
     return y;
   }

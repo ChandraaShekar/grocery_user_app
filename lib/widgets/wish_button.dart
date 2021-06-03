@@ -39,7 +39,7 @@ class _WishButtonState extends State<WishButton> {
               : Icon(
                   AntDesign.hearto, // OUTLINED HEART
                   size: widget.size ?? 20,
-                  color: Constants.wishListUnSelectedColor,
+                  color: Constants.headingTextBlack,
                 ),
           onTap: () {
             isLiked = isLiked == false;
