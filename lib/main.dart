@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
   static String authTokenValue;
   static Map userInfo;
   static List wishListIds = [];
-  static List cartList = [];
+  static Map cartList = {};
+  static double lat, lng;
 
   static showToast(String msg, BuildContext context) {
     Toast.show(msg, context,
@@ -56,7 +57,8 @@ class MyApp extends StatelessWidget {
       wishListIds = wishListResp[1];
     }
     if (cartListResp[0] == 200) {
-      cartList = cartListResp[1];
+      cartList['products'] = cartListResp[1]['products'];
+      cartList['packs'] = cartListResp[1]['packs'];
     }
     return userInfo;
   }

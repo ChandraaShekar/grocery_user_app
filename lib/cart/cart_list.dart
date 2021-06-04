@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/cart/checkout_address.dart';
@@ -18,6 +21,7 @@ class _CartListState extends State<CartList> {
   double delivery = 0;
   double tax = 0;
   double total = 0;
+  List packs = [];
 
   @override
   void initState() {
@@ -27,13 +31,24 @@ class _CartListState extends State<CartList> {
 
   void loadPrice() async {
     subtotal = 0;
-    MyApp.cartList.forEach((element) {
+    MyApp.cartList['products'].forEach((element) {
       subtotal += double.parse(element['offer_price'] != '0'
               ? element['offer_price']
               : element['price']) *
           int.parse(element['cartQuantity']);
     });
-
+    // MyApp.cartList['packs'].forEach((element) {
+    //   var jData = jsonDecode(element['pack_data']);
+    //   subtotal += (double.parse(jData['PackPrice']) *
+    //       int.parse(element['cartQuantity']));
+    // });
+    packs = MyApp.cartList['packs'];
+    packs.forEach((element) {
+      var jData = jsonDecode(element['pack_data']);
+      subtotal += jData['OriginalPrice'] * int.parse(element['cartQuantity']);
+      print("ELEMENT: $jData");
+    });
+    print("PACKS: ${MyApp.cartList['packs'][0]['pack_data']}");
     tax = (subtotal * 5).toInt() / 100;
     total = ((subtotal + tax + delivery) * 100).toInt() / 100;
     setState(() {});
@@ -60,49 +75,142 @@ class _CartListState extends State<CartList> {
                   children: [
                     ListView.builder(
                         shrinkWrap: true,
-                        itemCount: MyApp.cartList.length,
+                        itemCount: MyApp.cartList['products'].length,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return CartCard(
-                            name: '${MyApp.cartList[index]['product_name']}',
-                            imgUrl: MyApp.cartList[index]['image_url'] != null
-                                ? MyApp.cartList[index]['image_url']
+                            name:
+                                '${MyApp.cartList['products'][index]['product_name']}',
+                            imgUrl: MyApp.cartList['products'][index]
+                                        ['image_url'] !=
+                                    null
+                                ? MyApp.cartList['products'][index]['image_url']
                                     .toString()
                                     .replaceAll("http://", "https://")
                                 : 'https://www.bigbasket.com/media/uploads/p/m/40023008_2-nestle-nesquik-chocolate-syrup-imported.jpg',
                             price:
-                                '${MyApp.cartList[index]['offer_price'] != '0' ? MyApp.cartList[index]['offer_price'] : MyApp.cartList[index]['price']}',
+                                '${MyApp.cartList['products'][index]['offer_price'] != '0' ? MyApp.cartList['products'][index]['offer_price'] : MyApp.cartList['products'][index]['price']}',
                             qty:
-                                '${MyApp.cartList[index]['quantity']} ${MyApp.cartList[index]['metrics']}',
-                            cartQuantity: MyApp.cartList[index]['cartQuantity'],
-                            productId: MyApp.cartList[index]['product_id'],
+                                '${MyApp.cartList['products'][index]['quantity']} ${MyApp.cartList['products'][index]['metrics']}',
+                            cartQuantity: MyApp.cartList['products'][index]
+                                ['cartQuantity'],
+                            productId: MyApp.cartList['products'][index]
+                                ['product_pack_id'],
                             onDelete: (i) async {
                               List resp = await cartHandler.deleteFromCart(
-                                  MyApp.cartList[index]['product_id']);
+                                  MyApp.cartList['products'][index]
+                                      ['product_pack_id']);
                               MyApp.showToast(resp[1]['message'], context);
                               if (resp[0] == 200) {
                                 setState(() {
-                                  MyApp.cartList.removeAt(i);
+                                  MyApp.cartList['products'].removeAt(i);
                                 });
                               }
                               loadPrice();
                             },
                             onQuantityChange: (val) async {
                               List resp = await cartHandler.updateCart({
-                                "product_id": MyApp.cartList[index]
-                                    ['product_id'],
+                                "product_pack_id": MyApp.cartList['products']
+                                    [index]['product_id'],
                                 "quantity": val.toString()
                               });
                               if (resp[0] == 200) {
                                 setState(() {
-                                  MyApp.cartList[index]['cartQuantity'] =
-                                      val.toString();
+                                  MyApp.cartList['products'][index]
+                                      ['cartQuantity'] = val.toString();
                                 });
                               } else {
                                 MyApp.showToast(resp[1]['message'], context);
                               }
                               loadPrice();
                             },
+                          );
+                        }),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: packs.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          var jData = jsonDecode(
+                              MyApp.cartList['packs'][0]['pack_data']);
+                          return GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return StatefulBuilder(
+                                        builder: (_, setState) {
+                                      return Stack(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: BackdropFilter(
+                                                filter: new ImageFilter.blur(
+                                                    sigmaX: 3, sigmaY: 3),
+                                                child: Container(
+                                                    color: Color(0x01000000))),
+                                          ),
+                                          Center(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.8,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  color: Colors.white),
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    });
+                                  });
+                            },
+                            child: CartCard(
+                              name: '${packs[index]['pack_name']}',
+                              imgUrl: packs[index]['pack_banner'] != null
+                                  ? packs[index]['pack_banner']
+                                      .toString()
+                                      .replaceAll("http://", "https://")
+                                  : 'https://www.bigbasket.com/media/uploads/p/m/40023008_2-nestle-nesquik-chocolate-syrup-imported.jpg',
+                              price: '${jData['PackPrice']}',
+                              cartQuantity: packs[index]['cartQuantity'],
+                              productId: packs[index]['product_id'],
+                              onDelete: (i) async {
+                                List resp = await cartHandler.deleteFromCart(
+                                    MyApp.cartList['packs'][index]['pack_id']);
+                                MyApp.showToast(resp[1]['message'], context);
+                                if (resp[0] == 200) {
+                                  setState(() {
+                                    MyApp.cartList['packs'].removeAt(i);
+                                  });
+                                }
+                                loadPrice();
+                              },
+                              onQuantityChange: (val) async {
+                                List resp = await cartHandler.updateCart({
+                                  "product_pack_id": MyApp.cartList['packs']
+                                      [index]['pack_id'],
+                                  "quantity": val.toString()
+                                });
+                                if (resp[0] == 200) {
+                                  setState(() {
+                                    MyApp.cartList['packs'][index]
+                                        ['cartQuantity'] = val.toString();
+                                  });
+                                } else {
+                                  MyApp.showToast(resp[1]['message'], context);
+                                }
+                                loadPrice();
+                              },
+                            ),
                           );
                         }),
                     Padding(

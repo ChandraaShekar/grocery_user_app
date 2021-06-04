@@ -38,15 +38,11 @@ class ServiceWithHeaderDataPost {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + MyApp.authTokenValue.replaceAll('"', ''),
     };
-    print(headersData);
     final response = await http.post(
       Uri.parse(url),
       headers: headersData,
       body: jsonEncode(b),
     );
-    print('url' + this.url);
-    print('body' + this.b.toString());
-    print(response.body);
     String data = response.body;
     if (data.length > 0) {
       return [response.statusCode, jsonDecode(data)];
@@ -72,9 +68,6 @@ class ServiceWithDataPost {
       },
       body: jsonEncode(b),
     );
-    //  print(this.url);
-    //  print(this.b);
-    print(response.body);
     String data = response.body;
     if (data.length > 0) {
       return [response.statusCode, jsonDecode(data)];

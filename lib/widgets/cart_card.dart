@@ -89,14 +89,6 @@ class _CartCardState extends State<CartCard> {
                         Container(
                           width: MediaQuery.of(context).size.width / 3.3,
                           height: 30,
-                          // child: TextWidget(
-                          //     (this.widget.name.substring(
-                          //             0,
-                          //             (widget.name.length > 20
-                          //                 ? 20
-                          //                 : widget.name.length))) +
-                          //         "${widget.name.length > 20 ? '...' : ''}",
-                          //     textType: "title"),
                         ),
                         SizedBox(
                           height: 5,
@@ -105,18 +97,20 @@ class _CartCardState extends State<CartCard> {
                           'Rs. ' + this.widget.price,
                           textType: "card-price",
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Constants.qtyBgColor,
-                              borderRadius: BorderRadius.circular(3)),
-                          child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 10.0),
-                              child: TextWidget(
-                                this.widget.qty,
-                                textType: "label",
-                              )),
-                        ),
+                        this.widget.qty != null
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    color: Constants.qtyBgColor,
+                                    borderRadius: BorderRadius.circular(3)),
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 10.0),
+                                    child: TextWidget(
+                                      this.widget.qty,
+                                      textType: "label",
+                                    )),
+                              )
+                            : SizedBox(),
                       ],
                     ),
                     Expanded(
@@ -136,9 +130,9 @@ class _CartCardState extends State<CartCard> {
                                 size: size.height / 45,
                               ),
                               onTap: () {
-                                var index = MyApp.cartList.indexWhere(
-                                    (element) =>
-                                        element['product_id'] ==
+                                var index = MyApp.cartList['products']
+                                    .indexWhere((element) =>
+                                        element['product_pack_id'] ==
                                         widget.productId);
                                 widget.onDelete(index);
                               },
@@ -158,24 +152,28 @@ class _CartCardState extends State<CartCard> {
                       leftCounterColor: Constants.buttonBgColor,
                       rightCounterColor: Constants.buttonBgColor,
                       incPressed: () {
-                        int index = MyApp.cartList.indexWhere((element) =>
-                            element['product_id'] == widget.productId);
+                        int index = MyApp.cartList['products'].indexWhere(
+                            (element) =>
+                                element['product_pack_id'] == widget.productId);
                         var x = int.parse('${widget.cartQuantity}');
                         if (index >= 0) {
                           if (x < 10) {
                             var newVal = x + 1;
-                            print(MyApp.cartList[index]['cartQuantity']);
+                            print(MyApp.cartList['products'][index]
+                                ['cartQuantity']);
                             widget.onQuantityChange(newVal);
                           }
                         }
                       },
                       decPressed: () {
-                        int index = MyApp.cartList.indexWhere((element) =>
-                            element['product_id'] == widget.productId);
+                        int index = MyApp.cartList['products'].indexWhere(
+                            (element) =>
+                                element['product_pack_id'] == widget.productId);
                         var x = int.parse('${widget.cartQuantity}');
                         if (x > 1) {
                           var newVal = x - 1;
-                          print(MyApp.cartList[index]['cartQuantity']);
+                          print(MyApp.cartList['products'][index]
+                              ['cartQuantity']);
                           widget.onQuantityChange(newVal);
                         }
                       },

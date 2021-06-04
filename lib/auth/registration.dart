@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/api/registerapi.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
+import 'package:user_app/others/userLocationOnMap.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../main.dart';
 
@@ -16,6 +19,7 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  Map<String, double> location;
   TextEditingController name, email, pincode;
   String nameErr = '', emailErr = '', pincodeErr = '';
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -26,6 +30,13 @@ class _RegistrationState extends State<Registration> {
     name = new TextEditingController();
     email = new TextEditingController();
     pincode = new TextEditingController();
+  }
+
+  CameraPosition getCameraData() {
+    return CameraPosition(
+      target: LatLng(17.4350, 78.4267),
+      zoom: 15,
+    );
   }
 
   @override
@@ -124,6 +135,19 @@ class _RegistrationState extends State<Registration> {
                       SizedBox(
                         height: 3,
                       ),
+                      Center(
+                          child: TextButton(
+                        child: Text("Pick your Location"),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => UserLocationOnMap()));
+                        },
+                      )),
+                      SizedBox(
+                        height: 3,
+                      ),
                       if (pincodeErr != '')
                         Text(
                           pincodeErr,
@@ -132,66 +156,67 @@ class _RegistrationState extends State<Registration> {
                       SizedBox(height: 35),
                       PrimaryButton(
                         onPressed: () async {
-                          bool validated=true;
-                          if(name.text.toString()==''){
-                            nameErr='error';
-                            validated=false;
-                          }else{
-                            nameErr='';
+                          bool validated = true;
+                          if (name.text.toString() == '') {
+                            nameErr = 'error';
+                            validated = false;
+                          } else {
+                            nameErr = '';
                           }
-                          if(pincode.text.toString()==''){
-                            pincodeErr=' *Required';
-                            validated=false;
-                          }else{
-                            pincodeErr='';
+                          if (pincode.text.toString() == '') {
+                            pincodeErr = ' *Required';
+                            validated = false;
+                          } else {
+                            pincodeErr = '';
                           }
-                          if(pincode.text.toString().length<6){
-                            pincodeErr=' enter proper pincode';
-                            validated=false;
-                          }else{
-                            pincodeErr='';
+                          if (pincode.text.toString().length < 6) {
+                            pincodeErr = ' enter proper pincode';
+                            validated = false;
+                          } else {
+                            pincodeErr = '';
                           }
                           setState(() {});
-                          if(validated){
+                          if (validated) {
                             final User user = auth.currentUser;
-                          String authToken = await user.getIdToken(true);
-                          var data = {
-                            'auth_token': authToken,
-                            'name': name.text,
-                            'address': "NONE",
-                            'user_lat': "NONE",
-                            'user_lng': "NONE",
-                            'pincode': pincode.text,
-                            'phone_no': user.phoneNumber,
-                            'email': email.text!=null?email.text:''
-                          };
-                          RegisterApiHandler registerHandler =
-                              new RegisterApiHandler(data);
-                          var response = await registerHandler.register();
-                          MyApp.showToast(response[1]['message'], context);
-                          if (response[0] == 200) {
-                            SharedPreferences sharedPreferences =
-                                await SharedPreferences.getInstance();
-                            sharedPreferences.setString(Constants.userInfo,
-                                jsonEncode(response[1]['user']));
-                            MyApp.userInfo = response[1]['user'];
+                            String authToken = await user.getIdToken(true);
+                            var data = {
+                              'auth_token': authToken,
+                              'name': name.text,
+                              'address': "NONE",
+                              'user_lat': "NONE",
+                              'user_lng': "NONE",
+                              'pincode': pincode.text,
+                              'phone_no': user.phoneNumber,
+                              'email': email.text != null ? email.text : ''
+                            };
+                            RegisterApiHandler registerHandler =
+                                new RegisterApiHandler(data);
+                            var response = await registerHandler.register();
+                            MyApp.showToast(response[1]['message'], context);
+                            if (response[0] == 200) {
+                              SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                              sharedPreferences.setString(Constants.userInfo,
+                                  jsonEncode(response[1]['user']));
+                              MyApp.userInfo = response[1]['user'];
 
-                            sharedPreferences.setString(
-                                Constants.authTokenValue,
-                                jsonEncode(response[1]['access_token']));
-                            MyApp.authTokenValue = response[1]['access_token'];
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DashboardTabs()));
-                          }
-                          // else if (response[0] == 400) {
+                              sharedPreferences.setString(
+                                  Constants.authTokenValue,
+                                  jsonEncode(response[1]['access_token']));
+                              MyApp.authTokenValue =
+                                  response[1]['access_token'];
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DashboardTabs()));
+                            }
+                            // else if (response[0] == 400) {
 
-                          // } else if (response[0] == 400) {
-                          // }
-                          else {
-                            print(response);
-                          }
+                            // } else if (response[0] == 400) {
+                            // }
+                            else {
+                              print(response);
+                            }
                           }
                         },
                         backgroundColor: Constants.kButtonBackgroundColor,
