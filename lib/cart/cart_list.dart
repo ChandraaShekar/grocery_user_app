@@ -231,7 +231,7 @@ class _CartListState extends State<CartList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
@@ -319,7 +319,7 @@ class _CartListState extends State<CartList> {
                       height: 30,
                     ),
                     PrimaryCustomButton(
-                      title: 'Checkout',
+                      title: 'CHECKOUT',
                       onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
