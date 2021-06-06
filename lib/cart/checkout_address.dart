@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:user_app/api/registerapi.dart';
 import 'package:user_app/cart/payments.dart';
+import 'package:user_app/main.dart';
+import 'package:user_app/others/userLocationOnMap.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/primary_button.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class CheckoutAddress extends StatefulWidget {
   @override
@@ -13,7 +19,7 @@ class CheckoutAddress extends StatefulWidget {
 
 class _CheckoutAddressState extends State<CheckoutAddress>
     with TickerProviderStateMixin {
-  TextEditingController street1, street2, city, landmark, state;
+  TextEditingController address, houseNo, landmark;
   String street1Err = '', cityErr = '', landmarkErr = '', stateErr = '';
 
   AnimationController animationController;
@@ -21,11 +27,9 @@ class _CheckoutAddressState extends State<CheckoutAddress>
 
   void initState() {
     super.initState();
-    street1 = TextEditingController();
-    street2 = TextEditingController();
-    city = TextEditingController();
-    landmark = TextEditingController();
-    state = TextEditingController();
+    address = TextEditingController(text: MyApp.userInfo['address']);
+    houseNo = TextEditingController(text: MyApp.userInfo['flat_no']);
+    landmark = TextEditingController(text: MyApp.userInfo['landmark']);
 
     animationController = AnimationController(
       duration: Duration(seconds: 3),
@@ -170,53 +174,46 @@ class _CheckoutAddressState extends State<CheckoutAddress>
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(14, 25, 0, 20),
+                      //   child: Row(
+                      //     children: [
+                      //       Icon(
+                      //         AntDesign.checkcircle,
+                      //         color: Constants.buttonBgColor,
+                      //       ),
+                      //       SizedBox(width: 8),
+                      //       Text('Save as Default Address')
+                      //     ],
+                      //   ),
+                      // ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(14, 25, 0, 20),
-                        child: Row(
-                          children: [
-                            Icon(
-                              AntDesign.checkcircle,
-                              color: Constants.buttonBgColor,
-                            ),
-                            SizedBox(width: 8),
-                            Text('Save as Default Address')
-                          ],
-                        ),
-                      ),
+                          padding: EdgeInsets.all(15.0),
+                          child: Center(
+                            child: TextWidget("Delivery Location",
+                                textType: "subheading"),
+                          )),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Street 1'),
-                              TextFormField(
-                                controller: street1,
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              if (street1Err != '')
-                                Text(
-                                  ' *Required',
-                                  style: TextStyle(color: Colors.red),
-                                ),
                               SizedBox(height: 18),
-                              Text('Street 2'),
+                              Text('Address'),
                               TextFormField(
-                                controller: street2,
+                                controller: address,
                               ),
-                              SizedBox(height: 21),
-                              Text('City'),
+                              SizedBox(height: 18),
+                              Text('Flat No./House No.'),
                               TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller: city,
+                                controller: houseNo,
                               ),
                               SizedBox(
                                 height: 3,
                               ),
-                              if (cityErr != '')
+                              if (stateErr != '')
                                 Text(
                                   ' *Required',
                                   style: TextStyle(color: Colors.red),
@@ -234,27 +231,62 @@ class _CheckoutAddressState extends State<CheckoutAddress>
                                   ' *Required',
                                   style: TextStyle(color: Colors.red),
                                 ),
-                              SizedBox(height: 18),
-                              Text('State'),
-                              TextFormField(
-                                controller: state,
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              if (stateErr != '')
-                                Text(
-                                  ' *Required',
-                                  style: TextStyle(color: Colors.red),
-                                ),
+                              SizedBox(height: 10),
+                              Center(
+                                  child: TextButton(
+                                      child:
+                                          Text("Pick delivery location on Map"),
+                                      onPressed: () async {
+                                        var result = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UserLocationOnMap()));
+
+                                        print(result);
+                                      })),
                               SizedBox(height: 30),
                               Center(
                                 child: PrimaryButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Payments()));
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus();
+                                    Map<String, dynamic> exportData = {
+                                      "address": address.text,
+                                      "flat_no": houseNo.text,
+                                      "landmark": landmark.text,
+                                      "user_lat": MyApp.lat,
+                                      "user_lng": MyApp.lng
+                                    };
+                                    print("BEFORE: $exportData");
+                                    RegisterApiHandler updateHandler =
+                                        new RegisterApiHandler(exportData);
+
+                                    List resp =
+                                        await updateHandler.updateAddress();
+
+                                    print("${resp[1]}");
+                                    MyApp.showToast(
+                                        resp[1]['message'], context);
+                                    if (resp[0] == 200) {
+                                      // NaviMyApp.showToast(response[1]['message'], context);
+                                      SharedPreferences sharedPreferences =
+                                          await SharedPreferences.getInstance();
+                                      sharedPreferences.setString(
+                                          Constants.userInfo,
+                                          jsonEncode(resp[1]['user']));
+                                      MyApp.userInfo = resp[1]['user'];
+
+                                      sharedPreferences.setString(
+                                          Constants.authTokenValue,
+                                          jsonEncode(resp[1]['access_token']));
+                                      MyApp.authTokenValue =
+                                          resp[1]['access_token'];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Payments()));
+                                    }
                                   },
                                   backgroundColor:
                                       Constants.kButtonBackgroundColor,

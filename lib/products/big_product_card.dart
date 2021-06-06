@@ -61,6 +61,7 @@ class _BigProductCardState extends State<BigProductCard> {
                           if (value) {
                             List resp = await wishlistHandler.addToWishList(
                                 '${widget.productInfo[0]['product_id']}');
+                            print(resp[1]);
                             MyApp.wishListIds
                                 .add(widget.productInfo[0]['product_id']);
                             MyApp.showToast('${resp[1]['message']}', context);
@@ -68,6 +69,7 @@ class _BigProductCardState extends State<BigProductCard> {
                             List resp =
                                 await wishlistHandler.removeFromWishList(
                                     '${widget.productInfo[0]['product_id']}');
+                            print(resp[1]);
                             MyApp.wishListIds
                                 .remove(widget.productInfo[0]['product_id']);
                             MyApp.showToast('${resp[1]['message']}', context);

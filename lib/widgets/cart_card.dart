@@ -14,6 +14,7 @@ class CartCard extends StatefulWidget {
   final String productId;
   final ValueChanged<int> onDelete;
   final ValueChanged<int> onQuantityChange;
+  final bool hideEdit;
 
   CartCard(
       {this.imgUrl,
@@ -23,7 +24,8 @@ class CartCard extends StatefulWidget {
       this.cartQuantity,
       this.productId,
       this.onDelete,
-      this.onQuantityChange});
+      this.onQuantityChange,
+      this.hideEdit = false});
 
   @override
   _CartCardState createState() => _CartCardState();
@@ -120,25 +122,22 @@ class _CartCardState extends State<CartCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              child: Icon(
-                                Icons.delete,
-                                color: Constants.dangerColor,
-                                size: size.height / 45,
+                        (this.widget.hideEdit)
+                            ? SizedBox()
+                            : GestureDetector(
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Constants.dangerColor,
+                                  size: size.height / 45,
+                                ),
+                                onTap: () {
+                                  var index = MyApp.cartList['products']
+                                      .indexWhere((element) =>
+                                          element['product_pack_id'] ==
+                                          widget.productId);
+                                  widget.onDelete(index);
+                                },
                               ),
-                              onTap: () {
-                                var index = MyApp.cartList['products']
-                                    .indexWhere((element) =>
-                                        element['product_pack_id'] ==
-                                        widget.productId);
-                                widget.onDelete(index);
-                              },
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ],
@@ -146,40 +145,49 @@ class _CartCardState extends State<CartCard> {
                 Positioned(
                     bottom: 10,
                     right: 0,
-                    child: CounterBtn(
-                      incDecheight: 25,
-                      incDecwidth: 25,
-                      leftCounterColor: Constants.buttonBgColor,
-                      rightCounterColor: Constants.buttonBgColor,
-                      incPressed: () {
-                        int index = MyApp.cartList['products'].indexWhere(
-                            (element) =>
-                                element['product_pack_id'] == widget.productId);
-                        var x = int.parse('${widget.cartQuantity}');
-                        if (index >= 0) {
-                          if (x < 10) {
-                            var newVal = x + 1;
-                            print(MyApp.cartList['products'][index]
-                                ['cartQuantity']);
-                            widget.onQuantityChange(newVal);
-                          }
-                        }
-                      },
-                      decPressed: () {
-                        int index = MyApp.cartList['products'].indexWhere(
-                            (element) =>
-                                element['product_pack_id'] == widget.productId);
-                        var x = int.parse('${widget.cartQuantity}');
-                        if (x > 1) {
-                          var newVal = x - 1;
-                          print(MyApp.cartList['products'][index]
-                              ['cartQuantity']);
-                          widget.onQuantityChange(newVal);
-                        }
-                      },
-                      text: '${widget.cartQuantity}',
-                      widgetWidth: 110,
-                    ))
+                    child: (this.widget.hideEdit)
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: TextWidget('x ${widget.cartQuantity} ',
+                                textType: "title"),
+                          )
+                        : CounterBtn(
+                            incDecheight: 25,
+                            incDecwidth: 25,
+                            leftCounterColor: Constants.buttonBgColor,
+                            rightCounterColor: Constants.buttonBgColor,
+                            incPressed: () {
+                              int index = MyApp.cartList['products'].indexWhere(
+                                  (element) =>
+                                      element['product_pack_id'] ==
+                                      widget.productId);
+                              var x = int.parse('${widget.cartQuantity}');
+                              if (index >= 0) {
+                                if (x < 10) {
+                                  var newVal = x + 1;
+                                  print(MyApp.cartList['products'][index]
+                                      ['cartQuantity']);
+                                  widget.onQuantityChange(newVal);
+                                }
+                              }
+                            },
+                            decPressed: () {
+                              int index = MyApp.cartList['products'].indexWhere(
+                                  (element) =>
+                                      element['product_pack_id'] ==
+                                      widget.productId);
+                              var x = int.parse('${widget.cartQuantity}');
+                              if (x > 1) {
+                                var newVal = x - 1;
+                                print(MyApp.cartList['products'][index]
+                                    ['cartQuantity']);
+                                widget.onQuantityChange(newVal);
+                              }
+                            },
+                            text: '${widget.cartQuantity}',
+                            widgetWidth: 110,
+                          ))
               ],
             ),
           ),

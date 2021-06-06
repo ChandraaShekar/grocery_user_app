@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/api/registerapi.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
-import 'package:user_app/others/userLocationOnMap.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../main.dart';
@@ -23,6 +21,7 @@ class _RegistrationState extends State<Registration> {
   TextEditingController name, email, pincode;
   String nameErr = '', emailErr = '', pincodeErr = '';
   FirebaseAuth auth = FirebaseAuth.instance;
+  bool pickedLocation = false;
 
   @override
   void initState() {
@@ -135,16 +134,6 @@ class _RegistrationState extends State<Registration> {
                       SizedBox(
                         height: 3,
                       ),
-                      Center(
-                          child: TextButton(
-                        child: Text("Pick your Location"),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => UserLocationOnMap()));
-                        },
-                      )),
                       SizedBox(
                         height: 3,
                       ),

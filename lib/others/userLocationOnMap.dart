@@ -7,38 +7,26 @@ import 'package:user_app/utils/header.dart';
 import 'package:geolocator/geolocator.dart';
 
 class UserLocationOnMap extends StatefulWidget {
-  final Map<String, double> location;
-  UserLocationOnMap({Key key, this.location}) : super(key: key);
-
   @override
-  _UserLocationOnMapState createState() => _UserLocationOnMapState(location);
+  _UserLocationOnMapState createState() => _UserLocationOnMapState();
 }
 
 class _UserLocationOnMapState extends State<UserLocationOnMap> {
-  final Map<String, double> location;
+  Map<String, double> location = {};
   Completer<GoogleMapController> _controller = Completer();
   LatLng currentPos;
-
-  _UserLocationOnMapState(this.location);
   CameraPosition _hyderabadLocation;
 
   @override
   void initState() {
     _hyderabadLocation = getCameraData();
-    if (MyApp.lat == null || MyApp.lng == null) {
-      setState(() {
-        MyApp.lat = 0.0;
-        MyApp.lng = 0.0;
-      });
-    }
-    print("MY SELECTED LOCATION: ${MyApp.lat}, ${MyApp.lng}");
     _determinePosition();
     super.initState();
   }
 
   CameraPosition getCameraData() {
     return CameraPosition(
-      target: LatLng(17.4350, 78.4267),
+      target: LatLng(MyApp.lat, MyApp.lng),
       zoom: 15,
     );
   }
@@ -121,7 +109,8 @@ class _UserLocationOnMapState extends State<UserLocationOnMap> {
 
                     MyApp.showToast("Selected Location", context);
                   }
-                  Navigator.of(context).pop((location == null) ? {} : location);
+                  Navigator.of(context)
+                      .pop((currentPos == null) ? {} : currentPos);
                 },
                 style: ButtonStyle(
                     minimumSize: MaterialStateProperty.resolveWith((states) =>

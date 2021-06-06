@@ -49,7 +49,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   void load() async {
-    ProductApiHandler productHandler = new ProductApiHandler();
+    ProductApiHandler productHandler = new ProductApiHandler(
+        body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
     List resp = await productHandler.getProductFromId(widget.productId);
     log(resp.toString());
     setState(() {
@@ -111,7 +112,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (_) => CartList()));
+                      },
                       child: Icon(Icons.shopping_bag_outlined, size: 22)),
                 ),
               ],
@@ -309,7 +313,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: PrimaryCustomButton(
                                 title: "ADD TO CART",
                                 onPressed: () async {
-                                  print("pressed");
+                                  print(productInfo['product_info'][0]
+                                      ['product_id']);
                                   if (itemCount <= 0) {
                                     MyApp.showToast(
                                         '$itemCount items cannot be added to cart',
@@ -318,8 +323,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     CartApiHandler cartHandler =
                                         new CartApiHandler();
                                     var resp = await cartHandler.addToCart({
-                                      "product_id": productInfo['product_info']
-                                          [0]['product_id'],
+                                      "product_pack_id":
+                                          productInfo['product_info'][0]
+                                              ['product_id'],
                                       "quantity": "$itemCount"
                                     });
                                     MyApp.showToast(

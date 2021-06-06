@@ -1,7 +1,10 @@
+import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:user_app/api/productapi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/products/big_product_card.dart';
 import 'package:user_app/products/category_details.dart';
 import 'package:user_app/products/product_details.dart';
@@ -34,13 +37,17 @@ class _ProductsHomeState extends State<ProductsHome> {
 
   @override
   void initState() {
-    loadData();
+    if (MyApp.lat == null || MyApp.lng == null) {
+      showLocationDialog();
+    } else {
+      loadData();
+    }
     super.initState();
   }
 
   void loadData() async {
-    ProductApiHandler productHandler = new ProductApiHandler(
-        body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
+    ProductApiHandler productHandler =
+        new ProductApiHandler(body: {"lat": MyApp.lat, "lng": MyApp.lng});
     var response = await productHandler.getHomeProducts();
     // print(response[1]);
     setState(() {
@@ -49,6 +56,117 @@ class _ProductsHomeState extends State<ProductsHome> {
       categories = response[1]['categories'];
     });
   }
+
+  void showLocationDialog() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Stack(children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: BackdropFilter(
+                    filter: new ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                    child: Container(color: Color(0x01000000))),
+              ),
+              AlertDialog(
+                title: Text("Location Permission"),
+                content: TextWidget(
+                    "We would like to access your location inorder to show the products available in your location. Please enable the Location Access",
+                    textType: "para"),
+                actions: [
+                  TextButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      })
+                ],
+              )
+            ]);
+          });
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Stack(children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: BackdropFilter(
+                      filter: new ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                      child: Container(color: Color(0x01000000))),
+                ),
+                AlertDialog(
+                  title: Text("Location Permission"),
+                  content: TextWidget(
+                      "Weneed to access your location inorder to show the products available in your location. Please enable the Location Access",
+                      textType: "para"),
+                  actions: [
+                    TextButton(
+                        child: Text("OK"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        })
+                  ],
+                )
+              ]);
+            });
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Stack(children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: BackdropFilter(
+                    filter: new ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                    child: Container(color: Color(0x01000000))),
+              ),
+              AlertDialog(
+                title: Text("Location Permission"),
+                content: TextWidget(
+                    "We are unable to show you products since you have denied location permission, please turn on location permission to this app from settings.",
+                    textType: "para"),
+                actions: [
+                  TextButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      })
+                ],
+              )
+            ]);
+          });
+    }
+
+    getUserCurrentPosition();
+  }
+
+  void getUserCurrentPosition() {
+    Geolocator.getCurrentPosition().then((value) {
+      MyApp.lat = value.latitude;
+      MyApp.lng = value.longitude;
+      loadData();
+      MyApp.updateUserLocation(value.latitude, value.longitude);
+    });
+  }
+
+  // Future<Position> _determinePosition() async {}
 
   @override
   Widget build(BuildContext context) {

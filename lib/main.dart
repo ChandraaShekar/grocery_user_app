@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:user_app/api/cartApi.dart';
+import 'package:user_app/api/registerapi.dart';
 import 'package:user_app/api/wishlistapi.dart';
 import 'package:user_app/auth/login.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
@@ -51,6 +52,15 @@ class MyApp extends StatelessWidget {
     authTokenValue = preferences.getString(Constants.authTokenValue);
     var uinfo = preferences.getString(Constants.userInfo) ?? "{}";
     userInfo = jsonDecode(uinfo) ?? {};
+    if (userInfo.isNotEmpty) {
+      try {
+        lat = double.parse(userInfo['user_lat']);
+        lng = double.parse(userInfo['user_lng']);
+      } catch (exception) {
+        lat = null;
+        lng = null;
+      }
+    }
     List wishListResp = await wishlistHandler.getWishlistIds();
     List cartListResp = await cartHandler.getCart();
     if (wishListResp[0] == 200) {
@@ -60,6 +70,7 @@ class MyApp extends StatelessWidget {
       cartList['products'] = cartListResp[1]['products'];
       cartList['packs'] = cartListResp[1]['packs'];
     }
+    print(userInfo);
     return userInfo;
   }
 
@@ -68,6 +79,25 @@ class MyApp extends StatelessWidget {
     DashboardTabs.tag: (BuildContext context) => DashboardTabs(),
     Login.tag: (BuildContext context) => Login()
   };
+
+  static Future<bool> updateUserLocation(double lat, double lng) async {
+    RegisterApiHandler updateHandler =
+        new RegisterApiHandler({"user_lat": lat, "user_lng": lng});
+    var resp = await updateHandler.updateLocation();
+    print("UPDATE RESP: ${resp[1]}");
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString(
+        Constants.userInfo, jsonEncode(resp[1]['user']));
+    MyApp.userInfo = resp[1]['user'];
+
+    sharedPreferences.setString(
+        Constants.authTokenValue, jsonEncode(resp[1]['access_token']));
+    MyApp.authTokenValue = resp[1]['access_token'];
+    if (resp[0] == 200) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {

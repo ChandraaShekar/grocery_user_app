@@ -25,7 +25,9 @@ class _CartListState extends State<CartList> {
 
   @override
   void initState() {
-    loadPrice();
+    if (MyApp.cartList['products'] != null || MyApp.cartList['packs'] != null) {
+      loadPrice();
+    }
     super.initState();
   }
 
@@ -48,7 +50,6 @@ class _CartListState extends State<CartList> {
       subtotal += jData['OriginalPrice'] * int.parse(element['cartQuantity']);
       print("ELEMENT: $jData");
     });
-    print("PACKS: ${MyApp.cartList['packs'][0]['pack_data']}");
     tax = (subtotal * 5).toInt() / 100;
     total = ((subtotal + tax + delivery) * 100).toInt() / 100;
     setState(() {});
@@ -61,13 +62,19 @@ class _CartListState extends State<CartList> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Container(
-          child: MyApp.cartList.length == 0
-              ? Center(
-                  child: Text(
-                    "Your cart is empty",
-                    style: TextStyle(
-                        fontSize: size.height / 50,
-                        fontWeight: FontWeight.w500),
+          child: (MyApp.cartList['products'] == null &&
+                      MyApp.cartList['packs'] == null) ||
+                  (MyApp.cartList['products'].isEmpty &&
+                      MyApp.cartList['packs'].isEmpty)
+              ? Container(
+                  height: size.height,
+                  child: Center(
+                    child: Text(
+                      "Your cart is empty",
+                      style: TextStyle(
+                          fontSize: size.height / 50,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 )
               : Column(
@@ -97,9 +104,11 @@ class _CartListState extends State<CartList> {
                             productId: MyApp.cartList['products'][index]
                                 ['product_pack_id'],
                             onDelete: (i) async {
-                              List resp = await cartHandler.deleteFromCart(
-                                  MyApp.cartList['products'][index]
-                                      ['product_pack_id']);
+                              print(MyApp.cartList['products'][index]
+                                  ['product_id']);
+                              List resp = await cartHandler.deleteFromCart(MyApp
+                                  .cartList['products'][index]['product_id']);
+                              print(resp[1]);
                               MyApp.showToast(resp[1]['message'], context);
                               if (resp[0] == 200) {
                                 setState(() {

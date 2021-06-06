@@ -114,14 +114,6 @@ class _LoginState extends State<Login> {
                 top: size.height / 2,
                 right: size.width / 16,
               ),
-              // Positioned(
-              //   child: CustomPaint(
-              //     painter: CirclePainter(20, Constants.bottomLeftCircleColor),
-              //     size: Size(20, 20),
-              //   ),
-              //   top: size.height / 1.69,
-              //   left: size.width / 4,
-              // ),
               Column(
                 children: <Widget>[
                   Padding(
@@ -252,18 +244,6 @@ class _LoginState extends State<Login> {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
-                                    // Padding(
-                                    //   padding:
-                                    //       const EdgeInsets.only(bottom: 30),
-                                    //   child: Text(
-                                    //     "+91",
-                                    //     style: TextStyle(
-                                    //         fontSize: size.height / 30,
-                                    //         color: Constants.headingTextBlack,
-                                    //         fontWeight: FontWeight.w600,
-                                    //         letterSpacing: 0.7),
-                                    //   ),
-                                    // ),
                                     Container(
                                       width: size.width / 1.2,
                                       height: size.height / 12,
@@ -314,9 +294,6 @@ class _LoginState extends State<Login> {
                               } else {
                                 startPhoneAuth();
                               }
-                              // setState(() {
-                              //   phonenum = '+91' + phoneNo;
-                              // });
                             },
                           ),
                         ],
