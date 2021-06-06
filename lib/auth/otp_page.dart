@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:developer';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -32,34 +34,56 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   void _load() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+91${widget.phoneNumber}',
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await FirebaseAuth.instance
-              .signInWithCredential(credential)
-              .then((value) async {
-            if (value.user != null) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => Registration()),
-                  (route) => false);
-            }
-          });
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          print(e.message);
-        },
-        codeSent: (String verficationID, int resendToken) {
-          setState(() {
-            verfId = verficationID;
-          });
-        },
-        codeAutoRetrievalTimeout: (String verificationID) {
-          setState(() {
-            verfId = verificationID;
-          });
-        },
-        timeout: Duration(seconds: 120));
+    if (kIsWeb) {
+      // running on the web!
+      await FirebaseAuth.instance
+          .signInWithPhoneNumber('+91${widget.phoneNumber}')
+          .then(
+            (value) => (PhoneAuthCredential credential) async {
+              await FirebaseAuth.instance
+                  .signInWithCredential(credential)
+                  .then((value) async {
+                if (value.user != null) {
+                  log("going here");
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Registration()),
+                      (route) => false);
+                }
+              });
+            },
+          );
+    } else {
+      // NOT running on the web! You can check for additional platforms here.
+      await FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: '+91${widget.phoneNumber}',
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            await FirebaseAuth.instance
+                .signInWithCredential(credential)
+                .then((value) async {
+              if (value.user != null) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => Registration()),
+                    (route) => false);
+              }
+            });
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            print(e.message);
+          },
+          codeSent: (String verficationID, int resendToken) {
+            setState(() {
+              verfId = verficationID;
+            });
+          },
+          codeAutoRetrievalTimeout: (String verificationID) {
+            setState(() {
+              verfId = verificationID;
+            });
+          },
+          timeout: Duration(seconds: 120));
+    }
   }
 
   String scode = '';
