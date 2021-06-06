@@ -28,7 +28,7 @@ class _PrimaryCustomButtonState extends State<PrimaryCustomButton> {
             child: Text('${this.title}',
                 style: TextStyle(
                     fontSize: 16,
-                    letterSpacing: 0.5,
+                    letterSpacing: 1,
                     fontWeight: FontWeight.w700,
                     color: Colors.white)),
             style: ButtonStyle(

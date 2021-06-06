@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/orderApi.dart';
-import 'package:user_app/cart/payment_gateway.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/others/promo_codes.dart';
@@ -176,7 +175,11 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextWidget("Products: ", textType: "title"),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextWidget("Cart Items ", textType: "title"),
+                      ),
+                      SizedBox(height: 10),
                       ListView.builder(
                           shrinkWrap: true,
                           itemCount: MyApp.cartList['products'].length,
@@ -300,7 +303,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                             );
                           }),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Container(
                           width: size.width + 20,
                           height: size.height * 0.1,
@@ -332,7 +335,10 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                 child: Text("Remove Promo",
                                                     style: TextStyle(
                                                         color: Constants
-                                                            .dangerColor)),
+                                                            .dangerColor,
+                                                        letterSpacing: 0.5,
+                                                        fontWeight:
+                                                            FontWeight.w800)),
                                                 onTap: () async {
                                                   removeCoupon();
                                                 })
@@ -340,7 +346,10 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                 child: Text("View Offers",
                                                     style: TextStyle(
                                                         color: Constants
-                                                            .dangerColor)),
+                                                            .dangerColor,
+                                                        letterSpacing: 0.5,
+                                                        fontWeight:
+                                                            FontWeight.w800)),
                                                 onTap: () async {
                                                   var coupon = await Navigator.push(
                                                       context,
@@ -574,16 +583,24 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                       ),
                       Divider(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: TextWidget("Address: ", textType: "title"),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 8.0),
+                        child: TextWidget("Address: ", textType: "title-light"),
                       ),
-                      TextWidget(
-                          "${MyApp.userInfo['flat_no']}, ${MyApp.userInfo['address']}",
-                          textType: "subtitle-black"),
-                      TextWidget("Landmark: ${MyApp.userInfo['landmark']}",
-                          textType: "subtitle-black"),
                       Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: TextWidget(
+                            "${MyApp.userInfo['flat_no']}, ${MyApp.userInfo['address']}",
+                            textType: "title"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: TextWidget(
+                            "Landmark: ${MyApp.userInfo['landmark']}",
+                            textType: "title"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
                             height: size.height * 0.2,
                             child: GoogleMap(
@@ -601,12 +618,13 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                       ),
                       Divider(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 8.0),
                         child: TextWidget("Contact Information: ",
-                            textType: "title"),
+                            textType: "title-light"),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextWidget(
                             "Name: ${MyApp.userInfo['name']} \nPhone: ${MyApp.userInfo['phone_no']} \n",
                             textType: "title"),

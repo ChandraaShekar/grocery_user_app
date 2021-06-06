@@ -26,6 +26,7 @@ class _OtpPageState extends State<OtpPage> {
   int maxLength = 6;
   FirebaseAuth auth = FirebaseAuth.instance;
   String verfId;
+  ConfirmationResult confirmationResult;
 
   @override
   void initState() {
@@ -36,23 +37,23 @@ class _OtpPageState extends State<OtpPage> {
   void _load() async {
     if (kIsWeb) {
       // running on the web!
-      await FirebaseAuth.instance
-          .signInWithPhoneNumber('+91${widget.phoneNumber}')
-          .then(
-            (value) => (PhoneAuthCredential credential) async {
-              await FirebaseAuth.instance
-                  .signInWithCredential(credential)
-                  .then((value) async {
-                if (value.user != null) {
-                  log("going here");
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => Registration()),
-                      (route) => false);
-                }
-              });
-            },
-          );
+    confirmationResult =  await FirebaseAuth.instance
+          .signInWithPhoneNumber('+91${widget.phoneNumber}');
+          // .then(
+          //   (value) => (PhoneAuthCredential credential) async {
+          //     await FirebaseAuth.instance
+          //         .signInWithCredential(credential)
+          //         .then((value) async {
+          //       if (value.user != null) {
+          //         log("going here");
+          //         Navigator.pushAndRemoveUntil(
+          //             context,
+          //             MaterialPageRoute(builder: (context) => Registration()),
+          //             (route) => false);
+          //       }
+          //     });
+          //   },
+          // );
     } else {
       // NOT running on the web! You can check for additional platforms here.
       await FirebaseAuth.instance.verifyPhoneNumber(
@@ -152,9 +153,66 @@ class _OtpPageState extends State<OtpPage> {
                     onPressed: () async {
                       if (scode.length < 6) {
                         MyApp.showToast('Enter valid otp', context);
-                      } else if (verfId == null) {
+                      } else if (verfId == null &&  !kIsWeb) {
                         MyApp.showToast('wait for few seconds', context);
-                      } else if (verfId != null) {
+                      }else if(kIsWeb){
+                   //     try{ 
+                          print('hey');
+                          await confirmationResult.confirm(scode).then((value) async {
+                            print('hey2');
+                            if (value.user != null) {
+                              print('hey3');
+                              final User user = auth.currentUser;
+                              print('hey4');
+                              final uid = user.uid;
+                              MyApp.loginIdValue = uid;
+                              MyApp.authTokenValue = "";
+                              setState(() {});
+                              var authToken = await user.getIdToken();
+                               print(authToken);
+                              LoginApiHandler loginHandler =
+                                  new LoginApiHandler(
+                                      {"auth_token": authToken});
+                               print('hey7');        
+                              var response = await loginHandler.login();
+                              print('bb'+response.toString());
+                              if (response[0] == 200) {
+                                print('hey6');
+                                // NaviMyApp.showToast(response[1]['message'], context);
+                                SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(Constants.userInfo,
+                                    jsonEncode(response[1]['user']));
+                                MyApp.userInfo = response[1]['user'];
+
+                                sharedPreferences.setString(
+                                    Constants.authTokenValue,
+                                    jsonEncode(response[1]['access_token']));
+                                MyApp.authTokenValue =
+                                    response[1]['access_token'];
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DashboardTabs()));
+                              } else if (response[0] == 404) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Registration()));
+                              } else {
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => ()));
+                              }
+                            }
+                        });
+                      //  } catch (e) {
+                      //     FocusScope.of(context).unfocus();
+                      //     MyApp.showToast('Invalid otp', context);
+                      //   }
+                      }
+                       else if (verfId != null) {
                         try {
                           await FirebaseAuth.instance
                               .signInWithCredential(
