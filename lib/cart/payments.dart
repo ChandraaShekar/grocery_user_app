@@ -3,8 +3,11 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/orderApi.dart';
+import 'package:user_app/cart/payment_gateway.dart';
+import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/others/promo_codes.dart';
 import 'package:user_app/services/constants.dart';
@@ -34,7 +37,10 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   bool couponValid = false;
   String couponCode = "";
   double newOfferPrice = 0.0;
-
+  bool isScheduled = false;
+  DateTime selectedDate = DateTime.now();
+  String paymentMethod = "Cash on Delivery";
+  Razorpay _razorpay = new Razorpay();
   void loadPrice() async {
     subtotal = 0;
     MyApp.cartList['products'].forEach((element) {
@@ -66,6 +72,22 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
     loadPrice();
     loadCoupons();
     super.initState();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print(
+        "PAYMENT SUCCESS: ${response.orderId} / ${response.paymentId} / ${response.signature}");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print("PAYMENT FAILED ERROR: ${response.message}");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print(response);
   }
 
   CameraPosition getCameraData() {
@@ -73,6 +95,18 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
       target: LatLng(MyApp.lat, MyApp.lng),
       zoom: 17,
     );
+  }
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 7)));
+    if (picked != null)
+      setState(() {
+        selectedDate = picked;
+      });
   }
 
   Future<Map> calculateNewPrice(coupon) async {
@@ -101,6 +135,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
         };
       }
     } else {
+      couponValid = false;
       outputMap = {
         "status": false,
         "message": "Coupon Failed",
@@ -134,12 +169,6 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 25.0),
-            //   child: Center(
-            //       child: TextWidget("Order Details",
-            //           textType: "subheading")),
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Container(
@@ -332,10 +361,10 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                       showDialog(
                                                           context: context,
                                                           builder: (_) {
-                                                            return StatefulBuilder(
-                                                                builder: (_,
-                                                                    setState) {
-                                                              return Stack(
+                                                            return Material(
+                                                              type: MaterialType
+                                                                  .transparency,
+                                                              child: Stack(
                                                                 children: [
                                                                   GestureDetector(
                                                                     onTap: () {
@@ -352,44 +381,40 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                                             color:
                                                                                 Color(0x01000000))),
                                                                   ),
-                                                                  Material(
-                                                                    type: MaterialType
-                                                                        .transparency,
+                                                                  Center(
                                                                     child:
-                                                                        Center(
-                                                                      child:
-                                                                          ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(15),
-                                                                        child: Container(
-                                                                            height: size.height * 0.28,
-                                                                            width: size.width * 0.7,
-                                                                            color: Colors.white,
-                                                                            child: Column(
-                                                                              children: [
-                                                                                Image.asset(Constants.successImage, width: (size.width * 0.7) / 2, height: (size.height * 0.15)),
-                                                                                TextWidget("'${coupon['coupon_id']}' ${val['message']}", textType: "title"),
-                                                                                TextWidget("You have saved Rs. ${val['amount']}", textType: "para-bold"),
-                                                                                Divider(),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                                                                  child: GestureDetector(
-                                                                                      child: Text(
-                                                                                        "Thanks!",
-                                                                                        style: TextStyle(color: Colors.blue[600], fontSize: 18),
-                                                                                      ),
-                                                                                      onTap: () {
-                                                                                        Navigator.pop(context);
-                                                                                      }),
-                                                                                )
-                                                                              ],
-                                                                            )),
-                                                                      ),
+                                                                        ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15),
+                                                                      child: Container(
+                                                                          height: size.height * 0.28,
+                                                                          width: size.width * 0.7,
+                                                                          color: Colors.white,
+                                                                          child: Column(
+                                                                            children: [
+                                                                              Image.asset(couponValid ? Constants.successImage : Constants.failedImage, width: (size.width * 0.7) / 2, height: (size.height * 0.15)),
+                                                                              TextWidget("'${coupon['coupon_id']}' ${val['message']}", textType: "title"),
+                                                                              TextWidget(couponValid ? "You have saved Rs. ${val['amount']}" : "", textType: "para-bold"),
+                                                                              Divider(),
+                                                                              Padding(
+                                                                                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                                                                child: GestureDetector(
+                                                                                    child: Text(
+                                                                                      couponValid ? "Thanks!" : "Go back",
+                                                                                      style: TextStyle(color: Colors.blue[600], fontSize: 18),
+                                                                                    ),
+                                                                                    onTap: () {
+                                                                                      Navigator.pop(context);
+                                                                                    }),
+                                                                              )
+                                                                            ],
+                                                                          )),
                                                                     ),
                                                                   )
                                                                 ],
-                                                              );
-                                                            });
+                                                              ),
+                                                            );
                                                           });
                                                     });
                                                   }
@@ -484,20 +509,20 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                           ? Column(
                                               children: [
                                                 Text(
-                                                  "₹ $newOfferPrice",
-                                                  style: TextStyle(
-                                                      color: Constants
-                                                          .successColor,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                Text(
                                                   "₹ $total",
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       decoration: TextDecoration
                                                           .lineThrough),
+                                                ),
+                                                Text(
+                                                  "₹ $newOfferPrice",
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .successColor,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 )
                                               ],
                                             )
@@ -514,6 +539,37 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                               ),
                             ],
                           ),
+                        ),
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                    value: isScheduled,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        isScheduled = val;
+                                      });
+                                    }),
+                                TextWidget("Schedule Delivery: ",
+                                    textType: "title"),
+                              ],
+                            ),
+                            TextButton(
+                              child: Text(
+                                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
+                              onPressed: isScheduled
+                                  ? () {
+                                      _selectDate(context);
+                                    }
+                                  : null,
+                            )
+                          ],
                         ),
                       ),
                       Divider(),
@@ -555,6 +611,40 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                             "Name: ${MyApp.userInfo['name']} \nPhone: ${MyApp.userInfo['phone_no']} \n",
                             textType: "title"),
                       ),
+                      Divider(),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: TextWidget("Select Payment Method: ",
+                                  textType: "title"),
+                            ),
+                            Container(
+                              width: size.width * 0.4,
+                              child: DropdownButton(
+                                value: paymentMethod,
+                                elevation: 16,
+                                icon: Icon(Icons.arrow_drop_down),
+                                isExpanded: true,
+                                items: <String>[
+                                  'Cash on Delivery',
+                                  'Pay Online'
+                                ].map((e) {
+                                  return DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    paymentMethod = value;
+                                  });
+                                },
+                              ),
+                            )
+                          ])
                     ],
                   )),
             ),
@@ -563,12 +653,150 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
             ),
             Center(
               child: PrimaryButton(
-                onPressed: () {
+                onPressed: () async {
                   showDialog(
                       context: context,
                       builder: (_) {
                         return Center(child: CircularProgressIndicator());
                       });
+                  var resp = await orderHandler.placeOrder({
+                    "applied_coupon": "$couponApplied",
+                    "coupon_valid": "$couponValid",
+                    "coupon_code": couponCode == "" ? "NONE" : "DCSR98",
+                    "scheduled_order": "$isScheduled",
+                    "schedule_time": "$selectedDate",
+                    "user_lat": "${MyApp.lat}",
+                    "user_lng": "${MyApp.lng}",
+                    "payment_method": "$paymentMethod",
+                  });
+                  if (resp[0] == 200) {
+                    Navigator.pop(context);
+                    MyApp.showToast(resp[1]['message'], context);
+                    if (paymentMethod == "Pay Online") {
+                      Map<String, dynamic> options = {
+                        "key": "rzp_test_kL23yx68xeTo63",
+                        "amount": num.parse(resp[1]['amount'].toString()) * 100,
+                        "name": "Order Id: #${resp[1]['order_id']}",
+                        "description": "One final set to finish the order",
+                        // "order_id": resp[1]['order_id'],
+                        "timeout": 180,
+                        "prefil": {
+                          "contact": MyApp.userInfo['phone_no'],
+                          "email": MyApp.userInfo['email']
+                        },
+                        "external": {
+                          "wallets": ["paytm"]
+                        }
+                      };
+
+                      try {
+                        _razorpay.open(options);
+                      } catch (e) {
+                        print("RAZOTPAY EXCEPTION: $e");
+                      }
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return Stack(
+                              children: [
+                                BackdropFilter(
+                                    filter: new ImageFilter.blur(
+                                        sigmaX: 3, sigmaY: 3),
+                                    child: Container(color: Color(0x01000000))),
+                                Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Container(
+                                        height: size.height * 0.28,
+                                        width: size.width * 0.7,
+                                        color: Colors.white,
+                                        child: Column(
+                                          children: [
+                                            Image.asset(Constants.successImage,
+                                                width: (size.width * 0.7) / 2,
+                                                height: (size.height * 0.15)),
+                                            TextWidget(
+                                                "Your order has been placed successfully.",
+                                                textType: "title"),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4.0),
+                                              child: GestureDetector(
+                                                  child: Text(
+                                                    "Go Home",
+                                                    style: TextStyle(
+                                                        color: Colors.blue[600],
+                                                        fontSize: 18),
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                DashboardTabs()));
+                                                  }),
+                                            )
+                                          ],
+                                        )),
+                                  ),
+                                )
+                              ],
+                            );
+                          });
+                    }
+                  } else {
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return Stack(
+                            children: [
+                              BackdropFilter(
+                                  filter: new ImageFilter.blur(
+                                      sigmaX: 3, sigmaY: 3),
+                                  child: Container(color: Color(0x01000000))),
+                              Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Container(
+                                      height: size.height * 0.28,
+                                      width: size.width * 0.7,
+                                      color: Colors.white,
+                                      child: Column(
+                                        children: [
+                                          Image.asset(Constants.successImage,
+                                              width: (size.width * 0.7) / 2,
+                                              height: (size.height * 0.15)),
+                                          TextWidget("${resp[1]['message']}",
+                                              textType: "title"),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            child: GestureDetector(
+                                                child: Text(
+                                                  "Go Back",
+                                                  style: TextStyle(
+                                                      color: Colors.blue[600],
+                                                      fontSize: 18),
+                                                ),
+                                                onTap: () {
+                                                  Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              DashboardTabs()));
+                                                }),
+                                          )
+                                        ],
+                                      )),
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  }
                 },
                 backgroundColor: Constants.kButtonBackgroundColor,
                 textColor: Constants.kButtonTextColor,

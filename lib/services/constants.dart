@@ -18,6 +18,7 @@ class Constants {
   static final String only4uImage = "assets/images/only4u.png";
   static final String beverageImage = "assets/images/beverage.png";
   static final String successImage = "assets/images/success.gif";
+  static final String failedImage = "assets/images/failed.gif";
 
   static final String platformTag = "Platform";
 

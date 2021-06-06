@@ -1,12 +1,14 @@
 import 'package:user_app/api/networking.dart';
 import 'package:user_app/services/constants.dart';
 
-var placeOrderUrl = Constants.baseUrl + 'user/get-all-packs';
+var placeOrderUrl = Constants.baseUrl + 'user/place-order';
 var getCouponsUrl = Constants.baseUrl + 'user/get-coupons';
+// var razorpayUrl =
 
 class OrderApiHandler {
-  Future<dynamic> placeOrder() async {
-    ServiceWithHeader urlHelper = ServiceWithHeader(placeOrderUrl);
+  Future<dynamic> placeOrder(body) async {
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(placeOrderUrl, body);
     var urlsData = await urlHelper.data();
     return urlsData;
   }
