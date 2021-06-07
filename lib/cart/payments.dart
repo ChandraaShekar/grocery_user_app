@@ -635,9 +635,9 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
+                                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
                               child: TextWidget("Select Payment Method: ",
-                                  textType: "title"),
+                                  textType: "title-light"),
                             ),
                             Container(
                               width: size.width * 0.4,
@@ -652,7 +652,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                 ].map((e) {
                                   return DropdownMenuItem(
                                     value: e,
-                                    child: Text(e),
+                                    child: TextWidget(e, textType: "title"),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
