@@ -25,6 +25,7 @@ class _CartListState extends State<CartList> {
 
   @override
   void initState() {
+    MyApp.reloadCart();
     if (MyApp.cartList['products'] != null || MyApp.cartList['packs'] != null) {
       loadPrice();
     }

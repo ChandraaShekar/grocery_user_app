@@ -13,6 +13,7 @@ import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/platform.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
   static List wishListIds = [];
   static Map cartList = {};
   static double lat, lng;
+  static IO.Socket socket;
 
   static showToast(String msg, BuildContext context) {
     Toast.show(msg, context,
@@ -44,10 +46,25 @@ class MyApp extends StatelessWidget {
     FirebaseAuth.instance.signOut();
   }
 
+  socketIOHandler() {
+    socket = IO.io('https://socket.8bitchaps.com', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    print(socket.connected);
+    socket.connect();
+    socket.onConnect((data) => {print("SOCKET CONNECTED")});
+    socket.onConnectError((data) => print("SOCKET STATUS: $data"));
+    socket.on('message', (data) {
+      print("SOCKET MESSAGE: $data");
+    });
+  }
+
   Future<Map> isLoggedIn() async {
+    socketIOHandler();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     WishlistApiHandler wishlistHandler = new WishlistApiHandler();
-    CartApiHandler cartHandler = new CartApiHandler();
+    reloadCart();
     loginIdValue = preferences.getString(Constants.loginId);
     authTokenValue = preferences.getString(Constants.authTokenValue);
     var uinfo = preferences.getString(Constants.userInfo) ?? "{}";
@@ -62,13 +79,8 @@ class MyApp extends StatelessWidget {
       }
     }
     List wishListResp = await wishlistHandler.getWishlistIds();
-    List cartListResp = await cartHandler.getCart();
     if (wishListResp[0] == 200) {
       wishListIds = wishListResp[1];
-    }
-    if (cartListResp[0] == 200) {
-      cartList['products'] = cartListResp[1]['products'];
-      cartList['packs'] = cartListResp[1]['packs'];
     }
     print(userInfo);
     return userInfo;
@@ -79,6 +91,16 @@ class MyApp extends StatelessWidget {
     DashboardTabs.tag: (BuildContext context) => DashboardTabs(),
     Login.tag: (BuildContext context) => Login()
   };
+
+  static void reloadCart() async {
+    print("AUTHTOKEN: $authTokenValue");
+    CartApiHandler cartHandler = new CartApiHandler();
+    List cartListResp = await cartHandler.getCart();
+    if (cartListResp[0] == 200) {
+      cartList['products'] = cartListResp[1]['products'];
+      cartList['packs'] = cartListResp[1]['packs'];
+    }
+  }
 
   static Future<bool> updateUserLocation(double lat, double lng) async {
     RegisterApiHandler updateHandler =

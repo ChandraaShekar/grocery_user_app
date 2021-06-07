@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/orderApi.dart';
-import 'package:user_app/dashboard/dashboard_tabs.dart';
+import 'package:user_app/cart/order_placed.dart';
+import 'package:user_app/cart/payment_status.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/others/promo_codes.dart';
 import 'package:user_app/services/constants.dart';
@@ -79,14 +79,22 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print(
         "PAYMENT SUCCESS: ${response.orderId} / ${response.paymentId} / ${response.signature}");
+    Navigator.pop(context);
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (_) => PaymentStatus(paymentSuccess: true)));
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print("PAYMENT FAILED ERROR: ${response.message}");
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (_) => PaymentStatus(paymentSuccess: false)));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    print(response);
+    print("EXTERNAL WALLET: $response");
   }
 
   CameraPosition getCameraData() {
@@ -710,110 +718,26 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                       try {
                         _razorpay.open(options);
                       } catch (e) {
-                        print("RAZOTPAY EXCEPTION: $e");
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    PaymentStatus(paymentSuccess: false)));
                       }
                     } else {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return Stack(
-                              children: [
-                                BackdropFilter(
-                                    filter: new ImageFilter.blur(
-                                        sigmaX: 3, sigmaY: 3),
-                                    child: Container(color: Color(0x01000000))),
-                                Center(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Container(
-                                        height: size.height * 0.28,
-                                        width: size.width * 0.7,
-                                        color: Colors.white,
-                                        child: Column(
-                                          children: [
-                                            Image.asset(Constants.successImage,
-                                                width: (size.width * 0.7) / 2,
-                                                height: (size.height * 0.15)),
-                                            TextWidget(
-                                                "Your order has been placed successfully.",
-                                                textType: "title"),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 4.0),
-                                              child: GestureDetector(
-                                                  child: Text(
-                                                    "Go Home",
-                                                    style: TextStyle(
-                                                        color: Colors.blue[600],
-                                                        fontSize: 18),
-                                                  ),
-                                                  onTap: () {
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (_) =>
-                                                                DashboardTabs()));
-                                                  }),
-                                            )
-                                          ],
-                                        )),
-                                  ),
-                                )
-                              ],
-                            );
-                          });
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => OrderStatus(orderSuccess: true)));
                     }
                   } else {
                     Navigator.pop(context);
-                    showDialog(
-                        context: context,
-                        builder: (_) {
-                          return Stack(
-                            children: [
-                              BackdropFilter(
-                                  filter: new ImageFilter.blur(
-                                      sigmaX: 3, sigmaY: 3),
-                                  child: Container(color: Color(0x01000000))),
-                              Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Container(
-                                      height: size.height * 0.28,
-                                      width: size.width * 0.7,
-                                      color: Colors.white,
-                                      child: Column(
-                                        children: [
-                                          Image.asset(Constants.successImage,
-                                              width: (size.width * 0.7) / 2,
-                                              height: (size.height * 0.15)),
-                                          TextWidget("${resp[1]['message']}",
-                                              textType: "title"),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0),
-                                            child: GestureDetector(
-                                                child: Text(
-                                                  "Go Back",
-                                                  style: TextStyle(
-                                                      color: Colors.blue[600],
-                                                      fontSize: 18),
-                                                ),
-                                                onTap: () {
-                                                  Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              DashboardTabs()));
-                                                }),
-                                          )
-                                        ],
-                                      )),
-                                ),
-                              )
-                            ],
-                          );
-                        });
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => OrderStatus(orderSuccess: false)));
                   }
                 },
                 backgroundColor: Constants.kButtonBackgroundColor,
