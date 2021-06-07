@@ -58,9 +58,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.homeTag,
-                    style: Constants.sideHeading,
+                    textType: "title"
                   ),
                   onTap: () {
                     Navigator.pop(context);
@@ -76,9 +76,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.orderHistoryTag,
-                    style: Constants.sideHeading,
+                   textType: "title"
                   ),
                   onTap: () {
                     Navigator.push(
@@ -97,9 +97,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.explorePacksTag,
-                    style: Constants.sideHeading,
+                   textType: "title"
                   ),
                   onTap: () {
                     Navigator.push(
@@ -118,9 +118,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.settingsTag,
-                    style: Constants.sideHeading,
+                    textType: "title"
                   ),
                   onTap: () {
                     Navigator.push(context,
@@ -137,9 +137,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.tncTag,
-                    style: Constants.sideHeading,
+                    textType: "title"
                   ),
                   onTap: () {
                     Navigator.push(context,
@@ -156,9 +156,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.helpTag,
-                    style: Constants.sideHeading,
+                    textType: "title"
                   ),
                   onTap: () {
                     Navigator.push(context,
@@ -175,9 +175,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.referTag,
-                    style: Constants.sideHeading,
+                    textType: "title"
                   ),
                   onTap: () {
                     Navigator.push(context,
@@ -194,9 +194,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     "Socket Test",
-                    style: Constants.sideHeading,
+                    textType: "title"
                   ),
                   onTap: () {
                     Navigator.push(context,
@@ -213,9 +213,9 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: Text(
+                  title: TextWidget(
                     Constants.logoutTag,
-                    style: Constants.sideHeading,
+                    textType: "title"
                   ),
                   onTap: () {
                     MyApp.logout();
@@ -226,9 +226,9 @@ class PlatformState extends State<Platform> {
                 color: Colors.transparent,
               ),
               Center(
-                  child: Text(
+                  child: TextWidget(
                 'Version : 1.0',
-                style: Constants.headerX,
+                textType: "subtitle-grey"
               )),
               Divider(
                 color: Colors.transparent,
