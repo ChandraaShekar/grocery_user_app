@@ -3,7 +3,8 @@ import 'package:user_app/services/constants.dart';
 
 var placeOrderUrl = Constants.baseUrl + 'user/place-order';
 var getCouponsUrl = Constants.baseUrl + 'user/get-coupons';
-// var razorpayUrl =
+var paymentStatusUpdateUrl = Constants.baseUrl + 'user/update-payment-status';
+var orderHistoryUrl = Constants.baseUrl + 'user/order-history';
 
 class OrderApiHandler {
   Future<dynamic> placeOrder(body) async {
@@ -19,9 +20,16 @@ class OrderApiHandler {
     return urlsData;
   }
 
-  // Future<dynamic> getPackInfo(packId) async {
-  //   ServiceWithHeader urlHelper = ServiceWithHeader(packInfoUrl + packId);
-  //   var urlsData = await urlHelper.data();
-  //   return urlsData;
-  // }
+  Future<dynamic> updatePaymentStatus(body) async {
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(paymentStatusUpdateUrl, body);
+    var urlsData = await urlHelper.data();
+    return urlsData;
+  }
+
+  Future<dynamic> getOrderHistory() async {
+    ServiceWithHeader urlHelper = ServiceWithHeader(orderHistoryUrl);
+    var urlsData = await urlHelper.data();
+    return urlsData;
+  }
 }

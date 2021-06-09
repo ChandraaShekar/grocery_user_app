@@ -58,10 +58,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.homeTag,
-                    textType: "title"
-                  ),
+                  title: TextWidget(Constants.homeTag, textType: "title"),
                   onTap: () {
                     Navigator.pop(context);
                   }),
@@ -76,10 +73,8 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.orderHistoryTag,
-                   textType: "title"
-                  ),
+                  title:
+                      TextWidget(Constants.orderHistoryTag, textType: "title"),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -97,10 +92,8 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.explorePacksTag,
-                   textType: "title"
-                  ),
+                  title:
+                      TextWidget(Constants.explorePacksTag, textType: "title"),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -118,10 +111,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.settingsTag,
-                    textType: "title"
-                  ),
+                  title: TextWidget(Constants.settingsTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Settings()));
@@ -137,10 +127,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.tncTag,
-                    textType: "title"
-                  ),
+                  title: TextWidget(Constants.tncTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => TandC()));
@@ -156,10 +143,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.helpTag,
-                    textType: "title"
-                  ),
+                  title: TextWidget(Constants.helpTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Help()));
@@ -175,32 +159,10 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.referTag,
-                    textType: "title"
-                  ),
+                  title: TextWidget(Constants.referTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Refer()));
-                  }),
-              Divider(
-                color: Colors.transparent,
-              ),
-              ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Constants.drawerBgColor,
-                    child: Icon(
-                      Feather.gift,
-                      color: Constants.drawerIconColor,
-                    ),
-                  ),
-                  title: TextWidget(
-                    "Socket Test",
-                    textType: "title"
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SocketTest()));
                   }),
               Divider(
                 color: Colors.transparent,
@@ -213,10 +175,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(
-                    Constants.logoutTag,
-                    textType: "title"
-                  ),
+                  title: TextWidget(Constants.logoutTag, textType: "title"),
                   onTap: () {
                     MyApp.logout();
                     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -226,10 +185,8 @@ class PlatformState extends State<Platform> {
                 color: Colors.transparent,
               ),
               Center(
-                  child: TextWidget(
-                'Version : 1.0',
-                textType: "subtitle-grey"
-              )),
+                  child:
+                      TextWidget('Version : 1.0', textType: "subtitle-grey")),
               Divider(
                 color: Colors.transparent,
               ),
