@@ -1,7 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:geocoder/geocoder.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:http/http.dart';
 
 class Place {

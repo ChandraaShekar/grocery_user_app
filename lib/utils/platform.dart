@@ -5,7 +5,6 @@ import 'package:user_app/others/explore_packs.dart';
 import 'package:user_app/others/help.dart';
 import 'package:user_app/others/order_history.dart';
 import 'package:user_app/others/refer.dart';
-import 'package:user_app/others/socket_test.dart';
 import 'package:user_app/others/tandc.dart';
 import 'package:user_app/others/settings.dart';
 import 'package:user_app/services/constants.dart';

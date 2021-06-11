@@ -84,9 +84,9 @@ class _CheckoutAddressState extends State<CheckoutAddress>
                         );
                         // This will change the text displayed in the TextField
                         if (result != null) {
-                          final placeDetails =
-                              await PlaceApiProvider(sessionToken)
-                                  .getPlaceDetailFromId(result.placeId);
+                          // final placeDetails =
+                          //     await PlaceApiProvider(sessionToken)
+                          //         .getPlaceDetailFromId(result.placeId);
                           setState(() {
                             address.text = result.description;
                           });
@@ -187,5 +187,3 @@ class _CheckoutAddressState extends State<CheckoutAddress>
     );
   }
 }
-
-// ----------------------------------------------------
