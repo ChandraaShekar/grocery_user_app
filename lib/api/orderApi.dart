@@ -5,6 +5,7 @@ var placeOrderUrl = Constants.baseUrl + 'user/place-order';
 var getCouponsUrl = Constants.baseUrl + 'user/get-coupons';
 var paymentStatusUpdateUrl = Constants.baseUrl + 'user/update-payment-status';
 var orderHistoryUrl = Constants.baseUrl + 'user/order-history';
+var orderInfoUrl = Constants.baseUrl + 'user/order-history-info';
 
 class OrderApiHandler {
   Future<dynamic> placeOrder(body) async {
@@ -29,6 +30,12 @@ class OrderApiHandler {
 
   Future<dynamic> getOrderHistory() async {
     ServiceWithHeader urlHelper = ServiceWithHeader(orderHistoryUrl);
+    var urlsData = await urlHelper.data();
+    return urlsData;
+  }
+
+  Future<dynamic> getOrderInfo(String orderId) async {
+    ServiceWithHeader urlHelper = ServiceWithHeader(orderInfoUrl + "/$orderId");
     var urlsData = await urlHelper.data();
     return urlsData;
   }

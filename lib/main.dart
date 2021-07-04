@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -15,9 +17,33 @@ import 'package:user_app/utils/platform.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-void main() async {
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel',
+    'High Importance Notification',
+    'This channel is used for important notifications',
+    importance: Importance.high,
+    playSound: true);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('A BG MSGL ${message.messageId}');
+}
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, badge: true, sound: true);
   runApp(MyApp());
 }
 
@@ -82,7 +108,7 @@ class MyApp extends StatelessWidget {
     if (wishListResp[0] == 200) {
       wishListIds = wishListResp[1];
     }
-    print(userInfo);
+    // print(userInfo);
     return userInfo;
   }
 
@@ -93,7 +119,7 @@ class MyApp extends StatelessWidget {
   };
 
   static void reloadCart() async {
-    print("AUTHTOKEN: $authTokenValue");
+    // print("AUTHTOKEN: $authTokenValue");
     CartApiHandler cartHandler = new CartApiHandler();
     List cartListResp = await cartHandler.getCart();
     if (cartListResp[0] == 200) {
@@ -106,7 +132,7 @@ class MyApp extends StatelessWidget {
     RegisterApiHandler updateHandler =
         new RegisterApiHandler({"user_lat": lat, "user_lng": lng});
     var resp = await updateHandler.updateLocation();
-    print("UPDATE RESP: ${resp[1]}");
+    // print("UPDATE RESP: ${resp[1]}");
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString(
         Constants.userInfo, jsonEncode(resp[1]['user']));

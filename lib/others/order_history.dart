@@ -54,9 +54,10 @@ class _OrderHistoryState extends State<OrderHistory> {
                               child: Text('$date'),
                             ),
                             OrderHistoryCard(
-                              orderNumber: 'OD - ${orders[index]['order_id']}',
+                              orderInfo: orders[index],
+                              orderNumber: '${orders[index]['order_id']}',
                               price:
-                                  '₹ ${orders[index]['price_after_discount']}',
+                                  '₹ ${(orders[index]['price_after_discount'] == "0") ? orders[index]['total_price'] : orders[index]['price_after_discount']}',
                               type: '${orders[index]['order_status']}',
                             ),
                           ],

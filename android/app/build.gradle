@@ -38,6 +38,7 @@ android {
         applicationId "com.redginzr.userapp"
         minSdkVersion 20
         targetSdkVersion 30
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

@@ -1,10 +1,12 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:user_app/api/productapi.dart';
 import 'package:user_app/main.dart';
+import 'package:user_app/others/pack_desc.dart';
 import 'package:user_app/products/big_product_card.dart';
 import 'package:user_app/products/category_details.dart';
 import 'package:user_app/products/product_details.dart';
@@ -20,12 +22,8 @@ class ProductsHome extends StatefulWidget {
 
 class _ProductsHomeState extends State<ProductsHome> {
   bool down = true;
-  List featured, sale, categories;
-  List banners = [
-    Constants.offerImage,
-    Constants.only4uImage,
-    Constants.offerImage
-  ];
+  List featured, sale, categories, banners;
+  // List ;
   int _current = 0;
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -54,6 +52,7 @@ class _ProductsHomeState extends State<ProductsHome> {
       featured = response[1]['featured'];
       sale = response[1]['sale'];
       categories = response[1]['categories'];
+      banners = response[1]['banners'];
     });
   }
 
@@ -192,46 +191,76 @@ class _ProductsHomeState extends State<ProductsHome> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: size.height / 4.5,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                child: CarouselSlider(
-                                  options: CarouselOptions(
-                                    viewportFraction: 1,
-                                    autoPlay: true,
-                                    enableInfiniteScroll: false,
-                                    autoPlayInterval: Duration(seconds: 6),
-                                    scrollDirection: Axis.horizontal,
-                                    //  pauseAutoPlayOnTouch: Duration(seconds: 5),
-                                    initialPage: 0,
-                                    height: 150,
+                                  height: size.height / 4.5,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                  child: CarouselSlider(
+                                      options: CarouselOptions(
+                                        viewportFraction: 1,
+                                        autoPlay: true,
+                                        enableInfiniteScroll: false,
+                                        autoPlayInterval: Duration(seconds: 6),
+                                        scrollDirection: Axis.horizontal,
+                                        //  pauseAutoPlayOnTouch: Duration(seconds: 5),
+                                        initialPage: 0,
+                                        height: 150,
 
-                                    onPageChanged: (index, reason) {
-                                      setState(() {
-                                        _current = index;
-                                      });
-                                    },
-                                  ),
-                                  items: banners.map((imgUrl) {
-                                    return Builder(
-                                      builder: (BuildContext context) {
-                                        return Container(
-                                          width: size.width,
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              child: Image.asset(
-                                                Constants.offerImage,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            _current = index;
+                                          });
+                                        },
+                                      ),
+                                      items: List.generate(
+                                        banners.length,
+                                        (index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PackageDescription(
+                                                            packId:
+                                                                banners[index]
+                                                                    ['pack_id'],
+                                                            packName: banners[
+                                                                    index]
+                                                                ['pack_name'],
+                                                          )));
+                                            },
+                                            child: Container(
                                                 width: size.width,
-                                                height: 100,
-                                                fit: BoxFit.cover,
-                                              )),
-                                        );
-                                      },
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
+                                                    child: CachedNetworkImage(
+                                                        imageUrl: banners[index]
+                                                                ['pack_banner']
+                                                            .toString()
+                                                            .replaceAll(
+                                                                'http://',
+                                                                'https://'),
+                                                        imageBuilder: (context,
+                                                                imageProvider) =>
+                                                            Container(
+                                                              height: 100,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image:
+                                                                      imageProvider,
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ),
+                                                            )))),
+                                          );
+                                        },
+                                      ))),
                               Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: Row(

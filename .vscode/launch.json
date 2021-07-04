@@ -8,7 +8,7 @@
             "name": "User App",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "debug"
         }
     ]
 }

@@ -48,6 +48,7 @@ class ServiceWithHeaderDataPost {
       body: jsonEncode(b),
     );
     String data = response.body;
+    // print(data);
     if (data.length > 0) {
       return [response.statusCode, jsonDecode(data)];
     } else {
@@ -74,7 +75,7 @@ class ServiceWithDataPost {
       },
       body: jsonEncode(b),
     );
-    print(response);
+    // print(response);
     String data = response.body;
     if (data.length > 0) {
       return [response.statusCode, jsonDecode(data)];
