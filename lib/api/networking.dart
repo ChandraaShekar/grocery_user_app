@@ -12,8 +12,8 @@ class ServiceWithHeader {
   Future data() async {
     Map<String, String> headersMap = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'Access-Control-Allow-Origin': "*",
-      'Access-Control-Allow-Methods': "GET, POST",
+      'Access-Control-Allow-Origin': "8bitchaps.com",
+      'Access-Control-Allow-Methods': "GET, POST, OPTIONS",
       'Authorization': 'Bearer ' + MyApp.authTokenValue.replaceAll('"', ''),
     };
     final response = await http.get(Uri.parse(url), headers: headersMap);
@@ -38,8 +38,8 @@ class ServiceWithHeaderDataPost {
   Future data() async {
     Map<String, String> headersData = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'Access-Control-Allow-Origin': "*",
-      'Access-Control-Allow-Methods': "GET, POST",
+      'Access-Control-Allow-Origin': "8bitchaps.com",
+      'Access-Control-Allow-Methods': "GET, POST, OPTIONS",
       'Authorization': 'Bearer ' + MyApp.authTokenValue.replaceAll('"', ''),
     };
     final response = await http.post(
@@ -48,6 +48,7 @@ class ServiceWithHeaderDataPost {
       body: jsonEncode(b),
     );
     String data = response.body;
+    // print(data);
     if (data.length > 0) {
       return [response.statusCode, jsonDecode(data)];
     } else {
@@ -70,11 +71,11 @@ class ServiceWithDataPost {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Access-Control-Allow-Origin': "*",
-        'Access-Control-Allow-Methods': "GET, POST"
+        'Access-Control-Allow-Methods': "GET, POST, OPTIONS"
       },
       body: jsonEncode(b),
     );
-    print(response);
+    // print(response);
     String data = response.body;
     if (data.length > 0) {
       return [response.statusCode, jsonDecode(data)];

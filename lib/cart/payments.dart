@@ -40,6 +40,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   DateTime selectedDate = DateTime.now();
   String paymentMethod = "Cash on Delivery";
   Razorpay _razorpay = new Razorpay();
+  String orderId = "";
   void loadPrice() async {
     subtotal = 0;
     MyApp.cartList['products'].forEach((element) {
@@ -76,21 +77,35 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     print(
         "PAYMENT SUCCESS: ${response.orderId} / ${response.paymentId} / ${response.signature}");
-    Navigator.pop(context);
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (_) => PaymentStatus(paymentSuccess: true)));
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    print("PAYMENT FAILED ERROR: ${response.message}");
+    var resp = await orderHandler.updatePaymentStatus({
+      'order_id': '$orderId',
+      'payment_id': '${response.paymentId}',
+      'signature': '${response.signature}',
+      'payment_status': 'PAYMENT SUCCESS'
+    });
     Navigator.pop(context);
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => PaymentStatus(paymentSuccess: false)));
+            builder: (_) => PaymentStatus(paymentSuccess: resp[0] == 200)));
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) async {
+    print("PAYMENT FAILED ERROR: ${response.message}");
+    var resp = await orderHandler.updatePaymentStatus({
+      'order_id': '$orderId',
+      'payment_id': '${response.code}',
+      'signature': '${response.message}',
+      'payment_status': 'PAYMENT FAILED'
+    });
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (_) => PaymentStatus(paymentSuccess: resp[0] == 200)));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -642,8 +657,8 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 8.0),
                               child: TextWidget("Select Payment Method: ",
                                   textType: "title-light"),
                             ),
@@ -698,14 +713,17 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                   if (resp[0] == 200) {
                     Navigator.pop(context);
                     MyApp.showToast(resp[1]['message'], context);
+                    setState(() {
+                      orderId = resp[1]['order_id'];
+                    });
                     if (paymentMethod == "Pay Online") {
                       Map<String, dynamic> options = {
                         "key": "rzp_test_kL23yx68xeTo63",
-                        "amount": num.parse(resp[1]['amount'].toString()) * 100,
+                        "amount": int.parse(resp[1]['amount'].toString()) * 100,
                         "name": "Order Id: #${resp[1]['order_id']}",
                         "description": "One final set to finish the order",
                         // "order_id": resp[1]['order_id'],
-                        "timeout": 180,
+                        "timeout": 120,
                         "prefil": {
                           "contact": MyApp.userInfo['phone_no'],
                           "email": MyApp.userInfo['email']
@@ -714,6 +732,8 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                           "wallets": ["paytm"]
                         }
                       };
+
+                      print("OPTIONS TO PAYMENT GATEWAY: $options");
 
                       try {
                         _razorpay.open(options);

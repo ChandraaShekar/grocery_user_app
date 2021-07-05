@@ -105,6 +105,7 @@ class _CartListState extends State<CartList> {
                             productId: MyApp.cartList['products'][index]
                                 ['product_pack_id'],
                             onDelete: (i) async {
+                              print(index);
                               print(MyApp.cartList['products'][index]
                                   ['product_id']);
                               List resp = await cartHandler.deleteFromCart(MyApp
@@ -113,7 +114,7 @@ class _CartListState extends State<CartList> {
                               MyApp.showToast(resp[1]['message'], context);
                               if (resp[0] == 200) {
                                 setState(() {
-                                  MyApp.cartList['products'].removeAt(i);
+                                  MyApp.cartList['products'].removeAt(index);
                                 });
                               }
                               loadPrice();

@@ -24,7 +24,6 @@ class _DashboardTabsState extends State<DashboardTabs>
   List featured, sale, banners, categories;
   @override
   void initState() {
-    // currentHeading = headings[0];
     _controller = new TabController(length: 4, vsync: this);
     super.initState();
   }

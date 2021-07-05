@@ -8,7 +8,7 @@
             "name": "User App",
             "request": "launch",
             "type": "dart",
-            // "deviceId": "emulator-5554"
+            "flutterMode": "debug"
         }
     ]
 }
