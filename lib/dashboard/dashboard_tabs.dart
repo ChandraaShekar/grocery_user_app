@@ -24,7 +24,7 @@ class _DashboardTabsState extends State<DashboardTabs>
   List featured, sale, banners, categories;
   @override
   void initState() {
-    _controller = new TabController(length: 4, vsync: this);
+    _controller = new TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -73,7 +73,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                 unselectedLabelColor: Colors.grey,
                 tabs: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: Tab(
                       icon: Icon(
                         Entypo.shop,
@@ -83,7 +83,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: Tab(
                       icon: Icon(
                         Feather.shopping_cart,
@@ -93,7 +93,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.15,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: Tab(
                       icon: Icon(
                         AntDesign.hearto,
@@ -102,16 +102,16 @@ class _DashboardTabsState extends State<DashboardTabs>
                       ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    child: Tab(
-                      icon: Icon(
-                        Ionicons.md_person,
-                        color: Constants.iconColor,
-                        size: size.height / 30,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width * 0.15,
+                  //   child: Tab(
+                  //     icon: Icon(
+                  //       Ionicons.md_person,
+                  //       color: Constants.iconColor,
+                  //       size: size.height / 30,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -123,11 +123,11 @@ class _DashboardTabsState extends State<DashboardTabs>
                     ProductsHome(),
                     CartList(),
                     WishListProducts(),
-                    Container(
-                      child: Center(
-                        child: Text('home'),
-                      ),
-                    ),
+                    // Container(
+                    //   child: Center(
+                    //     child: Text('home'),
+                    //   ),
+                    // ),
                   ])),
             )
           ],

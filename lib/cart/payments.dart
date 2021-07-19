@@ -703,11 +703,12 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                   var resp = await orderHandler.placeOrder({
                     "applied_coupon": "$couponApplied",
                     "coupon_valid": "$couponValid",
-                    "coupon_code": couponCode == "" ? "NONE" : "DCSR98",
+                    "coupon_code": couponCode ?? "NONE",
                     "scheduled_order": "$isScheduled",
                     "schedule_time": "$selectedDate",
                     "user_lat": "${MyApp.lat}",
                     "user_lng": "${MyApp.lng}",
+                    "user_address": "${MyApp.userInfo['address']}",
                     "payment_method": "$paymentMethod",
                   });
                   if (resp[0] == 200) {
@@ -719,7 +720,9 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                     if (paymentMethod == "Pay Online") {
                       Map<String, dynamic> options = {
                         "key": "rzp_test_kL23yx68xeTo63",
-                        "amount": int.parse(resp[1]['amount'].toString()) * 100,
+                        "amount":
+                            (double.parse(resp[1]['amount'].toString()) * 100)
+                                .toInt(),
                         "name": "Order Id: #${resp[1]['order_id']}",
                         "description": "One final set to finish the order",
                         // "order_id": resp[1]['order_id'],
