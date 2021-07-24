@@ -158,7 +158,11 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(Constants.referTag, textType: "title"),
+                  title: TextWidget(
+                      (MyApp.userInfo['user_type'] == "NORMAL")
+                          ? Constants.referTag
+                          : "Referal Performance",
+                      textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Refer()));

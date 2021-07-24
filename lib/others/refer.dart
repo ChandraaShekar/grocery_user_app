@@ -14,37 +14,89 @@ class Refer extends StatefulWidget {
 class _ReferState extends State<Refer> {
   @override
   Widget build(BuildContext context) {
+    return (MyApp.userInfo['user_type'] == "AFFILIATE")
+        ? affiliateWidget()
+        : Scaffold(
+            appBar: Header.appBar(Constants.referTag, null, true),
+            body: SingleChildScrollView(
+                child: Container(
+                    child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: TextWidget("Refer and Earn", textType: "heading")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextWidget(
+                          "Your referal code: ${MyApp.userInfo['referal_code']}",
+                          textType: "title"),
+                      IconButton(
+                          icon: Icon(Icons.share_rounded),
+                          onPressed: () {
+                            Share.share(
+                                "Hey there! Download Frutte application today to avail exciting offers. Use my referal code \"${MyApp.userInfo['referal_code']}\" to get a wooping 50% offer on your first order.",
+                                subject:
+                                    'Get 50% off on first order in Frutte');
+                          })
+                    ],
+                  )),
+                )
+              ],
+            ))));
+  }
+
+  Widget affiliateWidget() {
     return Scaffold(
-        appBar: Header.appBar(Constants.referTag, null, true),
-        body: SingleChildScrollView(
-            child: Container(
-                child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                  child: TextWidget("Refer and Earn", textType: "heading")),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextWidget(
-                      "Your referal code: ${MyApp.userInfo['referal_code']}",
-                      textType: "title"),
-                  IconButton(
-                      icon: Icon(Icons.share_rounded),
-                      onPressed: () {
-                        Share.share(
-                            "Hey there! Download Frutte application today to avail exciting offers. Use my referal code \"${MyApp.userInfo['referal_code']}\" to get a wooping 50% offer on your first order.",
-                            subject: 'Get 50% off on first order in Frutte');
-                      })
-                ],
-              )),
-            )
-          ],
-        ))));
+      appBar: Header.appBar("Referal Performance", null, true),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              infoCard("Total Redeems", "300"),
+              infoCard("Total redeems this week", "30"),
+              infoCard("Total redeems last week", "35"),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextWidget("Weekly performance graph",
+                    textType: "sub-title"),
+              ), //Remove this line after placing the graph
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Placeholder(
+                  fallbackHeight: 300,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget infoCard(String key, String value) {
+    return Card(
+        child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextWidget("$key: ", textType: "title"),
+              TextWidget("$value ", textType: "title"),
+            ],
+          )
+        ],
+      ),
+    ));
   }
 }
