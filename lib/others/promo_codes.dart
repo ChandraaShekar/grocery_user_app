@@ -45,7 +45,24 @@ class _PromoCodesState extends State<PromoCodes> {
                 child: TextFormField(
                   autofocus: false,
                   keyboardType: TextInputType.text,
-                  textCapitalization: TextCapitalization.characters,
+                  textCapitalization: TextCapitalization.sentences,
+                  onChanged: (text) async{
+                    if(promoCode.text.toString()==''){
+                       loadData();
+                    }else{
+                            var resp = await orderHandler.getPromo(promoCode.text.toUpperCase());
+                            coupons=null;
+                            print(resp);
+                            if(resp[0]==204){
+                               coupons=[];
+                            }else if(resp[0]==200){
+                               coupons=resp[1];
+                            }
+
+                            setState(() {     
+                            });
+                    }
+                  },
                   decoration: InputDecoration(
                       alignLabelWithHint: true,
                       labelText: "Enter Promo Code",
@@ -56,13 +73,27 @@ class _PromoCodesState extends State<PromoCodes> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Text(
-                              "APPLY",
+                              "OK",
                               style: TextStyle(
                                   color: Constants.primaryColor,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          onTap: () {})),
+                          onTap: () async{
+                            print(promoCode.text);
+                            var resp = await orderHandler.getPromo(promoCode.text.toUpperCase());
+                            coupons=null;
+                            print(resp);
+                            if(resp[0]==204){
+                               coupons=[];
+                            }else if(resp[0]==200){
+                               coupons=resp[1];
+                            }
+
+                            setState(() {     
+                            });
+                            
+                          })),
                   controller: promoCode,
                 ),
               ),
