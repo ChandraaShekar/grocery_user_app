@@ -54,6 +54,7 @@ dependencies:
   firebase_messaging: 8.0.0-dev.15
   flutter_local_notifications:
   provider:
+  draw_graph:
 
 dev_dependencies:
   flutter_test:

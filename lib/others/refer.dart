@@ -1,5 +1,6 @@
+import 'package:draw_graph/draw_graph.dart';
+import 'package:draw_graph/models/feature.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -70,9 +71,16 @@ class _ReferState extends State<Refer> {
               ), //Remove this line after placing the graph
               Padding(
                 padding: const EdgeInsets.only(top: 15.0),
-                child: Placeholder(
-                  fallbackHeight: 300,
-                ),
+                child: LineGraph(
+  features:[ Feature(
+  color: Colors.blue,
+  data: [0.3, 0.5, 0.3, 1.9],
+),],
+  size: Size(MediaQuery.of(context).size.width, 350),
+  labelX: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+  labelY: ['20', '40', '60', '80'],
+  graphColor: Colors.black87,
+),
               )
             ],
           ),
