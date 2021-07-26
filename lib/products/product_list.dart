@@ -6,6 +6,8 @@ import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../main.dart';
+
 class ProductList extends StatefulWidget {
   final String title;
   final String type;
@@ -32,7 +34,7 @@ class _ProductListState extends State<ProductList> {
 
   void load() async {
     ProductApiHandler productHandler = new ProductApiHandler(
-        body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
+        body: {"lat": "${MyApp.lat}", "lng": "${MyApp.lng}"});
     if (widget.type.isNotEmpty) {
       if (widget.type == "featured") {
         List resp = await productHandler.getFeaturedProducts();

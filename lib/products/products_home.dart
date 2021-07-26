@@ -337,98 +337,9 @@ class _ProductsHomeState extends State<ProductsHome> {
                                 ],
                               ),
                               (featured.length > 0)
-                                  ? Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 8, top: 5),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 5),
-                                              TextWidget(
-                                                'Best Deals',
-                                                textType: "subheading",
-                                              ),
-                                              Expanded(child: Container()),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ProductList(
-                                                                  title:
-                                                                      "Featured Products",
-                                                                  type:
-                                                                      "featured")));
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    TextWidget(
-                                                      "View all",
-                                                      textType:
-                                                          "subheading-grey",
-                                                    ),
-                                                    SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                    Icon(
-                                                      FontAwesome
-                                                          .chevron_circle_right,
-                                                      color: Constants
-                                                          .secondaryTextColor,
-                                                      size: size.height / 60,
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0),
-                                          child: Container(
-                                            height: size.width / 1.7,
-                                            child: ListView.builder(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: featured.length > 5
-                                                    ? 5
-                                                    : featured.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  var productInfo =
-                                                      featured[index]
-                                                          ['product_info'];
-                                                  var productImages =
-                                                      featured[index]
-                                                          ['product_images'];
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ProductDetails(
-                                                                      productId:
-                                                                          productInfo[0]
-                                                                              [
-                                                                              'product_id'])));
-                                                    },
-                                                    child: BigProductCard(
-                                                      productInfo: productInfo,
-                                                      productImages:
-                                                          productImages,
-                                                    ),
-                                                  );
-                                                }),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : null,
+                                  ? productList(
+                                      "Best Deals", "featured", featured)
+                                  : SizedBox(),
                               Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -436,276 +347,46 @@ class _ProductsHomeState extends State<ProductsHome> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      child: Container(
-                                        child: Image(
-                                            width: size.width * 0.44,
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/deals.png')),
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      child: Image(
-                                          width: size.width * 0.44,
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              'assets/images/big.png')),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              (featured.length > 0)
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 5.0),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: Row(
-                                          children: [
-                                            TextWidget(
-                                              'Red Ginzr Featured deals',
-                                              textType: "subheading",
-                                            ),
-                                            Expanded(child: Container()),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ProductList(
-                                                                title:
-                                                                    "Featured Products",
-                                                                type:
-                                                                    "featured")));
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  TextWidget(
-                                                    "View all",
-                                                    textType: "subheading-grey",
-                                                  ),
-                                                  SizedBox(
-                                                    width: 2,
-                                                  ),
-                                                  Icon(
-                                                    FontAwesome
-                                                        .chevron_circle_right,
-                                                    color: Constants
-                                                        .secondaryTextColor,
-                                                    size: size.height / 60,
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  : SizedBox(),
-                              (featured.length > 0)
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5.0),
-                                      child: Container(
-                                        height: size.width / 1.7,
-                                        child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: featured.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              var productInfo = featured[index]
-                                                  ['product_info'];
-                                              var productImages =
-                                                  featured[index]
-                                                      ['product_images'];
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ProductDetails(
-                                                                  productId:
-                                                                      productInfo[
-                                                                              0]
-                                                                          [
-                                                                          'product_id'])));
-                                                },
-                                                child: BigProductCard(
-                                                  productImages: productImages,
-                                                  productInfo: productInfo,
-                                                ),
-                                                // child: BigProductCard(
-                                                //   productId: productInfo[0]
-                                                //       ['product_id'],
-                                                //   qty:
-                                                //       "${productInfo[0]['quantity']} ${productInfo[0]['metrics']}",
-                                                //   wishList: MyApp.wishListIds
-                                                //       .contains(productInfo[0]
-                                                //           ['product_id']),
-                                                //   imgUrl: productImages[0]
-                                                //           ['image_url']
-                                                //       .toString()
-                                                //       .replaceAll('http://',
-                                                //           'https://'),
-                                                //   name:
-                                                //       '${productInfo[0]['product_name']}',
-                                                //   price: productInfo[0]
-                                                //               ['offer_price'] !=
-                                                //           '0'
-                                                //       ? productInfo[0]
-                                                //           ['offer_price']
-                                                //       : productInfo[0]['price'],
-                                                // ),
-                                              );
-                                            }),
-                                      ),
-                                    )
-                                  : SizedBox(),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(2, 15, 0, 10),
-                                child: Row(
-                                  children: [
-                                    Image(
-                                        width: size.width * 0.92,
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/minimum.png'))
+                                    smallCard(
+                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
+                                    smallCard(
+                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
                                   ],
                                 ),
                               ),
                               (sale.length > 0)
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 5.0),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: Row(
-                                          children: [
-                                            TextWidget(
-                                              'Items on Sale',
-                                              textType: "subheading",
-                                            ),
-                                            Expanded(child: Container()),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ProductList(
-                                                                title:
-                                                                    "Featured Products",
-                                                                type: "sale")));
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  TextWidget(
-                                                    "View all",
-                                                    textType: "subheading-grey",
-                                                  ),
-                                                  SizedBox(
-                                                    width: 2,
-                                                  ),
-                                                  Icon(
-                                                    FontAwesome
-                                                        .chevron_circle_right,
-                                                    color: Constants
-                                                        .secondaryTextColor,
-                                                    size: size.height / 60,
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    )
+                                  ? productList("Sale", "sale", sale)
                                   : SizedBox(),
-                              (sale.length > 0)
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5.0),
-                                      child: Container(
-                                        height: size.width / 1.7,
-                                        child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: sale.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              var productInfo =
-                                                  sale[index]['product_info'];
-                                              var productImages =
-                                                  sale[index]['product_images'];
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ProductDetails(
-                                                                  productId:
-                                                                      productInfo[
-                                                                              0]
-                                                                          [
-                                                                          'product_id'])));
-                                                },
-                                                child: BigProductCard(
-                                                  productImages: productImages,
-                                                  productInfo: productInfo,
-                                                ),
-                                              );
-                                            }),
-                                      ),
-                                    )
+                              bigCard(
+                                  "https://i.ytimg.com/vi/m3BZUO73duI/maxresdefault.jpg"),
+                              (featured.length > 0)
+                                  ? productList(
+                                      "Frutte's Choice", "featured", featured)
                                   : SizedBox(),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(3, 15, 0, 10),
-                                child: Row(
-                                  children: [
-                                    Image(
-                                        width: size.width * 0.92,
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/refer.png'))
-                                  ],
-                                ),
-                              ),
+                              bigCard(
+                                  "https://blog.mobikwik.com/wp-content/uploads/2016/09/refer-and-earn-website-banner-B.jpg"),
+                              (featured.length > 0)
+                                  ? productList(
+                                      "Best Deals", "featured", featured)
+                                  : SizedBox(),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      children: [
-                                        Image(
-                                            width: size.width * 0.45,
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/art.png')),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Image(
-                                            width: size.width * 0.45,
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/we.png')),
-                                      ],
-                                    )
+                                    smallCard(
+                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
+                                    smallCard(
+                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
                                   ],
                                 ),
                               ),
+                              (sale.length > 0)
+                                  ? productList("Best Deals", "sale", sale)
+                                  : SizedBox(),
+                              bigCard(
+                                  "https://i.ytimg.com/vi/m3BZUO73duI/maxresdefault.jpg"),
                             ],
                           )),
                           if (!down)
@@ -713,88 +394,6 @@ class _ProductsHomeState extends State<ProductsHome> {
                                 height:
                                     MediaQuery.of(context).size.height + 100,
                                 color: Colors.black38),
-                          // if (!down)
-                          //   Container(
-                          //     height: MediaQuery.of(context).size.height + 100,
-                          //     color: Colors.black38,
-                          //     child: Column(
-                          //       children: [
-                          //         Container(
-                          //           color: Colors.white,
-                          //           width: MediaQuery.of(context).size.width,
-                          //           child: GridView.count(
-                          //               padding: EdgeInsets.only(
-                          //                   top: 10, bottom: 10),
-                          //               crossAxisCount: 4,
-                          //               shrinkWrap: true,
-                          //               crossAxisSpacing: 4.0,
-                          //               mainAxisSpacing: 8.0,
-                          //               physics: NeverScrollableScrollPhysics(),
-                          //               children: List.generate(
-                          //                   categories.length, (index) {
-                          //                 return GestureDetector(
-                          //                   onTap: () {
-                          //                     Navigator.push(
-                          //                         context,
-                          //                         MaterialPageRoute(
-                          //                             builder: (context) =>
-                          //                                 ProductList(
-                          //                                     title: categories[
-                          //                                             index]
-                          //                                         ["category"],
-                          //                                     type: "category",
-                          //                                     categoryId:
-                          //                                         categories[
-                          //                                                 index]
-                          //                                             ["id"])));
-                          //                   },
-                          //                   child: Container(
-                          //                     height: 100,
-                          //                     child: Column(
-                          //                       children: [
-                          //                         CachedNetworkImage(
-                          //                           imageUrl: categories[index]
-                          //                               ["image"],
-                          //                           imageBuilder: (context,
-                          //                                   imageProvider) =>
-                          //                               Container(
-                          //                             width: 70,
-                          //                             height: 70,
-                          //                             decoration: BoxDecoration(
-                          //                               image: DecorationImage(
-                          //                                 image: imageProvider,
-                          //                                 fit: BoxFit.cover,
-                          //                               ),
-                          //                             ),
-                          //                           ),
-                          //                           placeholder:
-                          //                               (context, url) =>
-                          //                                   Container(
-                          //                             height: 100,
-                          //                             child: Center(
-                          //                                 child:
-                          //                                     CircularProgressIndicator()),
-                          //                           ),
-                          //                           errorWidget:
-                          //                               (context, url, error) =>
-                          //                                   Icon(Icons.error),
-                          //                         ),
-                          //                         Expanded(
-                          //                           child: Container(
-                          //                             height: 20,
-                          //                             child: Text(
-                          //                                 "${categories[index]["category"]}"),
-                          //                           ),
-                          //                         )
-                          //                       ],
-                          //                     ),
-                          //                   ),
-                          //                 );
-                          //               })),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   )
                         ],
                       )
                     ],
@@ -802,6 +401,104 @@ class _ProductsHomeState extends State<ProductsHome> {
                 ),
               ),
       ),
+    );
+  }
+
+  Widget smallCard(url) {
+    Size size = MediaQuery.of(context).size;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15.0),
+      child: Image(
+          width: size.width * 0.44,
+          fit: BoxFit.cover,
+          image: NetworkImage('$url')),
+    );
+  }
+
+  Widget bigCard(String url) {
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(3, 15, 0, 10),
+      child: Row(
+        children: [
+          Image(
+              width: size.width * 0.92,
+              fit: BoxFit.cover,
+              image: NetworkImage('$url'))
+        ],
+      ),
+    );
+  }
+
+  Widget productList(String title, String type, List data) {
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 8, top: 5),
+          child: Row(
+            children: [
+              SizedBox(width: 5),
+              TextWidget(
+                '$title',
+                textType: "subheading",
+              ),
+              Expanded(child: Container()),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProductList(title: "$title", type: "$type")));
+                },
+                child: Row(
+                  children: [
+                    TextWidget(
+                      "View all",
+                      textType: "subheading-grey",
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Icon(
+                      FontAwesome.chevron_circle_right,
+                      color: Constants.secondaryTextColor,
+                      size: size.height / 60,
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Container(
+            height: size.width / 1.7,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: data.length > 5 ? 5 : data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var productInfo = data[index]['product_info'];
+                  var productImages = data[index]['product_images'];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductDetails(
+                                  productId: productInfo[0]['product_id'])));
+                    },
+                    child: BigProductCard(
+                      productInfo: productInfo,
+                      productImages: productImages,
+                    ),
+                  );
+                }),
+          ),
+        ),
+      ],
     );
   }
 }
