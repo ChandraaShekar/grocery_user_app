@@ -14,23 +14,23 @@ class PackDescCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: const EdgeInsets.fromLTRB(8, 5, 8, 0),
       child: Card(
         // shape: BorderRadius.circular(15),
         child: Container(
           height: 80,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 12, 12, 12),
+            padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(8),
                   child: CachedNetworkImage(
                     imageUrl: this.imgUrl,
                     imageBuilder: (context, imageProvider) => Container(
-                      width: 60,
-                      height: 60,
+                      width: 70,
+                      height: 70,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: imageProvider,
@@ -51,9 +51,9 @@ class PackDescCard extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 Expanded(
-                    child: Text(
+                    child: TextWidget(
                   this.name,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  textType: "subtitle-black",
                 )),
                 Container(
                   decoration: BoxDecoration(
@@ -61,10 +61,13 @@ class PackDescCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(3)),
                   child: Padding(
                     padding: const EdgeInsets.all(3.0),
-                    child: Text(this.qty),
+                    child: TextWidget(
+                      this.qty,
+                      textType: "subtitle-grey",
+                    ),
                   ),
                 ),
-                TextWidget("x ${this.itemCount}", textType: "subheading")
+                TextWidget(" x ${this.itemCount}", textType: "subtitle-black")
               ],
             ),
           ),

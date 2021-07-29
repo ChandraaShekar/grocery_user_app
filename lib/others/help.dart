@@ -49,7 +49,7 @@ class _HelpState extends State<Help> {
                       child: Text(
                         phone,
                         style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             fontSize: 16,
                             color: Colors.blue),
                       )),
@@ -68,7 +68,7 @@ class _HelpState extends State<Help> {
               Text(
                 phone2,
                 style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w900,
                     fontSize: 16,
                     color: Colors.blue),
               ),
@@ -92,7 +92,7 @@ class _HelpState extends State<Help> {
                       child: Text(
                         email,
                         style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             fontSize: 16,
                             color: Colors.blue),
                       )),

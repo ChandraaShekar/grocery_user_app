@@ -125,13 +125,16 @@ class _PackageDescriptionState extends State<PackageDescription> {
                         color: Constants.packDescIconColor,
                       ),
                       SizedBox(
-                        width: 3,
+                        width: 5,
                       ),
                       Text(
                         'Here’s what you get in the ' +
                             widget.packName.toLowerCase() +
                             "!",
-                        style: TextStyle(color: Constants.packDescHeadingColor),
+                        style: TextStyle(
+                            color: Constants.packDescHeadingColor,
+                            fontSize: size.height / 60,
+                            fontWeight: FontWeight.w600),
                       )
                     ],
                   ),
@@ -161,24 +164,25 @@ class _PackageDescriptionState extends State<PackageDescription> {
                             );
                           }),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Center(
                         child: Text(
                             "Note: ${packInfo['pack_info']['pack_description']}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Constants.dangerColor))),
+                              fontSize: size.height / 60,
+                              fontWeight: FontWeight.w600,
+                              color: Constants.packDescHeadingColor,
+                            ))),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Container(
                       height: size.height / 4.55,
                       width: MediaQuery.of(context).size.width,

@@ -23,11 +23,11 @@ class _ReferState extends State<Refer> {
                 child: Container(
                     child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                      child: TextWidget("Refer and Earn", textType: "heading")),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Center(
+                //       child: TextWidget("Refer and Earn", textType: "heading")),
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
@@ -72,15 +72,17 @@ class _ReferState extends State<Refer> {
               Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: LineGraph(
-  features:[ Feature(
-  color: Colors.blue,
-  data: [0.3, 0.5, 0.3, 1.9],
-),],
-  size: Size(MediaQuery.of(context).size.width, 350),
-  labelX: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-  labelY: ['20', '40', '60', '80'],
-  graphColor: Colors.black87,
-),
+                  features: [
+                    Feature(
+                      color: Colors.blue,
+                      data: [0.3, 0.5, 0.3, 1.9],
+                    ),
+                  ],
+                  size: Size(MediaQuery.of(context).size.width, 350),
+                  labelX: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                  labelY: ['20', '40', '60', '80'],
+                  graphColor: Colors.black87,
+                ),
               )
             ],
           ),

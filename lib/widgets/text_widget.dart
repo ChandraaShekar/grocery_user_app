@@ -82,6 +82,12 @@ class TextWidget extends StatelessWidget {
           letterSpacing: 0.2,
           fontSize: size.height / 65,
           color: Colors.white);
+    } else if (x == "label-light") {
+      y = TextStyle(
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.2,
+          fontSize: size.height / 60,
+          color: Colors.grey);
     }
     return y;
   }
