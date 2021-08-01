@@ -30,6 +30,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
   CartApiHandler cartHandler = new CartApiHandler();
   Map packInfo;
   List packProducts = [];
+  bool loading=true;
   double orginalPrice = 0.0,
       packPrice = 0.0,
       tax = 0.0,
@@ -58,6 +59,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
     tax = (packPrice * 5).toInt() / 100;
     totalPrice = packPrice + tax;
     discount = packPrice / orginalPrice;
+    loading=false;
     setState(() {});
   }
 
@@ -87,7 +89,9 @@ class _PackageDescriptionState extends State<PackageDescription> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: Header.appBar(widget.packName, null, true),
-      body: WillPopScope(
+      body: loading? Center(
+       child: TextWidget('Loading..',textType: "para-bold",),
+      ):packProducts.length>0? WillPopScope(
         onWillPop: () async {
           final value = await showDialog<bool>(
               context: context,
@@ -305,6 +309,8 @@ class _PackageDescriptionState extends State<PackageDescription> {
                   ),
                 ])),
               ),
+      ):Center(
+        child: TextWidget('This pack is empty',textType: "para-bold",),
       ),
     );
   }
