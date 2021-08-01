@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:user_app/api/searchApi.dart';
 import 'package:user_app/products/product_details.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class ProductSearch extends StatefulWidget {
   @override
@@ -24,6 +25,7 @@ class _ProductSearchState extends State<ProductSearch> {
           alignment: Alignment.centerLeft,
           color: Colors.transparent,
           child: TextField(
+              style: TextStyle(fontSize: 18),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter product name',
@@ -59,12 +61,9 @@ class _ProductSearchState extends State<ProductSearch> {
               title: Row(
                 children: [
                   Expanded(
-                    child: Text(
+                    child: TextWidget(
                       "${searchResults[index]['product_name']}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13,
-                      ),
+                      textType: "title",
                     ),
                   ),
                   SizedBox(width: 50),
@@ -72,8 +71,10 @@ class _ProductSearchState extends State<ProductSearch> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 4.0),
                     color: Constants.qtyBgColor,
-                    child: Text(
-                        "${searchResults[index]['quantity']} ${searchResults[index]['metrics']}"),
+                    child: TextWidget(
+                      "${searchResults[index]['quantity']} ${searchResults[index]['metrics']}",
+                      textType: "label",
+                    ),
                   )
                 ],
               ),

@@ -13,6 +13,7 @@ import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/primary_button.dart';
 import 'package:user_app/widgets/cart_card.dart';
+import 'package:user_app/widgets/pack_desc_card.dart';
 import 'package:user_app/widgets/text_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -303,7 +304,36 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                                 .size
                                                                 .width *
                                                             0.8,
-                                                    color: Colors.white),
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                    ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount: jData['products'].length,
+                                                    itemBuilder: (context,index){
+                                                     return PackDescCard(
+                                                       imgUrl: '${jData['products'][index]['image_url']}'
+                                                           .replaceAll('http://', 'https://'),
+                                                      
+                                                       name: '${jData['products'][index]['product_name']}',
+                                                       qty:
+                                                           '${jData['products'][index]['quantity']} ${jData['products'][index]['metrics']}',
+                                                       itemCount:jData['products'][index]
+                                                           ['item_pack_quantity'],
+                                                     );
+                                                    }),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        TextButton(onPressed: (){
+                                                           Navigator.pop(context);
+                                                        }, child: Text("Ok"))
+                                                      ],
+                                                    )
+                                                     ],
+                                                    )
+                                                    ),
                                               ),
                                             )
                                           ],

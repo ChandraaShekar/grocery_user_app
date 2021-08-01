@@ -7,6 +7,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/packsApi.dart';
+import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -127,13 +128,16 @@ class _PackageDescriptionState extends State<PackageDescription> {
                         color: Constants.packDescIconColor,
                       ),
                       SizedBox(
-                        width: 3,
+                        width: 5,
                       ),
                       Text(
                         'Here’s what you get in the ' +
                             widget.packName.toLowerCase() +
                             "!",
-                        style: TextStyle(color: Constants.packDescHeadingColor),
+                        style: TextStyle(
+                            color: Constants.packDescHeadingColor,
+                            fontSize: size.height / 60,
+                            fontWeight: FontWeight.w600),
                       )
                     ],
                   ),
@@ -163,24 +167,25 @@ class _PackageDescriptionState extends State<PackageDescription> {
                             );
                           }),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Center(
                         child: Text(
                             "Note: ${packInfo['pack_info']['pack_description']}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Constants.dangerColor))),
+                              fontSize: size.height / 60,
+                              fontWeight: FontWeight.w600,
+                              color: Constants.packDescHeadingColor,
+                            ))),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Container(
                       height: size.height / 4.55,
                       width: MediaQuery.of(context).size.width,
@@ -289,6 +294,13 @@ class _PackageDescriptionState extends State<PackageDescription> {
                       if (resp[0] == 200) {
                         Navigator.pop(context);
                         MyApp.showToast(resp[1]['message'], context);
+                         List getResp = await cartHandler.getCart();
+                                    setState(() {
+                                      MyApp.cartList = getResp[1];
+                                    });
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => DashboardTabs(page: 'cart',)));
+
                       }
                       print(resp);
                     },

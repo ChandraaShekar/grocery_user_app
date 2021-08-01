@@ -7,6 +7,7 @@ import 'package:user_app/api/registerapi.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/primary_button.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 import '../main.dart';
 
@@ -30,6 +31,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: Header.appBar(Constants.settingsTag, null, true),
         body: SingleChildScrollView(
@@ -39,8 +41,12 @@ class _SettingsState extends State<Settings> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Full Name'),
+                TextWidget(
+                  'Full Name',
+                  textType: "label",
+                ),
                 TextFormField(
+                  style: TextStyle(fontSize: size.height / 50),
                   controller: name,
                 ),
                 SizedBox(
@@ -52,8 +58,12 @@ class _SettingsState extends State<Settings> {
                     style: TextStyle(color: Colors.red),
                   ),
                 SizedBox(height: 18),
-                Text('Email'),
+                TextWidget(
+                  'Email',
+                  textType: "label",
+                ),
                 TextFormField(
+                  style: TextStyle(fontSize: size.height / 50),
                   controller: email,
                 ),
                 SizedBox(
@@ -61,12 +71,16 @@ class _SettingsState extends State<Settings> {
                 ),
                 if (emailErr != '')
                   Text(
-                    ' enter proper email id',
+                    ' Enter proper email id',
                     style: TextStyle(color: Colors.red),
                   ),
                 SizedBox(height: 18),
-                Text('Address'),
+                TextWidget(
+                  'Address',
+                  textType: "label",
+                ),
                 TextFormField(
+                  style: TextStyle(fontSize: size.height / 50),
                   keyboardType: TextInputType.text,
                   controller: address,
                 ),
@@ -75,24 +89,30 @@ class _SettingsState extends State<Settings> {
                 ),
                 if (addressErr != '')
                   Text(
-                    ' enter proper phone number',
+                    ' Enter proper phone number',
                     style: TextStyle(color: Colors.red),
                   ),
-                SizedBox(height: 10),
+                SizedBox(height: 18),
                 Row(
                   children: [
-                    Text('Store Location'),
+                    TextWidget(
+                      'Store Location',
+                      textType: "label",
+                    ),
                     Expanded(
                       child: Container(),
                     ),
                     Text(
                       'Edit Location',
-                      style: TextStyle(color: Constants.kButtonTextColor),
+                      style: TextStyle(
+                          color: Constants.kButtonTextColor,
+                          fontSize: size.height / 60,
+                          fontWeight: FontWeight.w600),
                     ),
                     Icon(Entypo.location_pin, color: Constants.kButtonTextColor)
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 30),
                 PrimaryButton(
                   onPressed: () async {
                     Map<String, dynamic> data = {
