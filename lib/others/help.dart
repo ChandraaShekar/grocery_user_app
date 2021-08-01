@@ -44,7 +44,7 @@ class _HelpState extends State<Help> {
                   ),
                   TextButton(
                       onPressed: () {
-                        launchURL(phone);
+                        launchURL('tel:'+phone);
                       },
                       child: Text(
                         phone,
@@ -65,13 +65,11 @@ class _HelpState extends State<Help> {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                phone2,
-                style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 16,
-                    color: Colors.blue),
-              ),
+             TextButton(
+              onPressed: (){
+                launchURL('tel:'+phone2);
+              },
+              child:Text(phone2,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.blue),)),
               SizedBox(
                 height: 40,
               ),
@@ -87,7 +85,7 @@ class _HelpState extends State<Help> {
                   ),
                   TextButton(
                       onPressed: () {
-                        launchURL(email);
+                         launchURL('mailto:'+email);
                       },
                       child: Text(
                         email,

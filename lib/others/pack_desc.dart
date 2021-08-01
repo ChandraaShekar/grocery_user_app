@@ -7,6 +7,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/packsApi.dart';
+import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -291,6 +292,13 @@ class _PackageDescriptionState extends State<PackageDescription> {
                       if (resp[0] == 200) {
                         Navigator.pop(context);
                         MyApp.showToast(resp[1]['message'], context);
+                         List getResp = await cartHandler.getCart();
+                                    setState(() {
+                                      MyApp.cartList = getResp[1];
+                                    });
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => DashboardTabs(page: 'cart',)));
+
                       }
                       print(resp);
                     },

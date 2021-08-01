@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/productapi.dart';
 import 'package:user_app/api/wishlistapi.dart';
+import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -34,6 +35,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   int itemCount = 0;
   bool isLiked = false;
   int _current = 0;
+  String cartLen='';
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
     for (var i = 0; i < list.length; i++) {
@@ -53,6 +55,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
     List resp = await productHandler.getProductFromId(widget.productId);
     log(resp.toString());
+    cartLen=(MyApp.cartList['products'].length +MyApp.cartList['packs'].length).toString();
     setState(() {
       productInfo = resp[1];
       if (productInfo['product_images'].length > 0) {
@@ -111,12 +114,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: GestureDetector(
+                  child: Row(
+                    children: [
+
+                      GestureDetector(
                       onTap: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (_) => CartList()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => DashboardTabs(page: 'cart',)));
                       },
                       child: Icon(Icons.shopping_bag_outlined, size: 22)),
+                     Text(cartLen)
+                     ],
+                  )
                 ),
               ],
             ),
@@ -335,6 +344,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     setState(() {
                                       MyApp.cartList = getResp[1];
                                     });
+                                      Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => DashboardTabs(page: 'cart',)));
+
                                   }
                                 },
                               ),

@@ -12,6 +12,8 @@ import 'package:user_app/utils/platform.dart';
 
 class DashboardTabs extends StatefulWidget {
   static final String tag = Constants.homeTag;
+  final String page;
+  DashboardTabs({this.page});
   @override
   _DashboardTabsState createState() => _DashboardTabsState();
 }
@@ -25,6 +27,9 @@ class _DashboardTabsState extends State<DashboardTabs>
   @override
   void initState() {
     _controller = new TabController(length: 3, vsync: this);
+    if(widget.page=='cart'){
+      _controller.animateTo(1);
+    }
     super.initState();
   }
 
