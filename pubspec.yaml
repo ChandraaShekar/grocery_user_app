@@ -55,6 +55,7 @@ dependencies:
   flutter_local_notifications:
   provider:
   draw_graph:
+  flutter_widget_from_html_core: ^0.6.1+4
 
 dev_dependencies:
   flutter_test:

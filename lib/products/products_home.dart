@@ -6,6 +6,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:user_app/api/productapi.dart';
 import 'package:user_app/main.dart';
+import 'package:user_app/others/banner_content.dart';
+import 'package:user_app/others/banner_products.dart';
 import 'package:user_app/others/pack_desc.dart';
 import 'package:user_app/products/big_product_card.dart';
 import 'package:user_app/products/category_details.dart';
@@ -22,8 +24,16 @@ class ProductsHome extends StatefulWidget {
 
 class _ProductsHomeState extends State<ProductsHome> {
   bool down = true;
-  List featured, sale, categories, banners;
-  // List ;
+  List featured, sale, categories, banners, promoBanners;
+  Map small_1,
+      small_2,
+      small_3,
+      small_4,
+      large_1,
+      large_2,
+      large_3,
+      large_4,
+      large_5;
   int _current = 0;
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -53,6 +63,15 @@ class _ProductsHomeState extends State<ProductsHome> {
       sale = response[1]['sale'];
       categories = response[1]['categories'];
       banners = response[1]['banners'];
+      promoBanners = response[1]['promotional_banners'];
+      small_1 = promoBanners[0];
+      small_2 = promoBanners[1];
+      small_3 = promoBanners[2];
+      small_4 = promoBanners[3];
+      large_1 = promoBanners[4];
+      large_2 = promoBanners[5];
+      large_3 = promoBanners[6];
+      large_4 = promoBanners[7];
     });
   }
 
@@ -347,24 +366,20 @@ class _ProductsHomeState extends State<ProductsHome> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    smallCard(
-                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
-                                    smallCard(
-                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
+                                    smallCard(small_1),
+                                    smallCard(small_2),
                                   ],
                                 ),
                               ),
                               (sale.length > 0)
                                   ? productList("Sale", "sale", sale)
                                   : SizedBox(),
-                              bigCard(
-                                  "https://i.ytimg.com/vi/m3BZUO73duI/maxresdefault.jpg"),
+                              bigCard(large_1),
                               (featured.length > 0)
                                   ? productList(
                                       "Frutte's Choice", "featured", featured)
                                   : SizedBox(),
-                              bigCard(
-                                  "https://blog.mobikwik.com/wp-content/uploads/2016/09/refer-and-earn-website-banner-B.jpg"),
+                              bigCard(large_2),
                               (featured.length > 0)
                                   ? productList(
                                       "Best Deals", "featured", featured)
@@ -375,18 +390,16 @@ class _ProductsHomeState extends State<ProductsHome> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    smallCard(
-                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
-                                    smallCard(
-                                        "https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg"),
+                                    smallCard(small_3),
+                                    smallCard(small_4),
                                   ],
                                 ),
                               ),
                               (sale.length > 0)
                                   ? productList("Best Deals", "sale", sale)
                                   : SizedBox(),
-                              bigCard(
-                                  "https://i.ytimg.com/vi/m3BZUO73duI/maxresdefault.jpg"),
+                              bigCard(large_3),
+                              bigCard(large_4),
                             ],
                           )),
                           if (!down)
@@ -404,30 +417,51 @@ class _ProductsHomeState extends State<ProductsHome> {
     );
   }
 
-  Widget smallCard(url) {
+  Widget smallCard(Map info) {
     Size size = MediaQuery.of(context).size;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(15.0),
-      child: Image(
-          width: size.width * 0.44,
-          fit: BoxFit.cover,
-          image: NetworkImage('$url')),
-    );
+    MaterialPageRoute route = new MaterialPageRoute(
+        builder: (context) => (info['banner_type'] == 'content'
+            ? BannerContent(content: info)
+            : BannerProducts(content: info)));
+    return (info['status'] == 'active')
+        ? GestureDetector(
+            onTap: () {
+              Navigator.push(context, route);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: Image(
+                  width: size.width * 0.44,
+                  fit: BoxFit.cover,
+                  image: NetworkImage('${info['image_url']}')),
+            ),
+          )
+        : SizedBox;
   }
 
-  Widget bigCard(String url) {
+  Widget bigCard(Map info) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(3, 15, 0, 10),
-      child: Row(
-        children: [
-          Image(
-              width: size.width * 0.92,
-              fit: BoxFit.cover,
-              image: NetworkImage('$url'))
-        ],
-      ),
-    );
+    MaterialPageRoute route = new MaterialPageRoute(
+        builder: (context) => (info['banner_type'] == 'content'
+            ? BannerContent(content: info)
+            : BannerProducts(content: info)));
+    return (info['status'] == 'active')
+        ? GestureDetector(
+            onTap: () {
+              Navigator.push(context, route);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image(
+                    width: size.width * 0.92,
+                    fit: BoxFit.cover,
+                    image: NetworkImage('${info['image_url']}')),
+              ),
+            ),
+          )
+        : SizedBox;
   }
 
   Widget productList(String title, String type, List data) {

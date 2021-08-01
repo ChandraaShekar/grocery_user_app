@@ -88,29 +88,31 @@ class _PackageDescriptionState extends State<PackageDescription> {
       appBar: Header.appBar(widget.packName, null, true),
       body: WillPopScope(
         onWillPop: () async {
-          final value = await showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text(
-                      'Any changes made to pack will not be saved, Are you sure you want to exit?'),
-                  actions: <Widget>[
-                    TextButton(
-                      child: Text('No'),
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                    ),
-                    TextButton(
-                      child: Text('Yes, exit'),
-                      onPressed: () {
-                        Navigator.of(context).pop(true);
-                      },
-                    ),
-                  ],
-                );
-              });
-          return value == true;
+          print("Gone Back");
+          return true;
+          // final value = await showDialog<bool>(
+          //     context: context,
+          //     builder: (context) {
+          //       return AlertDialog(
+          //         content: Text(
+          //             'Any changes made to pack will not be saved, Are you sure you want to exit?'),
+          //         actions: <Widget>[
+          //           TextButton(
+          //             child: Text('No'),
+          //             onPressed: () {
+          //               Navigator.of(context).pop(false);
+          //             },
+          //           ),
+          //           TextButton(
+          //             child: Text('Yes, exit'),
+          //             onPressed: () {
+          //               Navigator.of(context).pop(true);
+          //             },
+          //           ),
+          //         ],
+          //       );
+          //     });
+          // return value;
         },
         child: packInfo == null
             ? Center(child: CircularProgressIndicator())
