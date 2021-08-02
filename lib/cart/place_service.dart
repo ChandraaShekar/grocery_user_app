@@ -38,13 +38,13 @@ class PlaceApiProvider {
   PlaceApiProvider(this.sessionToken);
 
   final sessionToken;
-  final apiKey = "AIzaSyD7aAMNJZf52UsZ-ohLqiO5_76YeIC5Ez0";
+  final apiKey = "AIzaSyC16rxHK2CGpngeZK_rF8gfVi42sAu9OsA";
 
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final request =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=address&language=$lang&components=country:in&key=$apiKey&sessiontoken=$sessionToken';
     final response = await client.get(request);
-
+    print(response.body);
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
@@ -66,7 +66,7 @@ class PlaceApiProvider {
     final request =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=address_component&key=$apiKey&sessiontoken=$sessionToken';
     final response = await client.get(request);
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result['status'] == 'OK') {
@@ -90,6 +90,7 @@ class PlaceApiProvider {
             place.zipCode = c['long_name'];
           }
         });
+        print(place);
         return place;
       }
       throw Exception(result['error_message']);
