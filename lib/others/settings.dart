@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/api/registerapi.dart';
+import 'package:user_app/others/userLocationOnMap.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/primary_button.dart';
@@ -96,20 +97,34 @@ class _SettingsState extends State<Settings> {
                 Row(
                   children: [
                     TextWidget(
-                      'Store Location',
+                      'Your Location',
                       textType: "label",
                     ),
                     Expanded(
                       child: Container(),
                     ),
-                    Text(
-                      'Edit Location',
-                      style: TextStyle(
-                          color: Constants.kButtonTextColor,
-                          fontSize: size.height / 60,
-                          fontWeight: FontWeight.w600),
+                    TextButton(
+                      onPressed: () {
+                        print("Button Pressed");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => UserLocationOnMap()));
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Edit Location',
+                            style: TextStyle(
+                                color: Constants.kButtonTextColor,
+                                fontSize: size.height / 60,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Icon(Entypo.location_pin,
+                              color: Constants.kButtonTextColor)
+                        ],
+                      ),
                     ),
-                    Icon(Entypo.location_pin, color: Constants.kButtonTextColor)
                   ],
                 ),
                 SizedBox(height: 30),
