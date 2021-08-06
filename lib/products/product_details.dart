@@ -55,7 +55,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
     List resp = await productHandler.getProductFromId(widget.productId);
     log(resp.toString());
-    cartLen=(MyApp.cartList['products'].length +MyApp.cartList['packs'].length).toString();
     setState(() {
       productInfo = resp[1];
       if (productInfo['product_images'].length > 0) {

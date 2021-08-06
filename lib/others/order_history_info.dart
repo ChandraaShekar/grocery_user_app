@@ -160,7 +160,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                               })
                           : SizedBox(),
                       SizedBox(height: 20),
-                      Padding(
+                      (widget.orderInfo['coupon_valid'] != "true")? SizedBox() :Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Container(
                           width: size.width + 20,
@@ -184,7 +184,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                         (widget.orderInfo['applied_coupon'] ==
                                                 'true')
                                             ? "'${widget.orderInfo['coupon_code']}' Applied"
-                                            : "Apply coupon for exciting offers",
+                                            : "Coupon not applied",
                                         textType: "para",
                                       ),
                                     ],
