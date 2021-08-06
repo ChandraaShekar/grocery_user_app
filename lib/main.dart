@@ -81,9 +81,9 @@ class MyApp extends StatelessWidget {
     socket.connect();
     socket.onConnect((data) => {print("SOCKET CONNECTED")});
     socket.onConnectError((data) => print("SOCKET STATUS: $data"));
-    socket.on('message', (data) {
-      print("SOCKET MESSAGE: $data");
-    });
+    // socket.on('message', (data) {
+    //   print("SOCKET MESSAGE: $data");
+    // });
   }
 
   Future<Map> isLoggedIn() async {

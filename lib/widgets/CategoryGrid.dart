@@ -6,7 +6,9 @@ import 'package:user_app/widgets/text_widget.dart';
 
 class CategoryGrid extends StatefulWidget {
   final List categoriesList;
-  CategoryGrid({Key key, this.categoriesList}) : super(key: key);
+  final int totalLength;
+  CategoryGrid({Key key, this.categoriesList, this.totalLength = 8})
+      : super(key: key);
   @override
   _CategoryGridState createState() => _CategoryGridState();
 }
@@ -33,9 +35,9 @@ class _CategoryGridState extends State<CategoryGrid> {
                   childAspectRatio: .83,
                   physics: NeverScrollableScrollPhysics(),
                   children: List.generate(
-                      (widget.categoriesList.length > 8
-                          ? 8
-                          : widget.categoriesList.length), (index) {
+                      (widget.totalLength == 0
+                          ? widget.categoriesList.length
+                          : widget.totalLength), (index) {
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(

@@ -11,6 +11,7 @@ class ProductCard extends StatefulWidget {
   final String imgUrl;
   final String name;
   final String price;
+  final String offerPrice;
   final String productId;
 
   ProductCard(
@@ -19,7 +20,8 @@ class ProductCard extends StatefulWidget {
       this.imgUrl,
       this.name,
       this.price,
-      this.productId});
+      this.productId,
+      this.offerPrice});
 
   @override
   _ProductCardState createState() => _ProductCardState();

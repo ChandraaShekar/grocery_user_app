@@ -48,9 +48,17 @@ class _BigProductCardState extends State<BigProductCard> {
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: TextWidget(
-                            this.widget.productInfo[0]['quantity'],
-                            textType: "label",
+                          child: Row(
+                            children: [
+                              TextWidget(
+                                this.widget.productInfo[0]['quantity'],
+                                textType: "label",
+                              ),
+                              TextWidget(
+                                this.widget.productInfo[0]['metrics'],
+                                textType: "label",
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -61,7 +69,7 @@ class _BigProductCardState extends State<BigProductCard> {
                           if (value) {
                             List resp = await wishlistHandler.addToWishList(
                                 '${widget.productInfo[0]['product_id']}');
-                            print(resp[1]);
+                            // print(resp[1]);
                             MyApp.wishListIds
                                 .add(widget.productInfo[0]['product_id']);
                             MyApp.showToast('${resp[1]['message']}', context);
@@ -69,7 +77,7 @@ class _BigProductCardState extends State<BigProductCard> {
                             List resp =
                                 await wishlistHandler.removeFromWishList(
                                     '${widget.productInfo[0]['product_id']}');
-                            print(resp[1]);
+                            // print(resp[1]);
                             MyApp.wishListIds
                                 .remove(widget.productInfo[0]['product_id']);
                             MyApp.showToast('${resp[1]['message']}', context);
@@ -126,7 +134,7 @@ class _BigProductCardState extends State<BigProductCard> {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 2),
                           child: TextWidget(
-                              "Rs. " + widget.productInfo[0]['price'],
+                              "Rs. ${(widget.productInfo[0]['offer_price'] == "0" || widget.productInfo[0]['offer_price'] == 0) ? widget.productInfo[0]['price'] : widget.productInfo[0]['offer_price']}",
                               textType: "card-price"))
                     ],
                   ),

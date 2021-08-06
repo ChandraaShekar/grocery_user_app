@@ -29,7 +29,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences:
   toast:
-  # flutter_country_picker:
   auto_size_text:
   http:
   carousel_slider: ^3.0.0
@@ -39,8 +38,8 @@ dependencies:
   url_launcher:
   flutter_otp_text_field:
   cached_network_image:
-  firebase_core: ^0.7.0
-  firebase_auth: ^0.20.1
+  firebase_core: 
+  firebase_auth: 
   flutter_google_places:
   shimmer: ^2.0.0
   socket_io_client: 2.0.0-beta.4-nullsafety.0

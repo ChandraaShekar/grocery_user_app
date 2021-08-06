@@ -34,7 +34,10 @@ class _AllCatgoriesState extends State<AllCatgories> {
         body: (categories.length == 0)
             ? Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
-                child: CategoryGrid(categoriesList: categories),
+                child: CategoryGrid(
+                  categoriesList: categories,
+                  totalLength: 0,
+                ),
               ));
   }
 }

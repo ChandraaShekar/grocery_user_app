@@ -24,7 +24,15 @@ class ProductsHome extends StatefulWidget {
 
 class _ProductsHomeState extends State<ProductsHome> {
   bool down = true;
-  List featured, sale, categories, banners, promoBanners;
+  List featured,
+      sale,
+      bestDeals,
+      frutteChoice,
+      topOffers,
+      categories,
+      banners,
+      promoBanners;
+  int productsArround;
   Map small_1,
       small_2,
       small_3,
@@ -59,8 +67,12 @@ class _ProductsHomeState extends State<ProductsHome> {
     var response = await productHandler.getHomeProducts();
     // print(response[1]);
     setState(() {
+      productsArround = int.parse(response[1]['products_arround']);
       featured = response[1]['featured'];
       sale = response[1]['sale'];
+      bestDeals = response[1]['best_deals'];
+      frutteChoice = response[1]['frutte_choice'];
+      topOffers = response[1]['top_offers'];
       categories = response[1]['categories'];
       banners = response[1]['banners'];
       promoBanners = response[1]['promotional_banners'];
@@ -191,228 +203,272 @@ class _ProductsHomeState extends State<ProductsHome> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
-        child: (featured == null)
+        child: (productsArround == null)
             ? Container(
                 height: size.height,
                 child: Center(
                   child: CircularProgressIndicator(),
                 ),
               )
-            : Container(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: Column(
-                    children: [
-                      Stack(
+            : (productsArround == 0)
+                ? Container(
+                    height: size.height,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SingleChildScrollView(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          TextWidget(
+                            "We are currently not operating in your location.",
+                            textType: "subheading",
+                          ),
+                          TextWidget("Hold tight, we are expanding quick.",
+                              textType: "subheading"),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 30.0),
+                            child: CircularProgressIndicator(),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                : Container(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      child: Column(
+                        children: [
+                          Stack(
                             children: [
-                              Container(
-                                  height: size.height / 4.5,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  child: CarouselSlider(
-                                      options: CarouselOptions(
-                                        viewportFraction: 1,
-                                        autoPlay: true,
-                                        enableInfiniteScroll: false,
-                                        autoPlayInterval: Duration(seconds: 6),
-                                        scrollDirection: Axis.horizontal,
-                                        //  pauseAutoPlayOnTouch: Duration(seconds: 5),
-                                        initialPage: 0,
-                                        height: 150,
-
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            _current = index;
-                                          });
-                                        },
-                                      ),
-                                      items: List.generate(
-                                        banners.length,
-                                        (index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          PackageDescription(
-                                                            packId:
-                                                                banners[index]
-                                                                    ['pack_id'],
-                                                            packName: banners[
-                                                                    index]
-                                                                ['pack_name'],
-                                                          )));
-                                            },
-                                            child: Container(
-                                                width: size.width,
-                                                child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                    child: CachedNetworkImage(
-                                                        imageUrl: banners[index]
-                                                                ['pack_banner']
-                                                            .toString()
-                                                            .replaceAll(
-                                                                'http://',
-                                                                'https://'),
-                                                        imageBuilder: (context,
-                                                                imageProvider) =>
-                                                            Container(
-                                                              height: 100,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image:
-                                                                      imageProvider,
-                                                                  fit: BoxFit
-                                                                      .fill,
-                                                                ),
-                                                              ),
-                                                            )))),
-                                          );
-                                        },
-                                      ))),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children:
-                                        map<Widget>(banners, (index, url) {
-                                      return _current == index
-                                          ? Container(
-                                              width: 9,
-                                              height: 9,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 4),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color:
-                                                      Constants.buttonBgColor),
-                                            )
-                                          : Container(
-                                              width: 9,
-                                              height: 9,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 4),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                      color: Constants
-                                                          .buttonBgColor)),
-                                            );
-                                    })),
-                              ),
-                              Column(
+                              SingleChildScrollView(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Container(
+                                      height: size.height / 4.5,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0)),
+                                      child: CarouselSlider(
+                                          options: CarouselOptions(
+                                            viewportFraction: 1,
+                                            autoPlay: true,
+                                            enableInfiniteScroll: false,
+                                            autoPlayInterval:
+                                                Duration(seconds: 6),
+                                            scrollDirection: Axis.horizontal,
+                                            //  pauseAutoPlayOnTouch: Duration(seconds: 5),
+                                            initialPage: 0,
+                                            height: 150,
+
+                                            onPageChanged: (index, reason) {
+                                              setState(() {
+                                                _current = index;
+                                              });
+                                            },
+                                          ),
+                                          items: List.generate(
+                                            banners.length,
+                                            (index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              PackageDescription(
+                                                                packId: banners[
+                                                                        index]
+                                                                    ['pack_id'],
+                                                                packName: banners[
+                                                                        index][
+                                                                    'pack_name'],
+                                                              )));
+                                                },
+                                                child: Container(
+                                                    width: size.width,
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12.0),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                                imageUrl: banners[
+                                                                            index]
+                                                                        [
+                                                                        'pack_banner']
+                                                                    .toString()
+                                                                    .replaceAll(
+                                                                        'http://',
+                                                                        'https://'),
+                                                                imageBuilder:
+                                                                    (context,
+                                                                            imageProvider) =>
+                                                                        Container(
+                                                                          height:
+                                                                              100,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: imageProvider,
+                                                                              fit: BoxFit.fill,
+                                                                            ),
+                                                                          ),
+                                                                        )))),
+                                              );
+                                            },
+                                          ))),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children:
+                                            map<Widget>(banners, (index, url) {
+                                          return _current == index
+                                              ? Container(
+                                                  width: 9,
+                                                  height: 9,
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 4),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Constants
+                                                          .buttonBgColor),
+                                                )
+                                              : Container(
+                                                  width: 9,
+                                                  height: 9,
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 4),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                          color: Constants
+                                                              .buttonBgColor)),
+                                                );
+                                        })),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        child: Row(
+                                          children: [
+                                            TextWidget(
+                                              'Categories',
+                                              textType: "subheading",
+                                            ),
+                                            Expanded(child: Container()),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AllCatgories()));
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  TextWidget(
+                                                    "View all",
+                                                    textType: "subheading-grey",
+                                                  ),
+                                                  SizedBox(
+                                                    width: 2,
+                                                  ),
+                                                  Icon(
+                                                    FontAwesome
+                                                        .chevron_circle_right,
+                                                    color: Constants
+                                                        .secondaryTextColor,
+                                                    size: size.height / 60,
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      CategoryGrid(categoriesList: categories),
+                                    ],
+                                  ),
+                                  (featured.length > 0)
+                                      ? productList(
+                                          "Featured", "Featured", featured)
+                                      : SizedBox(),
                                   Padding(
                                     padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
+                                        const EdgeInsets.fromLTRB(5, 10, 5, 10),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextWidget(
-                                          'Categories',
-                                          textType: "subheading",
-                                        ),
-                                        Expanded(child: Container()),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AllCatgories()));
-                                          },
-                                          child: Row(
-                                            children: [
-                                              TextWidget(
-                                                "View all",
-                                                textType: "subheading-grey",
-                                              ),
-                                              SizedBox(
-                                                width: 2,
-                                              ),
-                                              Icon(
-                                                FontAwesome
-                                                    .chevron_circle_right,
-                                                color: Constants
-                                                    .secondaryTextColor,
-                                                size: size.height / 60,
-                                              )
-                                            ],
-                                          ),
-                                        )
+                                        (small_1['status'] == 'active')
+                                            ? smallCard(small_1)
+                                            : SizedBox(),
+                                        (small_2['status'] == 'active')
+                                            ? smallCard(small_2)
+                                            : SizedBox(),
                                       ],
                                     ),
                                   ),
-                                  CategoryGrid(categoriesList: categories),
+                                  (sale.length > 0)
+                                      ? productList("Sale", "sale", sale)
+                                      : SizedBox(),
+                                  (large_1['status'] == 'active')
+                                      ? bigCard(large_1)
+                                      : SizedBox(),
+                                  (frutteChoice.length > 0)
+                                      ? productList("Frutte's Choice",
+                                          "Frutte Choice", frutteChoice)
+                                      : SizedBox(),
+                                  (large_2['status'] == 'active')
+                                      ? bigCard(large_2)
+                                      : SizedBox(),
+                                  (bestDeals.length > 0)
+                                      ? productList(
+                                          "Best Deals", "Best Deals", bestDeals)
+                                      : SizedBox(),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        (small_3['status'] == 'active')
+                                            ? smallCard(small_3)
+                                            : SizedBox(),
+                                        (small_4['status'] == 'active')
+                                            ? smallCard(small_4)
+                                            : SizedBox(),
+                                      ],
+                                    ),
+                                  ),
+                                  (topOffers.length > 0)
+                                      ? productList(
+                                          "Top Offers", "Top Offers", topOffers)
+                                      : SizedBox(),
+                                  (large_3['status'] == 'active')
+                                      ? bigCard(large_3)
+                                      : SizedBox(),
+                                  (large_4['status'] == 'active')
+                                      ? bigCard(large_4)
+                                      : SizedBox(),
                                 ],
-                              ),
-                              (featured.length > 0)
-                                  ? productList(
-                                      "Best Deals", "featured", featured)
-                                  : SizedBox(),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    smallCard(small_1),
-                                    smallCard(small_2),
-                                  ],
-                                ),
-                              ),
-                              (sale.length > 0)
-                                  ? productList("Sale", "sale", sale)
-                                  : SizedBox(),
-                              bigCard(large_1),
-                              (featured.length > 0)
-                                  ? productList(
-                                      "Frutte's Choice", "featured", featured)
-                                  : SizedBox(),
-                              bigCard(large_2),
-                              (featured.length > 0)
-                                  ? productList(
-                                      "Best Deals", "featured", featured)
-                                  : SizedBox(),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    smallCard(small_3),
-                                    smallCard(small_4),
-                                  ],
-                                ),
-                              ),
-                              (sale.length > 0)
-                                  ? productList("Best Deals", "sale", sale)
-                                  : SizedBox(),
-                              bigCard(large_3),
-                              bigCard(large_4),
+                              )),
+                              if (!down)
+                                Container(
+                                    height: MediaQuery.of(context).size.height +
+                                        100,
+                                    color: Colors.black38),
                             ],
-                          )),
-                          if (!down)
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height + 100,
-                                color: Colors.black38),
+                          )
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
       ),
     );
   }
@@ -516,6 +572,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                 itemBuilder: (BuildContext context, int index) {
                   var productInfo = data[index]['product_info'];
                   var productImages = data[index]['product_images'];
+                  // print(productInfo);
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
