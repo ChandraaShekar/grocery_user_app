@@ -21,10 +21,10 @@
 </queries> 
    <application
         android:label="user_app"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/logo">
         <!-- GOOGLE MAPS API -->
               <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyB2UOArZ73OQ2iAl74nk3Pazh18U73BULQ"/>
+               android:value="AIzaSyC16rxHK2CGpngeZK_rF8gfVi42sAu9OsA"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

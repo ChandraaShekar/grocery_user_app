@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:user_app/services/constants.dart';
 
 class Place {
   String streetNumber;
@@ -38,7 +39,7 @@ class PlaceApiProvider {
   PlaceApiProvider(this.sessionToken);
 
   final sessionToken;
-  final apiKey = "AIzaSyC16rxHK2CGpngeZK_rF8gfVi42sAu9OsA";
+  final apiKey = Constants.mapApiKey;
 
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final request =

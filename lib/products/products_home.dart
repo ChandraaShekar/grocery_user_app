@@ -486,10 +486,11 @@ class _ProductsHomeState extends State<ProductsHome> {
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: Image(
-                  width: size.width * 0.44,
-                  fit: BoxFit.cover,
-                  image: NetworkImage('${info['image_url']}')),
+              child: CachedNetworkImage(
+                width: size.width * 0.44,
+                 fit: BoxFit.cover,
+                imageUrl: '${info['image_url']}',
+              ),
             ),
           )
         : SizedBox;
@@ -510,10 +511,11 @@ class _ProductsHomeState extends State<ProductsHome> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
-                child: Image(
-                    width: size.width * 0.92,
-                    fit: BoxFit.cover,
-                    image: NetworkImage('${info['image_url']}')),
+                child: CachedNetworkImage(
+                width: size.width * 0.92,
+                 fit: BoxFit.cover,
+                imageUrl: '${info['image_url']}',
+              ),
               ),
             ),
           )

@@ -26,7 +26,7 @@ class _CheckoutAddressState extends State<CheckoutAddress>
     with TickerProviderStateMixin {
   TextEditingController address, houseNo, landmark;
   String street1Err = '', cityErr = '', landmarkErr = '', stateErr = '';
-  String kGoogleApiKey = "AIzaSyD7aAMNJZf52UsZ-ohLqiO5_76YeIC5Ez0";
+  String kGoogleApiKey = Constants.mapApiKey;
 
   void initState() {
     super.initState();
