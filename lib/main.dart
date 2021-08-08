@@ -118,14 +118,18 @@ class MyApp extends StatelessWidget {
     Login.tag: (BuildContext context) => Login()
   };
 
-  static void reloadCart() async {
+  static Future<Map> reloadCart() async {
     // print("AUTHTOKEN: $authTokenValue");
+    cartList.clear();
     CartApiHandler cartHandler = new CartApiHandler();
     List cartListResp = await cartHandler.getCart();
     if (cartListResp[0] == 200) {
       cartList['products'] = cartListResp[1]['products'];
       cartList['packs'] = cartListResp[1]['packs'];
     }
+
+    print(cartList);
+    return cartList;
   }
 
   static Future<bool> updateUserLocation(double lat, double lng) async {

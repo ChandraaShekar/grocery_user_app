@@ -26,10 +26,12 @@ class _OtpPageState extends State<OtpPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String verfId;
   ConfirmationResult confirmationResult;
+  TextEditingController otpController;
 
   @override
   void initState() {
     _load();
+    otpController=TextEditingController();
     super.initState();
   }
 
@@ -62,11 +64,46 @@ class _OtpPageState extends State<OtpPage> {
                 .signInWithCredential(credential)
                 .then((value) async {
               if (value.user != null) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Registration()),
-                    (route) => false);
-              }
+                              final User user = auth.currentUser;
+                              final uid = user.uid;
+                              MyApp.loginIdValue = uid;
+                              MyApp.authTokenValue = "";
+                              setState(() {});
+                              var authToken = await user.getIdToken();
+                              LoginApiHandler loginHandler =
+                                  new LoginApiHandler(
+                                      {"auth_token": authToken});
+                              var response = await loginHandler.login();
+                              print(response);
+                              if (response[0] == 200) {
+                                // NaviMyApp.showToast(response[1]['message'], context);
+                                SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(Constants.userInfo,
+                                    jsonEncode(response[1]['user']));
+                                MyApp.userInfo = response[1]['user'];
+
+                                sharedPreferences.setString(
+                                    Constants.authTokenValue,
+                                    jsonEncode(response[1]['access_token']));
+                                MyApp.authTokenValue =
+                                    response[1]['access_token'];
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DashboardTabs()));
+                              } else if (response[0] == 404) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Registration()));
+                              } else {
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => ()));
+                              }
+                            }
             });
           },
           verificationFailed: (FirebaseAuthException e) {
@@ -125,22 +162,30 @@ class _OtpPageState extends State<OtpPage> {
                   ],
                 ),
                 SizedBox(height: 8),
-                OtpTextField(
-                  textStyle: TextStyle(
-                      fontSize: size.height / 40, fontWeight: FontWeight.w600),
-                  numberOfFields: 6,
-                  enabledBorderColor: Colors.grey,
-                  focusedBorderColor: Constants.kMain,
-                  showFieldAsBox:
-                      false, //set to true to show as box or false to show as dash
-                  onCodeChanged: (String code) {
-                    //handle validation or checks here
-                  },
-                  onSubmit: (String verificationCode) {
-                    scode = verificationCode;
-                    setState(() {});
-                  }, // end onSubmit
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:20.0),
+                  child: TextField(
+                    maxLength: 6,
+                    keyboardType: TextInputType.number,
+                    controller: otpController,
+                  ),
                 ),
+                // OtpTextField(
+                //   textStyle: TextStyle(
+                //       fontSize: size.height / 40, fontWeight: FontWeight.w600),
+                //   numberOfFields: 6,
+                //   enabledBorderColor: Colors.grey,
+                //   focusedBorderColor: Constants.kMain,
+                //   showFieldAsBox:
+                //       false, //set to true to show as box or false to show as dash
+                //   onCodeChanged: (String code) {
+                //     //handle validation or checks here
+                //   },
+                //   onSubmit: (String verificationCode) {
+                //     scode = verificationCode;
+                //     setState(() {});
+                //   }, // end onSubmit
+                // ),
                 SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.all(25.0),
@@ -150,6 +195,7 @@ class _OtpPageState extends State<OtpPage> {
                     text: "VERIFY",
                     width: MediaQuery.of(context).size.width,
                     onPressed: () async {
+                      scode=otpController.text;
                       if (scode.length < 6) {
                         MyApp.showToast('Enter valid otp', context);
                       } else if (verfId == null && !kIsWeb) {

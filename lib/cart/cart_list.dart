@@ -23,13 +23,16 @@ class _CartListState extends State<CartList> {
   double tax = 0;
   double total = 0;
   List packs = [];
+  bool loaded=false;
 
   @override
   void initState() {
-    MyApp.reloadCart();
+    MyApp.reloadCart().then((value){
     if (MyApp.cartList['products'] != null || MyApp.cartList['packs'] != null) {
       loadPrice();
     }
+    loaded=true;
+    });
     super.initState();
   }
 
@@ -60,7 +63,7 @@ class _CartListState extends State<CartList> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
+    return loaded? SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Container(
@@ -365,6 +368,6 @@ class _CartListState extends State<CartList> {
                 ),
         ),
       ),
-    );
+    ):Container();
   }
 }

@@ -51,6 +51,9 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   void load() async {
+    print(MyApp.cartList.keys);
+    print(MyApp.cartList['products'].length+MyApp.cartList['packs'].length);
+    cartLen=(MyApp.cartList['products'].length+MyApp.cartList['packs'].length).toString();
     ProductApiHandler productHandler = new ProductApiHandler(
         body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
     List resp = await productHandler.getProductFromId(widget.productId);
@@ -343,9 +346,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     setState(() {
                                       MyApp.cartList = getResp[1];
                                     });
-                                      Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => DashboardTabs(page: 'cart',)));
-
+                                  load();
                                   }
                                 },
                               ),
