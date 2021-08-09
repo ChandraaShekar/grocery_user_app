@@ -25,6 +25,14 @@
         <!-- GOOGLE MAPS API -->
               <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyC16rxHK2CGpngeZK_rF8gfVi42sAu9OsA"/>
+         <receiver
+             android:exported="true"
+             android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver"
+             android:permission="com.google.android.c2dm.permission.SEND">
+               <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+               </intent-filter>
+         </receiver>       
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -109,7 +109,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4.0, horizontal: 5.0),
                                   child: Text(
-                                      "${MyApp.cartList['products'].length + MyApp.cartList['packs'].length}",
+                                      "${MyApp.cartList.isNotEmpty ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length) : 0}",
                                       style: TextStyle(color: Colors.white)),
                                 )),
                           )
