@@ -35,7 +35,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   int itemCount = 0;
   bool isLiked = false;
   int _current = 0;
-  String cartLen='';
+  String cartLen = '';
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
     for (var i = 0; i < list.length; i++) {
@@ -52,7 +52,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   void load() async {
     ProductApiHandler productHandler = new ProductApiHandler(
-        body: {"lat": "17.43220004743208", "lng": "78.42959340000002"});
+        body: {"lat": "${MyApp.lat}", "lng": "${MyApp.lng}"});
     List resp = await productHandler.getProductFromId(widget.productId);
     log(resp.toString());
     setState(() {
@@ -112,20 +112,33 @@ class _ProductDetailsState extends State<ProductDetails> {
                         },
                       ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-
-                      GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => DashboardTabs(page: 'cart',)));
-                      },
-                      child: Icon(Icons.shopping_bag_outlined, size: 22)),
-                     Text(cartLen)
-                     ],
-                  )
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => DashboardTabs(
+                                            page: 'cart',
+                                          )));
+                            },
+                            child: Icon(Icons.shopping_bag_outlined, size: 22)),
+                        Container(
+                            decoration: BoxDecoration(
+                                // color: Constants.primaryColor,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4.0, horizontal: 5.0),
+                              child: Text(
+                                "${MyApp.cartList['products'].length + MyApp.cartList['packs'].length}",
+                                // style: TextStyle(color: Colors.white)
+                              ),
+                            ))
+                      ],
+                    )),
               ],
             ),
           ),
@@ -343,9 +356,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     setState(() {
                                       MyApp.cartList = getResp[1];
                                     });
-                                      Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => DashboardTabs(page: 'cart',)));
-
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (_) => DashboardTabs(
+                                    //               page: 'cart',
+                                    //             )));
                                   }
                                 },
                               ),

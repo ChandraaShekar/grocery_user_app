@@ -21,13 +21,13 @@ class DashboardTabs extends StatefulWidget {
 class _DashboardTabsState extends State<DashboardTabs>
     with TickerProviderStateMixin {
   TabController _controller;
-  List<String> headings = ['Store', 'Cart', 'Favorites', 'Profile'];
+  List<String> headings = ['Store', 'Cart', 'Favorites'];
   String currentHeading = "Welcome, ${MyApp.userInfo['name']}";
   List featured, sale, banners, categories;
   @override
   void initState() {
     _controller = new TabController(length: 3, vsync: this);
-    if(widget.page=='cart'){
+    if (widget.page == 'cart') {
       _controller.animateTo(1);
     }
     super.initState();
@@ -90,11 +90,32 @@ class _DashboardTabsState extends State<DashboardTabs>
                   Container(
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: Tab(
-                      icon: Icon(
-                        Feather.shopping_cart,
-                        color: Constants.iconColor,
-                        size: size.height / 35,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Feather.shopping_cart,
+                            color: Constants.iconColor,
+                            size: size.height / 35,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Constants.primaryColor,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 5.0),
+                                  child: Text(
+                                      "${MyApp.cartList['products'].length + MyApp.cartList['packs'].length}",
+                                      style: TextStyle(color: Colors.white)),
+                                )),
+                          )
+                        ],
                       ),
+                      // icon: ,
                     ),
                   ),
                   Container(

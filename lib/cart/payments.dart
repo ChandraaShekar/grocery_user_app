@@ -306,34 +306,49 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                             0.8,
                                                     color: Colors.white,
                                                     child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                    ListView.builder(
-                                                    shrinkWrap: true,
-                                                    itemCount: jData['products'].length,
-                                                    itemBuilder: (context,index){
-                                                     return PackDescCard(
-                                                       imgUrl: '${jData['products'][index]['image_url']}'
-                                                           .replaceAll('http://', 'https://'),
-                                                      
-                                                       name: '${jData['products'][index]['product_name']}',
-                                                       qty:
-                                                           '${jData['products'][index]['quantity']} ${jData['products'][index]['metrics']}',
-                                                       itemCount:jData['products'][index]
-                                                           ['item_pack_quantity'],
-                                                     );
-                                                    }),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
-                                                        TextButton(onPressed: (){
-                                                           Navigator.pop(context);
-                                                        }, child: Text("Ok"))
+                                                        ListView.builder(
+                                                            shrinkWrap: true,
+                                                            itemCount: jData[
+                                                                    'products']
+                                                                .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return PackDescCard(
+                                                                imgUrl: '${jData['products'][index]['image_url']}'
+                                                                    .replaceAll(
+                                                                        'http://',
+                                                                        'https://'),
+                                                                name:
+                                                                    '${jData['products'][index]['product_name']}',
+                                                                qty:
+                                                                    '${jData['products'][index]['quantity']} ${jData['products'][index]['metrics']}',
+                                                                itemCount: jData[
+                                                                            'products']
+                                                                        [index][
+                                                                    'item_pack_quantity'],
+                                                              );
+                                                            }),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child:
+                                                                    Text("Ok"))
+                                                          ],
+                                                        )
                                                       ],
-                                                    )
-                                                     ],
-                                                    )
-                                                    ),
+                                                    )),
                                               ),
                                             )
                                           ],
@@ -510,7 +525,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                         textType: "para",
                                       ),
                                       TextWidget(
-                                        '₹ ' + subtotal.toString(),
+                                        '₹ ' + subtotal.toStringAsFixed(2),
                                         textType: "para-bold",
                                       )
                                     ]),
@@ -532,7 +547,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                         width: 15,
                                       ),
                                       TextWidget(
-                                        '₹ ' + delivery.toString(),
+                                        '₹ ' + delivery.toStringAsFixed(2),
                                         textType: "para-bold",
                                       )
                                     ]),
@@ -551,7 +566,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                         textType: "para",
                                       ),
                                       TextWidget(
-                                        '₹ ' + tax.toString(),
+                                        '₹ ' + tax.toStringAsFixed(2),
                                         textType: "para-bold",
                                       )
                                     ]),
@@ -571,7 +586,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                           ? Column(
                                               children: [
                                                 Text(
-                                                  "₹ $total",
+                                                  "₹ ${total.toStringAsFixed(2)}",
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -579,7 +594,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                           .lineThrough),
                                                 ),
                                                 Text(
-                                                  "₹ $newOfferPrice",
+                                                  "₹ ${newOfferPrice.toStringAsFixed(2)}",
                                                   style: TextStyle(
                                                       color: Constants
                                                           .successColor,
@@ -589,7 +604,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                               ],
                                             )
                                           : Text(
-                                              '₹ ' + total.toString(),
+                                              '₹ ' + total.toStringAsFixed(2),
                                               style: TextStyle(
                                                   color: Constants
                                                       .headingTextBlack,
