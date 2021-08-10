@@ -52,10 +52,10 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   void load() async {
     print(MyApp.cartList.keys);
-    print(MyApp.cartList['products'].length + MyApp.cartList['packs'].length);
-    cartLen =
+    // print(MyApp.cartList['products'].length + MyApp.cartList['packs'].length);
+    cartLen = MyApp.cartList.length > 0?
         (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
-            .toString();
+            .toString() : "0";
     ProductApiHandler productHandler = new ProductApiHandler(
         body: {"lat": "${MyApp.lat}", "lng": "${MyApp.lng}"});
     List resp = await productHandler.getProductFromId(widget.productId);
@@ -138,7 +138,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 4.0, horizontal: 5.0),
                               child: Text(
-                                "${MyApp.cartList['products'].length + MyApp.cartList['packs'].length}",
+                                "${ MyApp.cartList.length > 0 ? MyApp.cartList['products'].length + MyApp.cartList['packs'].length : 0}",
                                 // style: TextStyle(color: Colors.white)
                               ),
                             ))

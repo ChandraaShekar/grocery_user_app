@@ -2,6 +2,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/others/order_history_info.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class OrderHistoryCard extends StatelessWidget {
   final StringCallback funcCallback;
@@ -30,14 +31,15 @@ class OrderHistoryCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                TextWidget(
                   this.orderNumber,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  textType: "title",
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 15),
                 Text(
                   this.price,
                   style: TextStyle(
+                    fontSize: 18,
                       fontWeight: FontWeight.w600, color: Constants.kMain2),
                 ),
                 SizedBox(height: 20),
@@ -51,12 +53,12 @@ class OrderHistoryCard extends StatelessWidget {
                         funcCallback('clicked');
                       },
                       child: Container(
-                            color: Constants.deliveredBgColor,
+                            color: Constants.incDecColor,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Retry Payment',
-                                style: TextStyle(color: Colors.white),
+                                'RETRY PAYMENT',
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, letterSpacing: 1.2),
                               ),
                             ),
                           ),
@@ -79,18 +81,18 @@ class OrderHistoryCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             type,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, letterSpacing: 1.2),
           ),
         ),
       );
     } else {
       return Container(
-        color: Constants.transitBgColor,
+        color: Constants.buttonBgColor,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             type,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, letterSpacing: 1.2),
           ),
         ),
       );
