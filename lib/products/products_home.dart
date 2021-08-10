@@ -390,7 +390,9 @@ class _ProductsHomeState extends State<ProductsHome> {
                                           ],
                                         ),
                                       ),
-                                      CategoryGrid(categoriesList: categories),
+                                      CategoryGrid(
+                                          categoriesList: categories,
+                                          totalLength: categories.length),
                                     ],
                                   ),
                                   (featured.length > 0)
@@ -404,10 +406,12 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        (small_1['status'] == 'active')
+                                        (small_1 != null &&
+                                                small_1['status'] == 'active')
                                             ? smallCard(small_1)
                                             : SizedBox(),
-                                        (small_2['status'] == 'active')
+                                        (small_2 != null &&
+                                                small_2['status'] == 'active')
                                             ? smallCard(small_2)
                                             : SizedBox(),
                                       ],
@@ -416,14 +420,16 @@ class _ProductsHomeState extends State<ProductsHome> {
                                   (sale.length > 0)
                                       ? productList("Sale", "sale", sale)
                                       : SizedBox(),
-                                  (large_1['status'] == 'active')
+                                  (large_1 != null &&
+                                          large_1['status'] == 'active')
                                       ? bigCard(large_1)
                                       : SizedBox(),
                                   (frutteChoice.length > 0)
                                       ? productList("Frutte's Choice",
                                           "Frutte Choice", frutteChoice)
                                       : SizedBox(),
-                                  (large_2['status'] == 'active')
+                                  (large_2 != null &&
+                                          large_2['status'] == 'active')
                                       ? bigCard(large_2)
                                       : SizedBox(),
                                   (bestDeals.length > 0)
@@ -437,10 +443,12 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        (small_3['status'] == 'active')
+                                        (small_3 != null &&
+                                                small_3['status'] == 'active')
                                             ? smallCard(small_3)
                                             : SizedBox(),
-                                        (small_4['status'] == 'active')
+                                        (small_4 != null &&
+                                                small_4['status'] == 'active')
                                             ? smallCard(small_4)
                                             : SizedBox(),
                                       ],
@@ -450,10 +458,12 @@ class _ProductsHomeState extends State<ProductsHome> {
                                       ? productList(
                                           "Top Offers", "Top Offers", topOffers)
                                       : SizedBox(),
-                                  (large_3['status'] == 'active')
+                                  (large_3 != null &&
+                                          large_3['status'] == 'active')
                                       ? bigCard(large_3)
                                       : SizedBox(),
-                                  (large_4['status'] == 'active')
+                                  (large_4 != null &&
+                                          large_4['status'] == 'active')
                                       ? bigCard(large_4)
                                       : SizedBox(),
                                 ],
@@ -488,7 +498,7 @@ class _ProductsHomeState extends State<ProductsHome> {
               borderRadius: BorderRadius.circular(15.0),
               child: CachedNetworkImage(
                 width: size.width * 0.44,
-                 fit: BoxFit.cover,
+                fit: BoxFit.cover,
                 imageUrl: '${info['image_url']}',
               ),
             ),
@@ -512,10 +522,10 @@ class _ProductsHomeState extends State<ProductsHome> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: CachedNetworkImage(
-                width: size.width * 0.92,
-                 fit: BoxFit.cover,
-                imageUrl: '${info['image_url']}',
-              ),
+                  width: size.width * 0.92,
+                  fit: BoxFit.cover,
+                  imageUrl: '${info['image_url']}',
+                ),
               ),
             ),
           )

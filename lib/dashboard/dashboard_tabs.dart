@@ -49,16 +49,16 @@ class _DashboardTabsState extends State<DashboardTabs>
                         MaterialPageRoute(
                             builder: (context) => ProductSearch()));
                   }),
-              IconButton(
-                icon: Icon(
-                  Ionicons.ios_notifications_outline,
-                  size: 26,
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Notifications()));
-                },
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     Ionicons.ios_notifications_outline,
+              //     size: 26,
+              //   ),
+              //   onPressed: () {
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => Notifications()));
+              //   },
+              // ),
             ],
           ),
           false),
