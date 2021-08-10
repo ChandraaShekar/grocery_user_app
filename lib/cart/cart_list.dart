@@ -56,7 +56,7 @@ class _CartListState extends State<CartList> {
     packs = MyApp.cartList['packs'];
     packs.forEach((element) {
       var jData = jsonDecode(element['pack_data']);
-      subtotal += jData['OriginalPrice'] * int.parse(element['cartQuantity']);
+      subtotal += jData['PackPrice'] * int.parse(element['cartQuantity']);
       print("ELEMENT: $jData");
     });
     tax = (subtotal * 5).toInt() / 100;
