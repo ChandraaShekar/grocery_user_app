@@ -127,8 +127,6 @@ class MyApp extends StatelessWidget {
       cartList['products'] = cartListResp[1]['products'];
       cartList['packs'] = cartListResp[1]['packs'];
     }
-
-    print(cartList);
     return cartList;
   }
 

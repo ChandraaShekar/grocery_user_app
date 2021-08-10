@@ -756,6 +756,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                     "user_address": "${MyApp.userInfo['address']}",
                     "payment_method": "$paymentMethod",
                   });
+                  print(resp);
                   if (resp[0] == 200) {
                     Navigator.pop(context);
                     MyApp.showToast(resp[1]['message'], context);
