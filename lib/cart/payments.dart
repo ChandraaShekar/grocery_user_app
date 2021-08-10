@@ -748,7 +748,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                   var resp = await orderHandler.placeOrder({
                     "applied_coupon": "$couponApplied",
                     "coupon_valid": "$couponValid",
-                    "coupon_code": couponCode ?? "NONE",
+                    "coupon_code": couponCode != "" && couponCode != null ?couponCode : "NONE",
                     "scheduled_order": "$isScheduled",
                     "schedule_time": "$selectedDate",
                     "user_lat": "${MyApp.lat}",

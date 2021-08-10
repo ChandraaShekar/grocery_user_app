@@ -358,142 +358,144 @@ class _PackageDescriptionState extends State<PackageDescription> {
                             icon: Icon(Icons.delete_forever,
                                 color: Constants.dangerColor)),
                       ),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: CachedNetworkImage(
-                                      imageUrl: productInfo['image_url']
-                                          .toString()
-                                          .replaceAll('http://', 'https://'),
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        width: 100,
-                                        height: 100,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      placeholder: (context, url) =>
-                                          Shimmer.fromColors(
-                                        baseColor: Colors.grey[300],
-                                        highlightColor: Colors.white,
-                                        child: Container(
-                                            height: 100, color: Colors.white),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                    ),
-                                  ),
-                                  Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(height: 12),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.6,
-                                            child: TextWidget(
-                                                productInfo['product_name'],
-                                                textType: "subheading"),
-                                          ),
-                                          SizedBox(height: 15),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                color: Constants.qtyBgColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(3)),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(3.0),
-                                              child: TextWidget(
-                                                  "${productInfo['quantity']} ${productInfo['metrics']}",
-                                                  textType: "title"),
+                      SingleChildScrollView(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: CachedNetworkImage(
+                                        imageUrl: productInfo['image_url']
+                                            .toString()
+                                            .replaceAll('http://', 'https://'),
+                                        imageBuilder: (context, imageProvider) =>
+                                            Container(
+                                          width: 100,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                        ],
-                                      )),
-                                ])),
-                            Divider(
-                              color: Colors.grey[900],
-                            ),
-                            Row(children: [
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15.0),
-                                  child: TextWidget("Price: ",
-                                      textType: "subheading")),
+                                        ),
+                                        placeholder: (context, url) =>
+                                            Shimmer.fromColors(
+                                          baseColor: Colors.grey[300],
+                                          highlightColor: Colors.white,
+                                          child: Container(
+                                              height: 100, color: Colors.white),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 12),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
+                                              child: TextWidget(
+                                                  productInfo['product_name'],
+                                                  textType: "subheading"),
+                                            ),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: Constants.qtyBgColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(3)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(3.0),
+                                                child: TextWidget(
+                                                    "${productInfo['quantity']} ${productInfo['metrics']}",
+                                                    textType: "title"),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ])),
+                              Divider(
+                                color: Colors.grey[900],
+                              ),
+                              Row(children: [
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0),
+                                    child: TextWidget("Price: ",
+                                        textType: "subheading")),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15.0),
+                                  child: Text("${productInfo['price']}/-",
+                                      style: TextStyle(
+                                          decoration:
+                                              TextDecoration.lineThrough)),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0, horizontal: 5.0),
+                                    child: TextWidget(
+                                        "${((this.packPrice / this.orginalPrice) * double.parse(productInfo['price']) * 100).toInt() / 100}/-",
+                                        textType: "subheading")),
+                                Expanded(child: Container()),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  child: CounterBtn(
+                                      incDecheight: 25.0,
+                                      incDecwidth: 25.0,
+                                      text: productInfo['item_pack_quantity'],
+                                      decPressed: () {
+                                        var currentQuantity = int.parse(
+                                            productInfo['item_pack_quantity']);
+                                        if (currentQuantity > 1) {
+                                          itemCountChanged(currentQuantity - 1,
+                                              productInfo['product_id']);
+                                          setState(() {});
+                                        }
+                                      },
+                                      incPressed: () {
+                                        var currentQuantity = int.parse(
+                                            productInfo['item_pack_quantity']);
+                                        if (currentQuantity < 10) {
+                                          itemCountChanged(currentQuantity + 1,
+                                              productInfo['product_id']);
+                                          setState(() {});
+                                        }
+                                      }),
+                                )
+                              ]),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15.0),
-                                child: Text("${productInfo['price']}/-",
-                                    style: TextStyle(
-                                        decoration:
-                                            TextDecoration.lineThrough)),
+                                child: TextWidget("Description",
+                                    textType: "subtitle-grey"),
                               ),
                               Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15.0, horizontal: 5.0),
-                                  child: TextWidget(
-                                      "${((this.packPrice / this.orginalPrice) * double.parse(productInfo['price']) * 100).toInt() / 100}/-",
-                                      textType: "subheading")),
-                              Expanded(child: Container()),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                child: CounterBtn(
-                                    incDecheight: 25.0,
-                                    incDecwidth: 25.0,
-                                    text: productInfo['item_pack_quantity'],
-                                    decPressed: () {
-                                      var currentQuantity = int.parse(
-                                          productInfo['item_pack_quantity']);
-                                      if (currentQuantity > 1) {
-                                        itemCountChanged(currentQuantity - 1,
-                                            productInfo['product_id']);
-                                        setState(() {});
-                                      }
-                                    },
-                                    incPressed: () {
-                                      var currentQuantity = int.parse(
-                                          productInfo['item_pack_quantity']);
-                                      if (currentQuantity < 10) {
-                                        itemCountChanged(currentQuantity + 1,
-                                            productInfo['product_id']);
-                                        setState(() {});
-                                      }
-                                    }),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
+                                child: TextWidget(
+                                    "${productInfo['product_description']}",
+                                    textType: "para"),
                               )
                             ]),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              child: TextWidget("Description",
-                                  textType: "subtitle-grey"),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              child: TextWidget(
-                                  "${productInfo['product_description']}",
-                                  textType: "para"),
-                            )
-                          ]),
+                      ),
                     ],
                   ),
                 ));

@@ -94,8 +94,8 @@ class _OrderHistoryState extends State<OrderHistory> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 5.0, top: 10, bottom: 5),
-                              child: Text('$date'),
+                                  left: 10.0, top: 10, bottom: 5),
+                              child: TextWidget('$date', textType: "label",),
                             ),
                             OrderHistoryCard(
                               funcCallback: (String h) {
