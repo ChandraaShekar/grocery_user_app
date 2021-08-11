@@ -12,6 +12,9 @@ import 'package:user_app/widgets/cart_card.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
 class CartList extends StatefulWidget {
+  final ValueChanged<int> onCountChange;
+
+  const CartList({Key key, this.onCountChange}) : super(key: key);
   @override
   _CartListState createState() => _CartListState();
 }
@@ -56,7 +59,7 @@ class _CartListState extends State<CartList> {
     packs = MyApp.cartList['packs'];
     packs.forEach((element) {
       var jData = jsonDecode(element['pack_data']);
-      subtotal += jData['OriginalPrice'] * int.parse(element['cartQuantity']);
+      subtotal += jData['PackPrice'] * int.parse(element['cartQuantity']);
       print("ELEMENT: $jData");
     });
     tax = (subtotal * 5).toInt() / 100;
@@ -67,6 +70,7 @@ class _CartListState extends State<CartList> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // MyApp.reloadCart();
     return loaded
         ? SingleChildScrollView(
             child: Padding(
@@ -127,6 +131,11 @@ class _CartListState extends State<CartList> {
                                             .removeAt(index);
                                       });
                                     }
+                                    widget.onCountChange(MyApp.cartList.length >
+                                            0
+                                        ? MyApp.cartList['products'].length +
+                                            MyApp.cartList['packs'].length
+                                        : 0);
                                     loadPrice();
                                   },
                                   onQuantityChange: (val) async {
@@ -185,62 +194,62 @@ class _CartListState extends State<CartList> {
                                                         BorderRadius.circular(
                                                             15),
                                                     child: Container(
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.8,
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
                                                                 .width *
                                                             0.8,
                                                         color: Colors.white,
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            ListView.builder(
-                                                                shrinkWrap:
-                                                                    true,
-                                                                itemCount: jData[
-                                                                        'products']
-                                                                    .length,
-                                                                itemBuilder:
-                                                                    (context,
-                                                                        index) {
-                                                                  return PackDescCard(
-                                                                    imgUrl: '${jData['products'][index]['image_url']}'.replaceAll(
-                                                                        'http://',
-                                                                        'https://'),
-                                                                    name:
-                                                                        '${jData['products'][index]['product_name']}',
-                                                                    qty:
-                                                                        '${jData['products'][index]['quantity']} ${jData['products'][index]['metrics']}',
-                                                                    itemCount: jData['products']
-                                                                            [
-                                                                            index]
-                                                                        [
-                                                                        'item_pack_quantity'],
-                                                                  );
-                                                                }),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Text(
-                                                                        "Ok"))
-                                                              ],
-                                                            )
-                                                          ],
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              ListView.builder(
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  itemCount: jData[
+                                                                          'products']
+                                                                      .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    return PackDescCard(
+                                                                      imgUrl: '${jData['products'][index]['image_url']}'.replaceAll(
+                                                                          'http://',
+                                                                          'https://'),
+                                                                      name:
+                                                                          '${jData['products'][index]['product_name']}',
+                                                                      qty:
+                                                                          '${jData['products'][index]['quantity']} ${jData['products'][index]['metrics']}',
+                                                                      itemCount:
+                                                                          jData['products'][index]
+                                                                              [
+                                                                              'item_pack_quantity'],
+                                                                    );
+                                                                  }),
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .end,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child: Text(
+                                                                          "Ok"))
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
                                                         )),
                                                   ),
                                                 )
@@ -268,28 +277,37 @@ class _CartListState extends State<CartList> {
                                           resp[1]['message'], context);
                                       if (resp[0] == 200) {
                                         setState(() {
-                                          MyApp.cartList['packs'].removeAt(i);
+                                          MyApp.cartList['packs']
+                                              .removeAt(index);
                                         });
                                       }
                                       loadPrice();
+                                      widget.onCountChange(
+                                          MyApp.cartList.length > 0
+                                              ? MyApp.cartList['products']
+                                                      .length +
+                                                  MyApp.cartList['packs'].length
+                                              : 0);
+                                      setState(() {});
                                     },
                                     onQuantityChange: (val) async {
+                                      print(val);
                                       List resp = await cartHandler.updateCart({
                                         "product_pack_id":
                                             MyApp.cartList['packs'][index]
                                                 ['pack_id'],
                                         "quantity": val.toString()
                                       });
+                                      print(resp);
                                       if (resp[0] == 200) {
-                                        setState(() {
-                                          MyApp.cartList['packs'][index]
-                                              ['cartQuantity'] = val.toString();
-                                        });
+                                        MyApp.cartList['packs'][index]
+                                            ['cartQuantity'] = val.toString();
                                       } else {
                                         MyApp.showToast(
                                             resp[1]['message'], context);
                                       }
                                       loadPrice();
+                                      setState(() {});
                                     },
                                   ),
                                 );

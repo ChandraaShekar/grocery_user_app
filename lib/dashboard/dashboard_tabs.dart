@@ -24,6 +24,7 @@ class _DashboardTabsState extends State<DashboardTabs>
   List<String> headings = ['Store', 'Cart', 'Favorites'];
   String currentHeading = "Welcome, ${MyApp.userInfo['name']}";
   List featured, sale, banners, categories;
+  int cartCount = 0;
   @override
   void initState() {
     _controller = new TabController(length: 3, vsync: this);
@@ -33,9 +34,18 @@ class _DashboardTabsState extends State<DashboardTabs>
     super.initState();
   }
 
+  loadCartCount() {
+    setState(() {
+      cartCount = MyApp.cartList.isNotEmpty
+          ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
+          : 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    loadCartCount();
     return Scaffold(
       appBar: Header.appBar(
           '$currentHeading',
@@ -108,8 +118,7 @@ class _DashboardTabsState extends State<DashboardTabs>
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4.0, horizontal: 5.0),
-                                  child: Text(
-                                      "${MyApp.cartList.isNotEmpty ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length) : 0}",
+                                  child: Text("$cartCount",
                                       style: TextStyle(color: Colors.white)),
                                 )),
                           )
@@ -147,7 +156,11 @@ class _DashboardTabsState extends State<DashboardTabs>
                       controller: _controller,
                       children: <Widget>[
                     ProductsHome(),
-                    CartList(),
+                    CartList(
+                      onCountChange: (x) => setState(() {
+                        cartCount = x;
+                      }),
+                    ),
                     WishListProducts(),
                     // Container(
                     //   child: Center(
