@@ -30,17 +30,16 @@ class _CartListState extends State<CartList> {
 
   @override
   void initState() {
+    super.initState();
     MyApp.reloadCart().then((value) {
-      setState(() {
-        MyApp.cartList = value;
-      });
+      MyApp.cartList = value;
       if (MyApp.cartList['products'] != null ||
           MyApp.cartList['packs'] != null) {
         loadPrice();
       }
       loaded = true;
     });
-    super.initState();
+    setState(() {});
   }
 
   void loadPrice() async {
@@ -163,8 +162,8 @@ class _CartListState extends State<CartList> {
                               itemCount: packs.length,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
-                                var jData = jsonDecode(
-                                    MyApp.cartList['packs'][0]['pack_data']);
+                                var jData = jsonDecode(MyApp.cartList['packs']
+                                    [index]['pack_data']);
                                 return GestureDetector(
                                   onTap: () {
                                     print(jData);
