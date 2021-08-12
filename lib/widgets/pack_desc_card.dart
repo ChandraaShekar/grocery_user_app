@@ -17,6 +17,7 @@ class PackDescCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(8, 5, 8, 0),
       child: Card(
         // shape: BorderRadius.circular(15),
+        color: Color(0xFFF9F9F9),
         child: Container(
           height: 80,
           child: Padding(

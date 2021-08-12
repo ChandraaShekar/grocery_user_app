@@ -6,7 +6,7 @@ class Constants {
   static final String authTokenValue = "authTokenValue";
   static final String loginId = "LoginId";
   static final String userInfo = "userInfo";
-  static final String mapApiKey ='AIzaSyC16rxHK2CGpngeZK_rF8gfVi42sAu9OsA';
+  static final String mapApiKey = 'AIzaSyC16rxHK2CGpngeZK_rF8gfVi42sAu9OsA';
 
   static final String baseUrl = "https://8bitchaps.com/gap_user/public/";
 
@@ -18,8 +18,9 @@ class Constants {
   static final String offerImage = "assets/images/offer1.png";
   static final String only4uImage = "assets/images/only4u.png";
   static final String beverageImage = "assets/images/beverage.png";
-  static final String successImage = "assets/images/success.gif";
-  static final String failedImage = "assets/images/failed.gif";
+  static final String couponSuccessImage = "assets/images/success.gif";
+  static final String couponFailedImage = "assets/images/coupon-failed.gif";
+  static final String paymentFailedImage = "assets/images/payment-failed.gif";
   static final String paymentSuccessImage = "assets/images/payment-success.gif";
 
   static final String platformTag = "Platform";

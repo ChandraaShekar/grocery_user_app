@@ -95,24 +95,48 @@ class _OrderHistoryState extends State<OrderHistory> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 10.0, top: 10, bottom: 5),
-                              child: TextWidget('$date', textType: "label",),
+                              child: TextWidget(
+                                '$date',
+                                textType: "label",
+                              ),
                             ),
                             OrderHistoryCard(
                               funcCallback: (String h) {
-                                payOrderId = '${orders[index]['order_id']}';
+                                int discountPrice = int.parse((double.parse(
+                                            orders[index]['discount_price']) *
+                                        100)
+                                    .toStringAsFixed(0));
+                                int totalPrice = int.parse((double.parse(
+                                            orders[index]['total_price']) *
+                                        100)
+                                    .toStringAsFixed(0));
+
+                                // if (orders[index]['discount_price'] == 0) {
+                                //   totalAmount = int.parse((double.parse(
+                                //               orders[index]['total_amount']
+                                //                   .toString()) *
+                                //           100)
+                                //       .toStringAsFixed(2));
+                                // } else {
+                                //   totalAmount = int.parse((double.parse(
+                                //               orders[index]['discount_price']
+                                //                   .toString()) *
+                                //           100)
+                                //       .toStringAsFixed(2));
+                                // }
+                                // payOrderId = '${orders[index]['order_id']}';
                                 try {
                                   Map<String, dynamic> options = {
                                     "key": "rzp_test_kL23yx68xeTo63",
-                                    "amount": (double.parse(orders[index]
-                                                ['price_after_discount']) *
-                                            100)
-                                        .toInt(),
+                                    "amount": (discountPrice > 0)
+                                        ? discountPrice
+                                        : totalPrice,
                                     "name":
                                         "Order Id: #${orders[index]['order_id']}",
                                     "description":
                                         "One final set to finish the order",
                                     // "order_id": resp[1]['order_id'],
-                                    "timeout": 120,
+                                    "timeout": 180,
                                     "prefil": {
                                       "contact": MyApp.userInfo['phone_no'],
                                       "email": MyApp.userInfo['email']

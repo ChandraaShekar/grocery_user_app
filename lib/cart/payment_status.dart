@@ -39,7 +39,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
               Image.asset(
                   (widget.paymentSuccess)
                       ? Constants.paymentSuccessImage
-                      : Constants.failedImage,
+                      : Constants.paymentFailedImage,
                   width: MediaQuery.of(context).size.width),
               TextWidget(
                   (widget.paymentSuccess)

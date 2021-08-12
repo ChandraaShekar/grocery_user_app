@@ -11,6 +11,7 @@ import 'package:user_app/others/userLocationOnMap.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/primary_button.dart';
+import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/text_widget.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 
@@ -30,7 +31,7 @@ class _CheckoutAddressState extends State<CheckoutAddress>
 
   void initState() {
     super.initState();
-    predictions();
+    // predictions();
     address = TextEditingController(text: MyApp.userInfo['address']);
     houseNo = TextEditingController(text: MyApp.userInfo['flat_no']);
     landmark = TextEditingController(text: MyApp.userInfo['landmark']);
@@ -138,46 +139,49 @@ class _CheckoutAddressState extends State<CheckoutAddress>
                             })),
                     SizedBox(height: 30),
                     Center(
-                      child: PrimaryButton(
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          Map<String, dynamic> exportData = {
-                            "address": address.text,
-                            "flat_no": houseNo.text,
-                            "landmark": landmark.text,
-                            "user_lat": MyApp.lat,
-                            "user_lng": MyApp.lng
-                          };
-                          print("BEFORE: $exportData");
-                          RegisterApiHandler updateHandler =
-                              new RegisterApiHandler(exportData);
+                      child: Container(
+                        height: 50,
+                        child: PrimaryButton(
+                          onPressed: () async {
+                            FocusScope.of(context).unfocus();
+                            Map<String, dynamic> exportData = {
+                              "address": address.text,
+                              "flat_no": houseNo.text,
+                              "landmark": landmark.text,
+                              "user_lat": MyApp.lat,
+                              "user_lng": MyApp.lng
+                            };
+                            print("BEFORE: $exportData");
+                            RegisterApiHandler updateHandler =
+                                new RegisterApiHandler(exportData);
 
-                          List resp = await updateHandler.updateAddress();
+                            List resp = await updateHandler.updateAddress();
 
-                          print("${resp[1]}");
-                          MyApp.showToast(resp[1]['message'], context);
-                          if (resp[0] == 200) {
-                            // NaviMyApp.showToast(response[1]['message'], context);
-                            SharedPreferences sharedPreferences =
-                                await SharedPreferences.getInstance();
-                            sharedPreferences.setString(Constants.userInfo,
-                                jsonEncode(resp[1]['user']));
-                            MyApp.userInfo = resp[1]['user'];
+                            print("${resp[1]}");
+                            MyApp.showToast(resp[1]['message'], context);
+                            if (resp[0] == 200) {
+                              // NaviMyApp.showToast(response[1]['message'], context);
+                              SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                              sharedPreferences.setString(Constants.userInfo,
+                                  jsonEncode(resp[1]['user']));
+                              MyApp.userInfo = resp[1]['user'];
 
-                            sharedPreferences.setString(
-                                Constants.authTokenValue,
-                                jsonEncode(resp[1]['access_token']));
-                            MyApp.authTokenValue = resp[1]['access_token'];
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Payments()));
-                          }
-                        },
-                        backgroundColor: Constants.kButtonBackgroundColor,
-                        textColor: Constants.kButtonTextColor,
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        text: "CONTINUE",
+                              sharedPreferences.setString(
+                                  Constants.authTokenValue,
+                                  jsonEncode(resp[1]['access_token']));
+                              MyApp.authTokenValue = resp[1]['access_token'];
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Payments()));
+                            }
+                          },
+                          backgroundColor: Constants.primaryColor,
+                          textColor: Color(0xFFFFFFFF),
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          text: "CONTINUE",
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),

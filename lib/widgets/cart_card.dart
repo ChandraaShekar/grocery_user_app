@@ -36,7 +36,7 @@ class _CartCardState extends State<CartCard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Card(
-      elevation: 1,
+      elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 4.0),

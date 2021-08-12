@@ -37,7 +37,7 @@ class _OrderStatusState extends State<OrderStatus> {
             Image.asset(
                 (widget.orderSuccess)
                     ? Constants.paymentSuccessImage
-                    : Constants.failedImage,
+                    : Constants.paymentFailedImage,
                 width: MediaQuery.of(context).size.width),
             TextWidget(
                 (widget.orderSuccess)

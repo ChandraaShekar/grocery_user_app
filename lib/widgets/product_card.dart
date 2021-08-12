@@ -38,6 +38,7 @@ class _ProductCardState extends State<ProductCard> {
       height: size.width / 1.9,
       width: size.width / 2.1,
       child: Card(
+        color: Color(0xFFF9F9F9),
         elevation: 1,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 2.0),

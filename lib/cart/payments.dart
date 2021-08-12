@@ -465,12 +465,13 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                                           BorderRadius.circular(
                                                                               15),
                                                                       child: Container(
-                                                                          height: size.height * 0.28,
+                                                                          height: size.height * 0.38,
                                                                           width: size.width * 0.7,
                                                                           color: Colors.white,
                                                                           child: Column(
                                                                             children: [
-                                                                              Image.asset(couponValid ? Constants.successImage : Constants.failedImage, width: (size.width * 0.7) / 2, height: (size.height * 0.15)),
+                                                                              couponValid ? Image.asset(Constants.couponSuccessImage, width: (size.width * 0.7) / 2, height: (size.height * 0.25)) : Image.asset(Constants.couponFailedImage, width: (size.width * 0.7) / 2, height: (size.height * 0.12)),
+                                                                              couponValid ? SizedBox() : SizedBox(height: 10),
                                                                               TextWidget("'${coupon['coupon_id']}' ${val['message']}", textType: "title"),
                                                                               TextWidget(couponValid ? "You have saved Rs. ${val['amount']}" : "", textType: "para-bold"),
                                                                               Divider(),
@@ -748,7 +749,9 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                   var resp = await orderHandler.placeOrder({
                     "applied_coupon": "$couponApplied",
                     "coupon_valid": "$couponValid",
-                    "coupon_code": couponCode != "" && couponCode != null ?couponCode : "NONE",
+                    "coupon_code": couponCode != "" && couponCode != null
+                        ? couponCode
+                        : "NONE",
                     "scheduled_order": "$isScheduled",
                     "schedule_time": "$selectedDate",
                     "user_lat": "${MyApp.lat}",
@@ -759,7 +762,6 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                   print(resp);
                   if (resp[0] == 200) {
                     Navigator.pop(context);
-                    MyApp.showToast(resp[1]['message'], context);
                     setState(() {
                       orderId = resp[1]['order_id'];
                     });
@@ -772,7 +774,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         "name": "Order Id: #${resp[1]['order_id']}",
                         "description": "One final set to finish the order",
                         // "order_id": resp[1]['order_id'],
-                        "timeout": 120,
+                        "timeout": 180,
                         "prefil": {
                           "contact": MyApp.userInfo['phone_no'],
                           "email": MyApp.userInfo['email']

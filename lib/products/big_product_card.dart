@@ -25,7 +25,7 @@ class _BigProductCardState extends State<BigProductCard> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Card(
-      elevation: 1,
+      elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         height: size.width / 1.5,
