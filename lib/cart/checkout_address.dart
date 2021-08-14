@@ -11,7 +11,6 @@ import 'package:user_app/others/userLocationOnMap.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/primary_button.dart';
-import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/text_widget.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/orderApi.dart';
+import 'package:user_app/cart/address_search_map.dart';
 import 'package:user_app/cart/order_placed.dart';
 import 'package:user_app/cart/payment_status.dart';
 import 'package:user_app/main.dart';
@@ -14,6 +15,7 @@ import 'package:user_app/utils/header.dart';
 import 'package:user_app/utils/primary_button.dart';
 import 'package:user_app/widgets/cart_card.dart';
 import 'package:user_app/widgets/pack_desc_card.dart';
+import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/text_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -180,6 +182,11 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  changeAddress(int i) {
+    MyApp.setDefaultAddress(i);
+    setState(() {});
   }
 
   @override
@@ -473,7 +480,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                                               couponValid ? Image.asset(Constants.couponSuccessImage, width: (size.width * 0.7) / 2, height: (size.height * 0.25)) : Image.asset(Constants.couponFailedImage, width: (size.width * 0.7) / 2, height: (size.height * 0.12)),
                                                                               couponValid ? SizedBox() : SizedBox(height: 10),
                                                                               TextWidget("'${coupon['coupon_id']}' ${val['message']}", textType: "title"),
-                                                                              TextWidget(couponValid ? "You have saved Rs. ${val['amount']}" : "", textType: "para-bold"),
+                                                                              TextWidget(couponValid ? "You have saved Rs. ${val['amount'].toStringAsFixed(2)}" : "", textType: "para-bold"),
                                                                               Divider(),
                                                                               Padding(
                                                                                 padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -656,17 +663,97 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                             vertical: 10.0, horizontal: 8.0),
                         child: TextWidget("Address: ", textType: "title-light"),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextWidget(
-                            "${MyApp.userInfo['flat_no']}, ${MyApp.userInfo['address']}",
-                            textType: "title"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextWidget(
-                            "Landmark: ${MyApp.userInfo['landmark']}",
-                            textType: "title"),
+                      Row(
+                        children: [
+                          Container(
+                            height: size.height * 0.1,
+                            width: size.width * 0.80,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: TextWidget(
+                                      "${MyApp.addresses[MyApp.selectedAddressId]['address']}",
+                                      textType: "title"),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: TextWidget(
+                                      "Landmark: ${MyApp.addresses[MyApp.selectedAddressId]['landmark']}",
+                                      textType: "title"),
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                              icon: Icon(Icons.edit,
+                                  color: Constants.primaryColor),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return Container(
+                                            height: size.height * 0.5,
+                                            color: Colors.white,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    new Expanded(
+                                                      child: ListView.builder(
+                                                          itemCount: MyApp
+                                                              .addresses.length,
+                                                          itemBuilder: (_, i) {
+                                                            // return Text(
+                                                            //     "${jsonEncode(MyApp.addresses[i])}");
+                                                            //       print(MyApp.addresses[i]);
+                                                            return ListTile(
+                                                                title: TextWidget(
+                                                                    "Other",
+                                                                    textType:
+                                                                        "title"),
+                                                                subtitle: TextWidget(
+                                                                    MyApp.addresses[
+                                                                            i][
+                                                                        'address'],
+                                                                    textType:
+                                                                        "para"),
+                                                                onTap: () {
+                                                                  changeAddress(
+                                                                      i);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                });
+                                                          }),
+                                                    ),
+                                                    SizedBox(height: 5),
+                                                    Divider(),
+                                                    SizedBox(height: 5),
+                                                    PrimaryCustomButton(
+                                                        title: "Add New",
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (_) =>
+                                                                      AddressSearchMap(
+                                                                          onSave:
+                                                                              Payments())));
+                                                        })
+                                                  ]),
+                                            ));
+                                      });
+                                    });
+                              })
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -754,9 +841,14 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         : "NONE",
                     "scheduled_order": "$isScheduled",
                     "schedule_time": "$selectedDate",
-                    "user_lat": "${MyApp.lat}",
-                    "user_lng": "${MyApp.lng}",
-                    "user_address": "${MyApp.userInfo['address']}",
+                    "user_lat":
+                        "${MyApp.addresses[MyApp.selectedAddressId]['lat']}",
+                    "user_lng":
+                        "${MyApp.addresses[MyApp.selectedAddressId]['lng']}",
+                    "user_address":
+                        "${MyApp.addresses[MyApp.selectedAddressId]['address']}",
+                    "landmark":
+                        "${MyApp.addresses[MyApp.selectedAddressId]['landmark']}",
                     "payment_method": "$paymentMethod",
                   });
                   print(resp);

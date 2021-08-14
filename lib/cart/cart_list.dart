@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:user_app/api/cartApi.dart';
-import 'package:user_app/cart/checkout_address.dart';
+import 'package:user_app/cart/payments.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/pack_desc_card.dart';
@@ -414,7 +414,7 @@ class _CartListState extends State<CartList> {
                             onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CheckoutAddress())),
+                                    builder: (context) => Payments())),
                           ),
                           SizedBox(
                             height: 20,

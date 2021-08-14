@@ -6,6 +6,8 @@ class Constants {
   static final String authTokenValue = "authTokenValue";
   static final String loginId = "LoginId";
   static final String userInfo = "userInfo";
+  static final String addressList = "addressList";
+  static final String currentAddressId = "currentAddressId";
   static final String mapApiKey = 'AIzaSyC16rxHK2CGpngeZK_rF8gfVi42sAu9OsA';
 
   static final String baseUrl = "https://8bitchaps.com/gap_user/public/";
