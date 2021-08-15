@@ -27,9 +27,10 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
   double longitude = MyApp.lng;
   String myAddress = "";
   GoogleMapController mapController;
-  AddressApiHandler addressApiHandler = AddressApiHandler();
+  AddressApiHandler addressApiHandler = new AddressApiHandler();
   TextEditingController addressType = new TextEditingController();
   TextEditingController address = new TextEditingController();
+  TextEditingController flat_no = new TextEditingController();
   TextEditingController landMark = new TextEditingController();
   List addressTypes = ["Home", "Work", "Other"];
 
@@ -184,8 +185,17 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                                               Colors.black))),
                                               TextField(
                                                   controller: address,
+                                                  readOnly: true,
                                                   decoration: InputDecoration(
                                                       labelText: "Address",
+                                                      labelStyle: TextStyle(
+                                                          color:
+                                                              Colors.black))),
+                                              TextField(
+                                                  controller: flat_no,
+                                                  decoration: InputDecoration(
+                                                      labelText:
+                                                          "Flat / House No.",
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.black))),
