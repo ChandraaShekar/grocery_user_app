@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:user_app/main.dart';
+// import 'package:user_app/main.dart';
 import 'package:user_app/others/banner_content.dart';
 import 'package:user_app/others/banner_products.dart';
 import 'package:user_app/others/pack_desc.dart';
@@ -92,9 +92,12 @@ class _HomePageProductsState extends State<HomePageProducts> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextWidget(
-                            "We are currently not operating in your location.",
-                            textType: "subheading",
+                          Padding(
+                            padding: const EdgeInsets.only(left:10.0, right: 10),
+                            child: TextWidget(
+                              "We are currently not operating in your location.",
+                              textType: "subheading",
+                            ),
                           ),
                           TextWidget("Hold tight, we are expanding quick.",
                               textType: "subheading"),
