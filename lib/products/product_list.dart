@@ -38,7 +38,7 @@ class _ProductListState extends State<ProductList> {
     if (widget.type.isNotEmpty) {
       if (widget.type == "featured") {
         List resp = await productHandler.getFeaturedProducts();
-        print(resp);
+       
         if (resp[0] == 200) {
           setState(() {
             productList = resp[1];
@@ -53,7 +53,8 @@ class _ProductListState extends State<ProductList> {
         }
       } else if (widget.type == "category") {
         List resp = await productHandler.getCategoryProducts(widget.categoryId);
-        if (resp[0] == 200) {
+       print("category response $resp");
+        if (resp[0] == 200) { 
           setState(() {
             productList = resp[1];
           });
