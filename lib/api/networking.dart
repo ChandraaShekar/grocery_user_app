@@ -14,7 +14,7 @@ class ServiceWithHeader {
       'Content-Type': 'application/json; charset=UTF-8',
       'Access-Control-Allow-Origin': "8bitchaps.com",
       'Access-Control-Allow-Methods': "GET, POST, OPTIONS",
-      'Authorization': 'Bearer ' + MyApp.authTokenValue.replaceAll('"', ''),
+      'Authorization': "Bearer ${MyApp.authTokenValue.replaceAll("\"", "")}",
     };
     final response = await http.get(Uri.parse(url), headers: headersMap);
     // print(response.body.toString());
@@ -40,7 +40,7 @@ class ServiceWithHeaderDataPost {
       'Content-Type': 'application/json; charset=UTF-8',
       'Access-Control-Allow-Origin': "8bitchaps.com",
       'Access-Control-Allow-Methods': "GET, POST, OPTIONS",
-      'Authorization': 'Bearer ' + MyApp.authTokenValue.replaceAll('"', ''),
+      'Authorization': "Bearer ${MyApp.authTokenValue.replaceAll("\"", "")}",
     };
     final response = await http.post(
       Uri.parse(url),

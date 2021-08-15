@@ -13,7 +13,7 @@ class Constants {
   static final String baseUrl = "https://8bitchaps.com/gap_user/public/";
 
   // Images
-  static final String splashScreen = "assets/images/splash.jpeg";
+  static final String splashScreen = "assets/images/splash.png";
   static final String welcomeScreen = "assets/images/welcome.png";
   static final String moveupImage = "assets/images/move_up.png";
   static final String padImage = "assets/images/pad.png";

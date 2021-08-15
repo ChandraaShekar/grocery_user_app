@@ -30,7 +30,7 @@ class _OtpPageState extends State<OtpPage> {
   @override
   void initState() {
     _load();
-    otpController=TextEditingController();
+    otpController = TextEditingController();
     super.initState();
   }
 
@@ -63,46 +63,39 @@ class _OtpPageState extends State<OtpPage> {
                 .signInWithCredential(credential)
                 .then((value) async {
               if (value.user != null) {
-                              final User user = auth.currentUser;
-                              final uid = user.uid;
-                              MyApp.loginIdValue = uid;
-                              MyApp.authTokenValue = "";
-                              setState(() {});
-                              var authToken = await user.getIdToken();
-                              LoginApiHandler loginHandler =
-                                  new LoginApiHandler(
-                                      {"auth_token": authToken});
-                              var response = await loginHandler.login();
-                              print(response);
-                              if (response[0] == 200) {
-                                // NaviMyApp.showToast(response[1]['message'], context);
-                                SharedPreferences sharedPreferences =
-                                    await SharedPreferences.getInstance();
-                                sharedPreferences.setString(Constants.userInfo,
-                                    jsonEncode(response[1]['user']));
-                                MyApp.userInfo = response[1]['user'];
+                final User user = auth.currentUser;
+                final uid = user.uid;
+                MyApp.loginIdValue = uid;
+                MyApp.authTokenValue = "";
+                setState(() {});
+                var authToken = await user.getIdToken();
+                LoginApiHandler loginHandler =
+                    new LoginApiHandler({"auth_token": authToken});
+                var response = await loginHandler.login();
+                print(response);
+                if (response[0] == 200) {
+                  // NaviMyApp.showToast(response[1]['message'], context);
+                  SharedPreferences sharedPreferences =
+                      await SharedPreferences.getInstance();
+                  sharedPreferences.setString(
+                      Constants.userInfo, jsonEncode(response[1]['user']));
+                  MyApp.userInfo = response[1]['user'];
 
-                                sharedPreferences.setString(
-                                    Constants.authTokenValue,
-                                    jsonEncode(response[1]['access_token']));
-                                MyApp.authTokenValue =
-                                    response[1]['access_token'];
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DashboardTabs()));
-                              } else if (response[0] == 404) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Registration()));
-                              } else {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => ()));
-                              }
-                            }
+                  sharedPreferences.setString(Constants.authTokenValue,
+                      jsonEncode(response[1]['access_token']));
+                  MyApp.authTokenValue = response[1]['access_token'];
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DashboardTabs()));
+                } else if (response[0] == 404) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Registration()));
+                } else {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => ()));
+                }
+              }
             });
           },
           verificationFailed: (FirebaseAuthException e) {
@@ -162,7 +155,7 @@ class _OtpPageState extends State<OtpPage> {
                 ),
                 SizedBox(height: 8),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextField(
                     maxLength: 6,
                     keyboardType: TextInputType.number,
@@ -194,22 +187,17 @@ class _OtpPageState extends State<OtpPage> {
                     text: "VERIFY",
                     width: MediaQuery.of(context).size.width,
                     onPressed: () async {
-                      scode=otpController.text;
+                      scode = otpController.text;
                       if (scode.length < 6) {
                         MyApp.showToast('Enter valid otp', context);
                       } else if (verfId == null && !kIsWeb) {
                         MyApp.showToast('wait for few seconds', context);
                       } else if (kIsWeb) {
-                        //     try{
-                        print('hey');
                         await confirmationResult
                             .confirm(scode)
                             .then((value) async {
-                          print('hey2');
                           if (value.user != null) {
-                            print('hey3');
                             final User user = auth.currentUser;
-                            print('hey4');
                             final uid = user.uid;
                             MyApp.loginIdValue = uid;
                             MyApp.authTokenValue = "";
@@ -218,11 +206,8 @@ class _OtpPageState extends State<OtpPage> {
                             print(authToken);
                             LoginApiHandler loginHandler =
                                 new LoginApiHandler({"auth_token": authToken});
-                            print('hey7');
                             var response = await loginHandler.login();
-                            print('bb' + response.toString());
                             if (response[0] == 200) {
-                              print('hey6');
                               // NaviMyApp.showToast(response[1]['message'], context);
                               SharedPreferences sharedPreferences =
                                   await SharedPreferences.getInstance();
@@ -235,6 +220,7 @@ class _OtpPageState extends State<OtpPage> {
                                   jsonEncode(response[1]['access_token']));
                               MyApp.authTokenValue =
                                   response[1]['access_token'];
+                              MyApp.loadAddresses();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -252,10 +238,6 @@ class _OtpPageState extends State<OtpPage> {
                             }
                           }
                         });
-                        //  } catch (e) {
-                        //     FocusScope.of(context).unfocus();
-                        //     MyApp.showToast('Invalid otp', context);
-                        //   }
                       } else if (verfId != null) {
                         try {
                           await FirebaseAuth.instance

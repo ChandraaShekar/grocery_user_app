@@ -5,8 +5,8 @@ import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/cart/address_search_map.dart';
 import 'package:user_app/cart/cart_list.dart';
 import 'package:user_app/main.dart';
+import 'package:user_app/products/product_home_improved.dart';
 import 'package:user_app/products/product_search.dart';
-import 'package:user_app/products/products_home.dart';
 import 'package:user_app/products/wishlist_products.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/platform.dart';
@@ -30,9 +30,11 @@ class _DashboardTabsState extends State<DashboardTabs>
       : 0;
   CartApiHandler cartHandler = new CartApiHandler();
   AddressApiHandler addressApi = AddressApiHandler();
-  String displayAddress = MyApp.addresses.length > 0
+  Map homeProducts = {};
+  String displayAddress = MyApp.addresses != null && MyApp.addresses.length > 0
       ? MyApp.addresses[MyApp.selectedAddressId]['address']
       : "";
+  List addresses;
   @override
   void initState() {
     _controller = new TabController(length: 3, vsync: this);
@@ -40,24 +42,52 @@ class _DashboardTabsState extends State<DashboardTabs>
       _controller.animateTo(1);
     }
     super.initState();
-    MyApp.getAddresses();
+    if (MyApp.lat == null || MyApp.lng == null) {
+      loadAddresses();
+    } else {
+      changeDisplayAddress(MyApp.selectedAddressId);
+    }
+    setState(() {});
   }
 
-  changeDisplayAddress(int i) {
-    if (MyApp.addresses.length > 0) {
-      MyApp.setDefaultAddress(i);
-      displayAddress = MyApp.addresses[i]['address'];
-      setState(() {});
+  changeDisplayAddress(int i) async {
+    if (MyApp.addresses == null) {
+      loadAddresses();
+    } else {
+      if (MyApp.addresses.length > 0) {
+        print("selected Address: CHANGING ADDRESS FROM DASHBOARD TABS to $i");
+        MyApp.setDefaultAddress(i);
+        MyApp.lat = double.parse(MyApp.addresses[i]['lat']);
+        MyApp.lng = double.parse(MyApp.addresses[i]['lng']);
+        displayAddress = MyApp.addresses[i]['address'];
+        homeProducts = await MyApp.loadHomePage(MyApp.lat, MyApp.lng);
+        setState(() {});
+      }
     }
+  }
+
+  loadAddresses() async {
+    MyApp.selectedAddressId = await MyApp.getDefaultAddress();
+    displayAddress = MyApp.addresses[MyApp.selectedAddressId]['address'];
+    AddressApiHandler addressApiHandler = AddressApiHandler();
+    List resp = await addressApiHandler.getAddresses();
+    setState(() {
+      MyApp.addresses = resp[1];
+      displayAddress = MyApp.addresses[MyApp.selectedAddressId == -1
+          ? 0
+          : MyApp.selectedAddressId]['address'];
+      MyApp.lat = double.parse(resp[1][MyApp.selectedAddressId]['lat']);
+      MyApp.lng = double.parse(resp[1][MyApp.selectedAddressId]['lng']);
+    });
   }
 
   loadCartCount() async {
     List getResp = await cartHandler.getCart();
     MyApp.cartList = getResp[1];
-    cartCount = MyApp.cartList.isNotEmpty
+    cartCount = MyApp.cartList['products'] != null ||
+            MyApp.cartList['packs'] != null
         ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
         : 0;
-
     setState(() {});
   }
 
@@ -71,7 +101,6 @@ class _DashboardTabsState extends State<DashboardTabs>
           backgroundColor: Colors.transparent,
           title: GestureDetector(
             onTap: () {
-              print(MyApp.addresses);
               showModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
@@ -84,13 +113,15 @@ class _DashboardTabsState extends State<DashboardTabs>
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  TextWidget("Pick your Address",
+                                      textType: "heading"),
+                                  SizedBox(height: 10),
+                                  Divider(),
+                                  SizedBox(height: 10),
                                   new Expanded(
                                     child: ListView.builder(
                                         itemCount: MyApp.addresses.length,
                                         itemBuilder: (_, i) {
-                                          // return Text(
-                                          //     "${jsonEncode(MyApp.addresses[i])}");
-                                          //       print(MyApp.addresses[i]);
                                           return ListTile(
                                               title: TextWidget("Other",
                                                   textType: "title"),
@@ -122,14 +153,16 @@ class _DashboardTabsState extends State<DashboardTabs>
                                                             }
                                                             setState(() {});
                                                           }),
-                                              onTap: () {
+                                              onTap: () async {
                                                 changeDisplayAddress(i);
-                                                // setState(() {});
+                                                homeProducts =
+                                                    await MyApp.loadHomePage(
+                                                        MyApp.addresses[i]
+                                                            ['lat'],
+                                                        MyApp.addresses[i]
+                                                            ['lng']);
+                                                setState(() {});
                                                 Navigator.pop(context);
-                                                // displayAddress =
-                                                //     MyApp.addresses[MyApp
-                                                //             .selectedAddressId]
-                                                //         ['address'];
                                               });
                                         }),
                                   ),
@@ -174,21 +207,6 @@ class _DashboardTabsState extends State<DashboardTabs>
               ],
             ),
           ]),
-      // Header.appBar(
-      //     '$currentHeading',
-      //     Row(
-      //       children: [
-      //         IconButton(
-      //             icon: Icon(Ionicons.ios_search),
-      //             onPressed: () {
-      //               Navigator.push(
-      //                   context,
-      //                   MaterialPageRoute(
-      //                       builder: (context) => ProductSearch()));
-      //             }),
-      //       ],
-      //     ),
-      //     false),
       drawer: PlatformState.getDrawer(context),
       body: Container(
         child: Column(
@@ -250,16 +268,6 @@ class _DashboardTabsState extends State<DashboardTabs>
                       ),
                     ),
                   ),
-                  // Container(
-                  //   width: MediaQuery.of(context).size.width * 0.15,
-                  //   child: Tab(
-                  //     icon: Icon(
-                  //       Ionicons.md_person,
-                  //       color: Constants.iconColor,
-                  //       size: size.height / 30,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -268,18 +276,15 @@ class _DashboardTabsState extends State<DashboardTabs>
                   child: new TabBarView(
                       controller: _controller,
                       children: <Widget>[
-                    ProductsHome(),
+                    HomePageProducts(
+                      homepageData: homeProducts,
+                    ),
                     CartList(
                       onCountChange: (x) => setState(() {
                         cartCount = x;
                       }),
                     ),
                     WishListProducts(),
-                    // Container(
-                    //   child: Center(
-                    //     child: Text('home'),
-                    //   ),
-                    // ),
                   ])),
             )
           ],

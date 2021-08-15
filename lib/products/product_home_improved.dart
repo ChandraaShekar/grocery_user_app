@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +14,15 @@ import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/CategoryGrid.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
-class ProductsHome extends StatefulWidget {
+class HomePageProducts extends StatefulWidget {
+  final Map homepageData;
+  HomePageProducts({key, this.homepageData}) : super(key: key);
+
   @override
-  _ProductsHomeState createState() => _ProductsHomeState();
+  _HomePageProductsState createState() => _HomePageProductsState();
 }
 
-class _ProductsHomeState extends State<ProductsHome> {
+class _HomePageProductsState extends State<HomePageProducts> {
   bool down = true;
   List featured,
       sale,
@@ -49,39 +51,30 @@ class _ProductsHomeState extends State<ProductsHome> {
     return result;
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void loadData() async {
-    MyApp.loadHomePage(MyApp.lat, MyApp.lng).then((val) {
-      setState(() {
-        productsArround = int.parse(val['products_arround']);
-        featured = val['featured'];
-        sale = val['sale'];
-        bestDeals = val['best_deals'];
-        frutteChoice = val['frutte_choice'];
-        topOffers = val['top_offers'];
-        categories = val['categories'];
-        banners = val['banners'];
-        promoBanners = val['promotional_banners'];
-        small_1 = promoBanners[0];
-        small_2 = promoBanners[1];
-        small_3 = promoBanners[2];
-        small_4 = promoBanners[3];
-        large_1 = promoBanners[4];
-        large_2 = promoBanners[5];
-        large_3 = promoBanners[6];
-        large_4 = promoBanners[7];
-        MyApp.lat = MyApp.addresses[MyApp.selectedAddressId]['lat'];
-        MyApp.lng = MyApp.addresses[MyApp.selectedAddressId]['lng'];
-      });
-    });
+    // print("DEFAULT: ${}");
+    productsArround = int.parse(widget.homepageData['products_arround']);
+    featured = widget.homepageData['featured'];
+    sale = widget.homepageData['sale'];
+    bestDeals = widget.homepageData['best_deals'];
+    frutteChoice = widget.homepageData['frutte_choice'];
+    topOffers = widget.homepageData['top_offers'];
+    categories = widget.homepageData['categories'];
+    banners = widget.homepageData['banners'];
+    promoBanners = widget.homepageData['promotional_banners'];
+    small_1 = promoBanners[0];
+    small_2 = promoBanners[1];
+    small_3 = promoBanners[2];
+    small_4 = promoBanners[3];
+    large_1 = promoBanners[4];
+    large_2 = promoBanners[5];
+    large_3 = promoBanners[6];
+    large_4 = promoBanners[7];
   }
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(

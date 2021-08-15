@@ -40,6 +40,8 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
         : (MyApp.addresses.length == 1)
             ? addressTypes[1]
             : addressTypes[2];
+
+    // MyApp.getAddresses();
     super.initState();
   }
 
@@ -58,16 +60,10 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=${Constants.mapApiKey}";
     var resp = await http.get(url);
     var data = jsonDecode(resp.body);
-    // data["results"][0]['address_components'].forEach((val) => setState(() {
-    //       myAddress = val['formatted_address'];
-    //     }));
-    print(data["results"][0]['geometry']);
     setState(() {
       myAddress = data["results"][0]['formatted_address'];
       address.text = myAddress;
     });
-
-    // print(data["results"][0]['address_components']);
   }
 
   onLocationChange(LatLng newPosition) {
@@ -98,11 +94,14 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                       },
                       myLocationButtonEnabled: true,
                       initialCameraPosition: CameraPosition(
-                          target: LatLng(MyApp.lat, MyApp.lng), zoom: 14),
+                          target: LatLng(
+                              MyApp.lat ?? 17.3850, MyApp.lng ?? 78.4867),
+                          zoom: 14),
                       markers: {
                         Marker(
                           markerId: MarkerId("398233"),
-                          position: LatLng(latitude, longitude),
+                          position:
+                              LatLng(latitude ?? 17.3850, longitude ?? 78.4867),
                         )
                       },
                       onTap: onLocationChange),
@@ -216,9 +215,14 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                                         resp[1]['message'],
                                                         context);
                                                     if (resp[0] == 200) {
-                                                      MyApp.setDefaultAddress(
-                                                          MyApp.addresses
-                                                              .length);
+                                                      MyApp.loadAddresses()
+                                                          .then((_) {
+                                                        MyApp.setDefaultAddress(
+                                                            MyApp.addresses
+                                                                    .length -
+                                                                1);
+                                                        setState(() {});
+                                                      });
                                                       Navigator.pushReplacement(
                                                           context,
                                                           MaterialPageRoute(
@@ -269,7 +273,6 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                               enabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none)),
                       suggestionsCallback: (pattern) async {
-                        print(pattern);
                         return await getFromAddress(pattern);
                       },
                       itemBuilder: (context, suggestion) {
@@ -291,7 +294,6 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                           ),
                         );
                         setState(() {});
-                        print(suggestion['geometry']);
                       },
                     )),
               ),

@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:user_app/api/addressApi.dart';
 import 'package:user_app/api/cartApi.dart';
-import 'package:user_app/api/registerapi.dart';
+import 'package:user_app/api/productapi.dart';
 import 'package:user_app/api/wishlistapi.dart';
 import 'package:user_app/auth/login.dart';
 import 'package:user_app/cart/address_search_map.dart';
@@ -30,7 +30,6 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('A BG MSGL ${message.messageId}');
 }
 
 Future<void> main() async {
@@ -55,6 +54,7 @@ class MyApp extends StatelessWidget {
   static List wishListIds = [];
   static List addresses = [];
   static Map cartList = {};
+  static Map homePage = {};
   static int selectedAddressId = 0;
   static double lat, lng;
   static IO.Socket socket;
@@ -80,7 +80,6 @@ class MyApp extends StatelessWidget {
       'transports': ['websocket'],
       'autoConnect': false,
     });
-    print(socket.connected);
     socket.connect();
     socket.onConnect((data) => {print("SOCKET CONNECTED")});
     socket.onConnectError((data) => print("SOCKET STATUS: $data"));
@@ -90,28 +89,17 @@ class MyApp extends StatelessWidget {
     socketIOHandler();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     WishlistApiHandler wishlistHandler = new WishlistApiHandler();
-    reloadCart();
-    getAddresses();
     loginIdValue = preferences.getString(Constants.loginId);
     authTokenValue = preferences.getString(Constants.authTokenValue);
-    selectedAddressId = preferences.getInt(Constants.currentAddressId);
-    print(authTokenValue);
     var uinfo = preferences.getString(Constants.userInfo) ?? "{}";
     userInfo = jsonDecode(uinfo) ?? {};
-    if (userInfo.isNotEmpty) {
-      try {
-        lat = double.parse(userInfo['user_lat']);
-        lng = double.parse(userInfo['user_lng']);
-      } catch (exception) {
-        lat = null;
-        lng = null;
-      }
-    }
+    selectedAddressId = await getDefaultAddress();
+    loadAddresses();
+    reloadCart();
     List wishListResp = await wishlistHandler.getWishlistIds();
     if (wishListResp[0] == 200) {
       wishListIds = wishListResp[1];
     }
-    // print(userInfo);
     return userInfo;
   }
 
@@ -121,32 +109,12 @@ class MyApp extends StatelessWidget {
     Login.tag: (BuildContext context) => Login()
   };
 
-  static Future<List> getAddresses() async {
-    AddressApiHandler addressApiHandler = AddressApiHandler();
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List resp = await addressApiHandler.getAddresses();
-    if (resp[0] == 200) {
-      print(resp[1]);
-      if (resp[1].length == 0) {
-        setDefaultAddress(-1);
-      } else if (resp[1].length == 1) {
-        setDefaultAddress(0);
-      }
-      sharedPreferences
-          .setString(Constants.addressList, jsonEncode(resp[1]))
-          .then((res) {
-        addresses.clear();
-        addresses.addAll(resp[1]);
-      });
-      return resp[1];
-    } else {
-      return null;
-    }
-  }
-
   static Future<bool> setDefaultAddress(int addressId) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    selectedAddressId = addressId;
+    MyApp.selectedAddressId = addressId;
+    MyApp.lat = double.parse(MyApp.addresses[MyApp.selectedAddressId]['lat']);
+    MyApp.lng = double.parse(MyApp.addresses[MyApp.selectedAddressId]['lng']);
+    loadHomePage(lat, lng);
     return await sharedPreferences.setInt(
         Constants.currentAddressId, addressId);
   }
@@ -154,12 +122,21 @@ class MyApp extends StatelessWidget {
   static Future<int> getDefaultAddress() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     selectedAddressId = sharedPreferences.getInt(Constants.currentAddressId);
-    print("THis is default: $selectedAddressId");
+    print("selected Address: $selectedAddressId");
     return selectedAddressId;
   }
 
+  static Future<Map> loadHomePage(latx, lngy) async {
+    ProductApiHandler productHandler =
+        new ProductApiHandler(body: {"lat": latx, "lng": lngy});
+    var response = await productHandler.getHomeProducts();
+    MyApp.homePage = response[1];
+    MyApp.loadAddresses();
+    print("HOME DATA RESP: ${response[1]}");
+    return response[1];
+  }
+
   static Future<Map> reloadCart() async {
-    // print("AUTHTOKEN: $authTokenValue");
     cartList.clear();
     CartApiHandler cartHandler = new CartApiHandler();
     List cartListResp = await cartHandler.getCart();
@@ -170,22 +147,14 @@ class MyApp extends StatelessWidget {
     return cartList;
   }
 
-  static Future<bool> updateUserLocation(double lat, double lng) async {
-    RegisterApiHandler updateHandler =
-        new RegisterApiHandler({"user_lat": lat, "user_lng": lng});
-    var resp = await updateHandler.updateLocation();
-    // print("UPDATE RESP: ${resp[1]}");
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString(
-        Constants.userInfo, jsonEncode(resp[1]['user']));
-    MyApp.userInfo = resp[1]['user'];
-    sharedPreferences.setString(
-        Constants.authTokenValue, jsonEncode(resp[1]['access_token']));
-    MyApp.authTokenValue = resp[1]['access_token'];
-    if (resp[0] == 200) {
-      return true;
-    }
-    return false;
+  static loadAddresses() async {
+    print("Loding address");
+    AddressApiHandler addressApiHandler = AddressApiHandler();
+    List resp = await addressApiHandler.getAddresses();
+    selectedAddressId = await getDefaultAddress();
+    MyApp.addresses = resp[1];
+    MyApp.lat = double.parse(resp[1][MyApp.selectedAddressId]['lat']);
+    MyApp.lng = double.parse(resp[1][MyApp.selectedAddressId]['lng']);
   }
 
   @override
@@ -228,11 +197,11 @@ class MyApp extends StatelessWidget {
                     return Login();
                   } else if (snapshot.data.isNotEmpty &&
                       userInfo['account_status'] == 'ACTIVE') {
-                    if (addresses.length > 0) {
-                      return DashboardTabs();
-                    } else {
-                      return AddressSearchMap(onSave: DashboardTabs());
-                    }
+                    return addresses == null || addresses.length == 0
+                        ? AddressSearchMap(
+                            onSave: DashboardTabs(),
+                          )
+                        : DashboardTabs();
                   } else {
                     return Scaffold(
                       body: Center(child: CircularProgressIndicator()),

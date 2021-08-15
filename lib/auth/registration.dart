@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/api/registerapi.dart';
+import 'package:user_app/cart/address_search_map.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
@@ -188,16 +189,17 @@ class _RegistrationState extends State<Registration> {
                               sharedPreferences.setString(Constants.userInfo,
                                   jsonEncode(response[1]['user']));
                               MyApp.userInfo = response[1]['user'];
-
                               sharedPreferences.setString(
                                   Constants.authTokenValue,
                                   jsonEncode(response[1]['access_token']));
                               MyApp.authTokenValue =
                                   response[1]['access_token'];
+                              MyApp.loadAddresses();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DashboardTabs()));
+                                      builder: (context) => AddressSearchMap(
+                                          onSave: DashboardTabs())));
                             }
                             // else if (response[0] == 400) {
 
