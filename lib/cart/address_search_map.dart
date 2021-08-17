@@ -216,6 +216,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                                       "address_name":
                                                           addressType.text,
                                                       "address": address.text,
+                                                      "flat_no": flat_no.text,
                                                       "lat": latitude,
                                                       "lng": longitude,
                                                       "landmark": landMark.text
@@ -225,14 +226,14 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                                         resp[1]['message'],
                                                         context);
                                                     if (resp[0] == 200) {
-                                                      MyApp.loadAddresses()
-                                                          .then((_) {
-                                                        MyApp.setDefaultAddress(
-                                                            MyApp.addresses
-                                                                    .length -
-                                                                1);
-                                                        setState(() {});
-                                                      });
+                                                      // MyApp.loadAddresses()
+                                                      //     .then((_) {
+                                                      //   MyApp.setDefaultAddress(
+                                                      //       MyApp.addresses
+                                                      //               .length -
+                                                      //           1);
+                                                      //   setState(() {});
+                                                      // });
                                                       Navigator.pushReplacement(
                                                           context,
                                                           MaterialPageRoute(

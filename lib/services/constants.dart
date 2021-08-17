@@ -19,6 +19,7 @@ class Constants {
   static final String padImage = "assets/images/pad.png";
   static final String offerImage = "assets/images/offer1.png";
   static final String only4uImage = "assets/images/only4u.png";
+  static final String comingSoonImage = "assets/images/coming-soon.png";
   static final String beverageImage = "assets/images/beverage.png";
   static final String couponSuccessImage = "assets/images/success.gif";
   static final String couponFailedImage = "assets/images/coupon-failed.gif";

@@ -9,6 +9,7 @@ var getCategoryproductsUrl = Constants.baseUrl + 'user/get-products/';
 var getproductFromIdUrl = Constants.baseUrl + 'user/get-product-info/';
 var getAllCategoriesUrl = Constants.baseUrl + 'user/all-categories';
 var getBannerProductsUrl = Constants.baseUrl + 'user/get-banner-products';
+var checkCartUrl = Constants.baseUrl + 'user/check-location-availability';
 
 class ProductApiHandler {
   final body;
@@ -66,6 +67,13 @@ class ProductApiHandler {
   Future<dynamic> getBannerProducts(Map<String, dynamic> xyz) async {
     ServiceWithHeaderDataPost urlHelper =
         ServiceWithHeaderDataPost(getBannerProductsUrl, xyz);
+    var urlsData = await urlHelper.data();
+    return urlsData;
+  }
+
+  Future<dynamic> checkCart(Map<String, dynamic> data) async {
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(checkCartUrl, data);
     var urlsData = await urlHelper.data();
     return urlsData;
   }

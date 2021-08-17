@@ -195,6 +195,7 @@ class _RegistrationState extends State<Registration> {
                               MyApp.authTokenValue =
                                   response[1]['access_token'];
                               MyApp.loadAddresses();
+                              MyApp.setDefaultAddress(0);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

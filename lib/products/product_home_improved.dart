@@ -51,8 +51,8 @@ class _HomePageProductsState extends State<HomePageProducts> {
   }
 
   void loadData() async {
-    // print("DEFAULT: ${}");
-    productsArround = int.parse(widget.homepageData['products_arround']);
+    print("DEFAULT: ${widget.homepageData['banners']}");
+    productsArround = int.parse(widget.homepageData['products_arround'] ?? "0");
     featured = widget.homepageData['featured'];
     sale = widget.homepageData['sale'];
     bestDeals = widget.homepageData['best_deals'];
@@ -123,76 +123,82 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(15.0)),
-                                      child: CarouselSlider(
-                                          options: CarouselOptions(
-                                            viewportFraction: 1,
-                                            autoPlay: true,
-                                            enableInfiniteScroll: false,
-                                            autoPlayInterval:
-                                                Duration(seconds: 6),
-                                            scrollDirection: Axis.horizontal,
-                                            //  pauseAutoPlayOnTouch: Duration(seconds: 5),
-                                            initialPage: 0,
-                                            height: 150,
+                                      child:
+                                          (banners == null ||
+                                                  banners.length == 0)
+                                              ? Container(
+                                                  width: size.width,
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12.0),
+                                                      child: Image.asset(
+                                                          Constants
+                                                              .comingSoonImage,
+                                                          fit: BoxFit.fill)))
+                                              : CarouselSlider(
+                                                  options: CarouselOptions(
+                                                    viewportFraction: 1,
+                                                    autoPlay: true,
+                                                    enableInfiniteScroll: false,
+                                                    autoPlayInterval:
+                                                        Duration(seconds: 6),
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    //  pauseAutoPlayOnTouch: Duration(seconds: 5),
+                                                    initialPage: 0,
+                                                    height: 150,
 
-                                            onPageChanged: (index, reason) {
-                                              setState(() {
-                                                _current = index;
-                                              });
-                                            },
-                                          ),
-                                          items: List.generate(
-                                            banners.length,
-                                            (index) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              PackageDescription(
-                                                                packId: banners[
-                                                                        index]
-                                                                    ['pack_id'],
-                                                                packName: banners[
-                                                                        index][
-                                                                    'pack_name'],
-                                                              )));
-                                                },
-                                                child: Container(
-                                                    width: size.width,
-                                                    child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12.0),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                                imageUrl: banners[
-                                                                            index]
-                                                                        [
-                                                                        'pack_banner']
-                                                                    .toString()
-                                                                    .replaceAll(
-                                                                        'http://',
-                                                                        'https://'),
-                                                                imageBuilder:
-                                                                    (context,
-                                                                            imageProvider) =>
-                                                                        Container(
-                                                                          height:
-                                                                              100,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            image:
-                                                                                DecorationImage(
-                                                                              image: imageProvider,
-                                                                              fit: BoxFit.fill,
-                                                                            ),
-                                                                          ),
-                                                                        )))),
-                                              );
-                                            },
-                                          ))),
+                                                    onPageChanged:
+                                                        (index, reason) {
+                                                      setState(() {
+                                                        _current = index;
+                                                      });
+                                                    },
+                                                  ),
+                                                  items: List.generate(
+                                                    banners.length,
+                                                    (index) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          PackageDescription(
+                                                                            packId:
+                                                                                banners[index]['pack_id'],
+                                                                            packName:
+                                                                                banners[index]['pack_name'],
+                                                                          )));
+                                                        },
+                                                        child: Container(
+                                                            width: size.width,
+                                                            child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            12.0),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                        imageUrl: banners[index]['pack_banner'].toString().replaceAll(
+                                                                            'http://',
+                                                                            'https://'),
+                                                                        imageBuilder: (context,
+                                                                                imageProvider) =>
+                                                                            Container(
+                                                                              height: 100,
+                                                                              decoration: BoxDecoration(
+                                                                                image: DecorationImage(
+                                                                                  image: imageProvider,
+                                                                                  fit: BoxFit.fill,
+                                                                                ),
+                                                                              ),
+                                                                            )))),
+                                                      );
+                                                    },
+                                                  ))),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 15),
                                     child: Row(

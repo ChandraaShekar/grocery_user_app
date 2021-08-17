@@ -182,19 +182,24 @@ class _PackageDescriptionState extends State<PackageDescription> {
                             SizedBox(
                               height: 5,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Center(
-                                  child: Text(
-                                      "Note: ${packInfo['pack_info']['pack_description']}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: size.height / 60,
-                                        fontWeight: FontWeight.w600,
-                                        color: Constants.packDescHeadingColor,
-                                      ))),
-                            ),
+                            packInfo['pack_info']['pack_description'] == null ||
+                                    packInfo['pack_info']['pack_description'] ==
+                                        ""
+                                ? SizedBox()
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Center(
+                                        child: Text(
+                                            "Note: ${packInfo['pack_info']['pack_description']}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: size.height / 60,
+                                              fontWeight: FontWeight.w600,
+                                              color: Constants
+                                                  .packDescHeadingColor,
+                                            ))),
+                                  ),
                             SizedBox(
                               height: 5,
                             ),
@@ -353,6 +358,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
   }
 
   void deleteFromList(productInfo) {
+    print(productInfo);
     var index = packProducts.indexWhere(
         (element) => element['product_id'] == productInfo['product_id']);
     setState(() {
@@ -374,17 +380,6 @@ class _PackageDescriptionState extends State<PackageDescription> {
                   padding: const EdgeInsets.all(12.0),
                   child: Stack(
                     children: [
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: IconButton(
-                            onPressed: () {
-                              deleteFromList(productInfo);
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.delete_forever,
-                                color: Constants.dangerColor)),
-                      ),
                       SingleChildScrollView(
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -400,8 +395,9 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                         imageUrl: productInfo['image_url']
                                             .toString()
                                             .replaceAll('http://', 'https://'),
-                                        imageBuilder: (context, imageProvider) =>
-                                            Container(
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
                                           width: 100,
                                           height: 100,
                                           decoration: BoxDecoration(
@@ -436,7 +432,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.6,
+                                                  0.55,
                                               child: TextWidget(
                                                   productInfo['product_name'],
                                                   textType: "subheading"),
@@ -468,8 +464,8 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                     child: TextWidget("Price: ",
                                         textType: "subheading")),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15.0),
                                   child: Text("${productInfo['price']}/-",
                                       style: TextStyle(
                                           decoration:
@@ -483,7 +479,8 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                         textType: "subheading")),
                                 Expanded(child: Container()),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   child: CounterBtn(
                                       incDecheight: 25.0,
                                       incDecwidth: 25.0,
@@ -522,6 +519,18 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                     textType: "para"),
                               )
                             ]),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                            onPressed: () {
+                              print("HELLO");
+                              deleteFromList(productInfo);
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.delete_forever,
+                                color: Constants.dangerColor)),
                       ),
                     ],
                   ),

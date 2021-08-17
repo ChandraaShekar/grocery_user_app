@@ -122,8 +122,13 @@ class MyApp extends StatelessWidget {
   static Future<int> getDefaultAddress() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     selectedAddressId = sharedPreferences.getInt(Constants.currentAddressId);
-    print("selected Address: $selectedAddressId");
-    return selectedAddressId;
+    if (selectedAddressId == null) {
+      setDefaultAddress(0);
+      return 0;
+    } else {
+      print("selected Address: $selectedAddressId");
+      return selectedAddressId;
+    }
   }
 
   static Future<Map> loadHomePage(latx, lngy) async {
@@ -132,7 +137,6 @@ class MyApp extends StatelessWidget {
     var response = await productHandler.getHomeProducts();
     MyApp.homePage = response[1];
     MyApp.loadAddresses();
-    print("HOME DATA RESP: ${response[1]}");
     return response[1];
   }
 

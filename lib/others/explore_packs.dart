@@ -1,9 +1,9 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:user_app/api/packsApi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/others/pack_desc.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -24,7 +24,9 @@ class _ExplorePacksState extends State<ExplorePacks> {
   }
 
   load() async {
-    List packResp = await packsHandler.getPacks();
+    List packResp =
+        await packsHandler.getPacks({"lat": MyApp.lat, "lng": MyApp.lng});
+    print(packResp);
     setState(() {
       packs = packResp[1];
       log(packs.toString());

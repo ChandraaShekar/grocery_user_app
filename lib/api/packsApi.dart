@@ -5,8 +5,8 @@ var url = Constants.baseUrl + 'user/get-all-packs';
 var packInfoUrl = Constants.baseUrl + 'user/get-pack-info/';
 
 class PacksApiHandler {
-  Future<dynamic> getPacks() async {
-    ServiceWithHeader urlHelper = ServiceWithHeader(url);
+  Future<dynamic> getPacks(Map<String, dynamic> data) async {
+    ServiceWithHeaderDataPost urlHelper = ServiceWithHeaderDataPost(url, data);
     var urlsData = await urlHelper.data();
     return urlsData;
   }

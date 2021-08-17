@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/orderApi.dart';
+import 'package:user_app/api/productapi.dart';
 import 'package:user_app/cart/address_search_map.dart';
 import 'package:user_app/cart/order_placed.dart';
 import 'package:user_app/cart/payment_status.dart';
@@ -726,9 +727,50 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                                         'address'],
                                                                     textType:
                                                                         "para"),
-                                                                onTap: () {
-                                                                  changeAddress(
-                                                                      i);
+                                                                onTap:
+                                                                    () async {
+                                                                  ProductApiHandler
+                                                                      productHandler =
+                                                                      new ProductApiHandler();
+                                                                  List resp =
+                                                                      await productHandler
+                                                                          .checkCart({
+                                                                    "current_address_id":
+                                                                        MyApp.addresses[i]
+                                                                            [
+                                                                            'id']
+                                                                  });
+                                                                  print(
+                                                                      "RESP STATUS: ${resp[1]}");
+                                                                  if (resp[0] ==
+                                                                      200) {
+                                                                    if (resp[1][
+                                                                            'available_item_count'] !=
+                                                                        resp[1][
+                                                                            'total_item_count']) {
+                                                                      return showDialog(
+                                                                          barrierDismissible:
+                                                                              false,
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (_) {
+                                                                            return AlertDialog(
+                                                                              title: TextWidget("Sorry!", textType: "heading"),
+                                                                              content: TextWidget("We cannot deliver to this location since some of the products in your cart are not available in the selected location.", textType: "title"),
+                                                                              actions: [
+                                                                                TextButton(
+                                                                                  child: Text("ok"),
+                                                                                  onPressed: () => Navigator.pop(context, false),
+                                                                                ),
+                                                                              ],
+                                                                            );
+                                                                          });
+                                                                    } else {
+                                                                      changeAddress(
+                                                                          i);
+                                                                    }
+                                                                  }
                                                                   Navigator.pop(
                                                                       context);
                                                                 });
