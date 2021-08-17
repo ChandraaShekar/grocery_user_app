@@ -89,6 +89,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                     height: size.height,
                     child: Center(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: size.height * 0.2),
@@ -97,9 +98,12 @@ class _HomePageProductsState extends State<HomePageProducts> {
                             padding: const EdgeInsets.symmetric(vertical: 30.0),
                             child: Image.asset(Constants.locationNotFountImage),
                           ),
-                          TextWidget(
-                            "We are currently not operating in your location.",
-                            textType: "subheading",
+                          Padding(
+                            padding: const EdgeInsets.only(left:30.0, right: 30),
+                            child: TextWidget(
+                              "We are currently not operating in your location.",
+                              textType: "subheading",
+                            ),
                           ),
                           TextWidget("Hold tight, we are expanding quick.",
                               textType: "subheading"),
