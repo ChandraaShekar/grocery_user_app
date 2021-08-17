@@ -676,7 +676,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                       Row(
                         children: [
                           Container(
-                            height: size.height * 0.1,
+                            // height: size.height * 0.2,
                             width: size.width * 0.80,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -806,6 +806,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                               })
                         ],
                       ),
+                      SizedBox(height: 10,),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
