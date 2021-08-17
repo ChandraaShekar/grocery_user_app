@@ -30,6 +30,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   CameraPosition _hyderabadLocation;
   CartApiHandler cartHandler = new CartApiHandler();
   OrderApiHandler orderHandler = new OrderApiHandler();
+  TextEditingController deliveryNote = new TextEditingController();
   double subtotal = 0;
   double delivery = 0;
   double tax = 0;
@@ -659,6 +660,14 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         ),
                       ),
                       Divider(),
+                      TextField(
+                        controller: deliveryNote,
+                        decoration: InputDecoration(
+                          labelText: "Delivery Note",
+                          labelStyle: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      Divider(),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 8.0),
@@ -887,10 +896,13 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         "${MyApp.addresses[MyApp.selectedAddressId]['lat']}",
                     "user_lng":
                         "${MyApp.addresses[MyApp.selectedAddressId]['lng']}",
+                    "flat_no":
+                        "${MyApp.addresses[MyApp.selectedAddressId]['flat_no']}",
                     "user_address":
                         "${MyApp.addresses[MyApp.selectedAddressId]['address']}",
                     "landmark":
                         "${MyApp.addresses[MyApp.selectedAddressId]['landmark']}",
+                    "delivery_note": deliveryNote.text,
                     "payment_method": "$paymentMethod",
                   });
                   print(resp);
