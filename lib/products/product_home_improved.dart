@@ -99,14 +99,14 @@ class _HomePageProductsState extends State<HomePageProducts> {
                             child: Image.asset(Constants.locationNotFountImage),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left:30.0, right: 30),
-                            child: TextWidget(
-                              "We are currently not operating in your location.",
-                              textType: "subheading",
+                            padding: const EdgeInsets.only(left:30.0, right: 10),
+                            child: Center(
+                              child: TextWidget(
+                                "We are currently not operating in your location. Hold tight, we are expanding quick.",
+                                textType: "subheading",
+                              ),
                             ),
                           ),
-                          TextWidget("Hold tight, we are expanding quick.",
-                              textType: "subheading"),
                         ],
                       ),
                     ),
