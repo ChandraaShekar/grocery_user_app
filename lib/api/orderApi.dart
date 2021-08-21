@@ -7,6 +7,7 @@ var getPromoUrl = Constants.baseUrl + 'user/get-promo/';
 var paymentStatusUpdateUrl = Constants.baseUrl + 'user/update-payment-status';
 var orderHistoryUrl = Constants.baseUrl + 'user/order-history';
 var orderInfoUrl = Constants.baseUrl + 'user/order-history-info';
+var paymentMethodUpdateUrl = Constants.baseUrl + 'user/update-payment-method';
 
 class OrderApiHandler {
   Future<dynamic> placeOrder(body) async {
@@ -23,7 +24,7 @@ class OrderApiHandler {
   }
 
   Future<dynamic> getPromo(String code) async {
-   var _getPromoUrl = getPromoUrl+code;
+    var _getPromoUrl = getPromoUrl + code;
     ServiceWithHeader urlHelper = ServiceWithHeader(_getPromoUrl);
     var urlsData = await urlHelper.data();
     return urlsData;
@@ -44,6 +45,13 @@ class OrderApiHandler {
 
   Future<dynamic> getOrderInfo(String orderId) async {
     ServiceWithHeader urlHelper = ServiceWithHeader(orderInfoUrl + "/$orderId");
+    var urlsData = await urlHelper.data();
+    return urlsData;
+  }
+
+  Future<dynamic> updatePaymentMethod(String orderId) async {
+    ServiceWithHeader urlHelper =
+        ServiceWithHeader(paymentMethodUpdateUrl + "/$orderId");
     var urlsData = await urlHelper.data();
     return urlsData;
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/api/orderApi.dart';
+import 'package:user_app/others/order_history_info.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/widgets/order_history_card.dart';
 import 'package:user_app/widgets/text_widget.dart';
@@ -53,10 +54,10 @@ class _OrderHistoryState extends State<OrderHistory> {
                               child: ((index > 0 &&
                                           orders[index]['created_at']
                                                   .toString()
-                                                  .substring(0, 9) !=
+                                                  .substring(0, 10) !=
                                               orders[index - 1]['created_at']
                                                   .toString()
-                                                  .substring(0, 9)) ||
+                                                  .substring(0, 10)) ||
                                       index == 0)
                                   ? Center(
                                       child: TextWidget(
@@ -66,15 +67,26 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     )
                                   : SizedBox(),
                             ),
-                            OrderHistoryCard(
-                              orderInfo: orders[index],
-                              orderNumber: '${orders[index]['order_id']}',
-                              totalPrice: orders[index]['total_price'],
-                              discountPrice:
-                                  '${orders[index]['price_after_discount']}',
-                              type: '${orders[index]['order_status']}',
-                              paymentStatus:
-                                  '${orders[index]['payment_status']}',
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => OrderHistoryInfo(
+                                            orderId: orders[index]['order_id'],
+                                            orderInfo: orders[index]))).then(
+                                    (value) => loadData());
+                              },
+                              child: OrderHistoryCard(
+                                orderInfo: orders[index],
+                                orderNumber: '${orders[index]['order_id']}',
+                                totalPrice: orders[index]['total_price'],
+                                discountPrice:
+                                    '${orders[index]['price_after_discount']}',
+                                type: '${orders[index]['order_status']}',
+                                paymentStatus:
+                                    '${orders[index]['payment_status']}',
+                              ),
                             ),
                           ],
                         ),

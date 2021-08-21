@@ -8,6 +8,7 @@ import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/widgets/cart_card.dart';
+import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
 class OrderHistoryInfo extends StatefulWidget {
@@ -160,39 +161,44 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                               })
                           : SizedBox(),
                       SizedBox(height: 20),
-                      (widget.orderInfo['coupon_valid'] != "true")? SizedBox() :Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: Container(
-                          width: size.width + 20,
-                          height: size.height * 0.1,
-                          decoration: BoxDecoration(
-                              color: Colors.indigo[50],
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget("Offers", textType: "title"),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      TextWidget(
-                                        (widget.orderInfo['applied_coupon'] ==
-                                                'true')
-                                            ? "'${widget.orderInfo['coupon_code']}' Applied"
-                                            : "Coupon not applied",
-                                        textType: "para",
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              )),
-                        ),
-                      ),
+                      (widget.orderInfo['coupon_valid'] != "true")
+                          ? SizedBox()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Container(
+                                width: size.width + 20,
+                                height: size.height * 0.1,
+                                decoration: BoxDecoration(
+                                    color: Colors.indigo[50],
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextWidget("Offers", textType: "title"),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            TextWidget(
+                                              (widget.orderInfo[
+                                                          'applied_coupon'] ==
+                                                      'true')
+                                                  ? "'${widget.orderInfo['coupon_code']}' Applied"
+                                                  : "Coupon not applied",
+                                              textType: "para",
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                              ),
+                            ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -391,7 +397,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 8.0),
-                              child: TextWidget("Select Payment Method: ",
+                              child: TextWidget("Selected Payment Method: ",
                                   textType: "title-light"),
                             ),
                             Container(
@@ -399,7 +405,60 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                 child: TextWidget(
                                     "${widget.orderInfo['payment_method']}",
                                     textType: "para"))
-                          ])
+                          ]),
+                      (widget.orderInfo['payment_method'] == 'Pay Online' &&
+                              (widget.orderInfo['payment_status'] ==
+                                      'PAYMENT PENDING' ||
+                                  widget.orderInfo['payment_status'] ==
+                                      'PAYMENT FAILED'))
+                          ? Center(
+                              child: PrimaryCustomButton(
+                                  title: "Change Payment Method",
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (_) {
+                                          return AlertDialog(
+                                            title: TextWidget(
+                                                "Change payment method to Cash on Delivery?",
+                                                textType: "title"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("No")),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    OrderApiHandler
+                                                        orderHandler =
+                                                        new OrderApiHandler();
+                                                    orderHandler
+                                                        .updatePaymentMethod(
+                                                            "${widget.orderInfo['order_id']}")
+                                                        .then((val) {
+                                                      if (val[0] == 200) {
+                                                        MyApp.showToast(
+                                                            "Updated Successfully",
+                                                            context);
+                                                        Navigator.pop(context);
+                                                      } else {
+                                                        MyApp.showToast(
+                                                            "Failed to Update",
+                                                            context);
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Text("Yes"))
+                                            ],
+                                          );
+                                        }).then((_) {
+                                      getOrderInfo();
+                                    });
+                                  },
+                                  width: size.width * 0.7),
+                            )
+                          : SizedBox()
                     ],
                   )),
             ),
