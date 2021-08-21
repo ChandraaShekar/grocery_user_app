@@ -51,7 +51,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
   }
 
   void loadData() async {
-    print("DEFAULT: ${widget.homepageData['banners']}");
+    // print("DEFAULT: ${widget.homepageData['banners']}");
     productsArround = int.parse(widget.homepageData['products_arround'] ?? "0");
     featured = widget.homepageData['featured'];
     sale = widget.homepageData['sale'];
@@ -99,7 +99,8 @@ class _HomePageProductsState extends State<HomePageProducts> {
                             child: Image.asset(Constants.locationNotFountImage),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left:30.0, right: 10),
+                            padding:
+                                const EdgeInsets.only(left: 30.0, right: 10),
                             child: Center(
                               child: TextWidget(
                                 "We are currently not operating in your location. Hold tight, we are expanding quick.",
@@ -312,7 +313,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                       : SizedBox(),
                                   (frutteChoice.length > 0)
                                       ? productList("Frutte's Choice",
-                                          "Frutte Choice", frutteChoice)
+                                          "frutte_choice", frutteChoice)
                                       : SizedBox(),
                                   (large_2 != null &&
                                           large_2['status'] == 'active')
@@ -320,7 +321,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                       : SizedBox(),
                                   (bestDeals.length > 0)
                                       ? productList(
-                                          "Best Deals", "Best Deals", bestDeals)
+                                          "best_deals", "Best Deals", bestDeals)
                                       : SizedBox(),
                                   Padding(
                                     padding:
@@ -342,7 +343,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                   ),
                                   (topOffers.length > 0)
                                       ? productList(
-                                          "Top Offers", "Top Offers", topOffers)
+                                          "Top Offers", "top_offers", topOffers)
                                       : SizedBox(),
                                   (large_3 != null &&
                                           large_3['status'] == 'active')
@@ -384,7 +385,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
               borderRadius: BorderRadius.circular(15.0),
               child: CachedNetworkImage(
                 width: size.width * 0.44,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 imageUrl: '${info['image_url']}',
               ),
             ),
@@ -409,7 +410,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                 borderRadius: BorderRadius.circular(15.0),
                 child: CachedNetworkImage(
                   width: size.width * 0.92,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   imageUrl: '${info['image_url']}',
                 ),
               ),

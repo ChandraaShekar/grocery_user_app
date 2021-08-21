@@ -6,6 +6,7 @@ import 'package:user_app/main.dart';
 import 'package:user_app/others/order_history_info.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/text_widget.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class OrderHistoryCard extends StatefulWidget {
   final String orderNumber;
@@ -30,6 +31,14 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
   Razorpay _razorpay = new Razorpay();
   OrderApiHandler orderHandler = new OrderApiHandler();
   String payOrderId = '';
+  Map<String, int> orderStatus = {
+    "NONE": 0,
+    "ORDER PLACED": 1,
+    "ORDER PREPARED": 2,
+    "PICKING UP": 3,
+    "ON THE WAY": 4,
+    "DELIVERED": 5
+  };
 
   @override
   void initState() {
@@ -78,6 +87,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -88,6 +98,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                     orderInfo: this.widget.orderInfo)));
       },
       child: Card(
+        elevation: 2,
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -95,7 +106,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextWidget(
-                  this.widget.orderNumber,
+                  "#${this.widget.orderNumber}",
                   textType: "title",
                 ),
                 SizedBox(height: 15),
@@ -109,66 +120,97 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                       color: Constants.kMain2),
                 ),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    dispType(),
-                    if (widget.paymentStatus == 'PAYMENT FAILED')
-                      GestureDetector(
-                        onTap: () {
-                          int discountPrice = int.parse(
-                              (double.parse(widget.discountPrice) * 100)
-                                  .toStringAsFixed(0));
-                          int totalPrice = int.parse(
-                              (double.parse(widget.totalPrice) * 100)
-                                  .toStringAsFixed(0));
-                          try {
-                            Map<String, dynamic> options = {
-                              "key": "rzp_test_kL23yx68xeTo63",
-                              "amount": discountPrice > 0
-                                  ? discountPrice
-                                  : totalPrice,
-                              "name": "Order Id: #${widget.orderNumber}",
-                              "description":
-                                  "One final set to finish the order",
-                              // "order_id": resp[1]['order_id'],
-                              "timeout": 180,
-                              "prefil": {
-                                "contact": MyApp.userInfo['phone_no'],
-                                "email": MyApp.userInfo['email']
-                              },
-                              "external": {
-                                "wallets": ["paytm"]
+                    // Row(
+                    //   children: [
+                    StepProgressIndicator(
+                      totalSteps: 5,
+                      currentStep: orderStatus[widget.type],
+                      roundedEdges: Radius.circular(10.0),
+                      selectedColor: (widget.paymentStatus == "PAYMENT FAILED")
+                          ? Constants.dangerColor
+                          : (widget.type == "DELIVERED")
+                              ? Constants.successColor
+                              : Constants.primaryColor,
+                    ),
+                    // Container(
+                    //   width: size.width * 0.2,
+                    //   child: (widget.paymentStatus == "PAYMENT FAILED")
+                    //       ? Icon(Icons.close_outlined,
+                    //           color: Constants.dangerColor)
+                    //       : (widget.type == "DELIVERED")
+                    //           ? Icon(Icons.check_circle_outline,
+                    //               color: Constants.successColor)
+                    //           : Icon(Icons.watch_outlined,
+                    //               color: Constants.primaryColor),
+                    // ),
+                    //   ],
+                    // ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        dispType(),
+                        if (widget.paymentStatus == 'PAYMENT FAILED')
+                          GestureDetector(
+                            onTap: () {
+                              int discountPrice = int.parse(
+                                  (double.parse(widget.discountPrice) * 100)
+                                      .toStringAsFixed(0));
+                              int totalPrice = int.parse(
+                                  (double.parse(widget.totalPrice) * 100)
+                                      .toStringAsFixed(0));
+                              try {
+                                Map<String, dynamic> options = {
+                                  "key": "rzp_test_kL23yx68xeTo63",
+                                  "amount": discountPrice > 0
+                                      ? discountPrice
+                                      : totalPrice,
+                                  "name": "Order Id: #${widget.orderNumber}",
+                                  "description":
+                                      "One final set to finish the order",
+                                  // "order_id": resp[1]['order_id'],
+                                  "timeout": 180,
+                                  "prefil": {
+                                    "contact": MyApp.userInfo['phone_no'],
+                                    "email": MyApp.userInfo['email']
+                                  },
+                                  "external": {
+                                    "wallets": ["paytm"]
+                                  }
+                                };
+
+                                print("OPTIONS TO PAYMENT GATEWAY: $options");
+
+                                _razorpay.open(options);
+                              } catch (e) {
+                                print(e);
+                                Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => PaymentStatus(
+                                            paymentSuccess: false,
+                                            orderId: widget.orderNumber)));
                               }
-                            };
-
-                            print("OPTIONS TO PAYMENT GATEWAY: $options");
-
-                            _razorpay.open(options);
-                          } catch (e) {
-                            print(e);
-                            Navigator.pop(context);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        PaymentStatus(paymentSuccess: false)));
-                          }
-                        },
-                        child: Container(
-                          color: Constants.incDecColor,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'RETRY PAYMENT',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 1.2),
+                            },
+                            child: Container(
+                              color: Constants.incDecColor,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'RETRY PAYMENT',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 1.2),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )
+                          )
+                      ],
+                    ),
                   ],
                 )
               ],

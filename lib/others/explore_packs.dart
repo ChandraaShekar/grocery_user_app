@@ -7,6 +7,7 @@ import 'package:user_app/main.dart';
 import 'package:user_app/others/pack_desc.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class ExplorePacks extends StatefulWidget {
   @override
@@ -47,45 +48,54 @@ class _ExplorePacksState extends State<ExplorePacks> {
                   itemCount: packs.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 14),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PackageDescription(
-                                      packName: packs[index]['pack_name'],
-                                      packId: "${packs[index]['pack_id']}")));
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: CachedNetworkImage(
-                            imageUrl: packs[index]['pack_banner']
-                                .toString()
-                                .replaceAll('http://', 'https://'),
-                            imageBuilder: (context, imageProvider) => Container(
-                              width: size.width,
-                              height: size.height / 4,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.fitWidth,
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PackageDescription(
+                                          packName: packs[index]['pack_name'],
+                                          packId:
+                                              "${packs[index]['pack_id']}")));
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: CachedNetworkImage(
+                                imageUrl: packs[index]['pack_banner']
+                                    .toString()
+                                    .replaceAll('http://', 'https://'),
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  width: size.width,
+                                  height: size.height / 4.5,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
                                 ),
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Colors.grey[300],
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    width: size.width,
+                                    height: size.height / 4,
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300],
-                              highlightColor: Colors.white,
-                              child: Container(
-                                width: size.width,
-                                height: size.height / 4,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
                           ),
-                        ),
+                          TextWidget("${packs[index]['pack_name']}",
+                              textType: "title"),
+                          Divider()
+                        ],
                       ),
                     );
                   }),

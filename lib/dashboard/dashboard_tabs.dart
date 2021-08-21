@@ -26,9 +26,10 @@ class _DashboardTabsState extends State<DashboardTabs>
     with TickerProviderStateMixin {
   TabController _controller;
   List featured, sale, banners, categories;
-  int cartCount = MyApp.cartList.isNotEmpty
-      ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
-      : 0;
+  int cartCount =
+      MyApp.cartList['products'] != null || MyApp.cartList['packs'] != null
+          ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
+          : 0;
   CartApiHandler cartHandler = new CartApiHandler();
   AddressApiHandler addressApi = AddressApiHandler();
 
@@ -46,10 +47,8 @@ class _DashboardTabsState extends State<DashboardTabs>
     super.initState();
     if (MyApp.lat == null || MyApp.lng == null) {
       loadAddresses();
-    } else {
-      changeDisplayAddress(MyApp.selectedAddressId);
     }
-    // MyApp.changeOrNot(context);
+    changeDisplayAddress(MyApp.selectedAddressId);
     setState(() {});
   }
 
@@ -98,6 +97,19 @@ class _DashboardTabsState extends State<DashboardTabs>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     loadCartCount();
+    if (displayAddress == null ||
+        displayAddress.isEmpty ||
+        displayAddress == "") {
+      MyApp.setDefaultAddress(0).then((_) {
+        setState(() {
+          displayAddress = MyApp.addresses[0]['address'];
+          MyApp.lat = double.parse(MyApp.addresses[0]['lat']);
+          MyApp.lng = double.parse(MyApp.addresses[0]['lng']);
+          MyApp.loadHomePage(MyApp.lat, MyApp.lng)
+              .then((value) => MyApp.homePage = value);
+        });
+      });
+    }
     return Scaffold(
       appBar: AppBar(
           elevation: 0,

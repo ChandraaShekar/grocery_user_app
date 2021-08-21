@@ -146,6 +146,13 @@ class _RegistrationState extends State<Registration> {
                       SizedBox(height: 35),
                       PrimaryButton(
                         onPressed: () async {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => Center(
+                                    child: Container(
+                                        child: CircularProgressIndicator()),
+                                  ));
                           bool validated = true;
                           if (name.text.toString() == '') {
                             nameErr = 'error';
@@ -192,15 +199,18 @@ class _RegistrationState extends State<Registration> {
                               sharedPreferences.setString(
                                   Constants.authTokenValue,
                                   jsonEncode(response[1]['access_token']));
+                              MyApp.loadAddresses();
                               MyApp.authTokenValue =
                                   response[1]['access_token'];
-                              MyApp.loadAddresses();
-                              MyApp.setDefaultAddress(0);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddressSearchMap(
-                                          onSave: DashboardTabs())));
+                              MyApp.isLoggedIn().then((_) {
+                                Navigator.pop(context);
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddressSearchMap(
+                                            onSave: DashboardTabs())));
+                              });
                             }
                             // else if (response[0] == 400) {
 

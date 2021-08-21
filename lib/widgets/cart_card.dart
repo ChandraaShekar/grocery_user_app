@@ -70,7 +70,7 @@ class _CartCardState extends State<CartCard> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: imageProvider,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),

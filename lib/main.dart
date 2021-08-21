@@ -71,11 +71,12 @@ class MyApp extends StatelessWidget {
     userInfo.clear();
     wishListIds.clear();
     cartList.clear();
+    addresses.clear();
     sharedPreferences.clear();
     FirebaseAuth.instance.signOut();
   }
 
-  socketIOHandler() {
+  static socketIOHandler() {
     socket = IO.io('https://socket.8bitchaps.com', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
     socket.onConnectError((data) => print("SOCKET STATUS: $data"));
   }
 
-  Future<Map> isLoggedIn() async {
+  static Future<Map> isLoggedIn() async {
     socketIOHandler();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     WishlistApiHandler wishlistHandler = new WishlistApiHandler();

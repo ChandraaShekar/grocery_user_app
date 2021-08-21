@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -91,255 +92,230 @@ class _PackageDescriptionState extends State<PackageDescription> {
       appBar: Header.appBar(widget.packName, null, true),
       body: loading
           ? Center(
-              child: TextWidget(
-                'Loading..',
-                textType: "para-bold",
-              ),
+              child: CircularProgressIndicator(),
             )
           : packProducts.length > 0
-              ? WillPopScope(
-                  onWillPop: () async {
-                    print("Gone Back");
-                    return true;
-                    // final value = await showDialog<bool>(
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return AlertDialog(
-                    //         content: Text(
-                    //             'Any changes made to pack will not be saved, Are you sure you want to exit?'),
-                    //         actions: <Widget>[
-                    //           TextButton(
-                    //             child: Text('No'),
-                    //             onPressed: () {
-                    //               Navigator.of(context).pop(false);
-                    //             },
-                    //           ),
-                    //           TextButton(
-                    //             child: Text('Yes, exit'),
-                    //             onPressed: () {
-                    //               Navigator.of(context).pop(true);
-                    //             },
-                    //           ),
-                    //         ],
-                    //       );
-                    //     });
-                    // return value;
-                  },
-                  child: packInfo == null
-                      ? Center(child: CircularProgressIndicator())
-                      : SingleChildScrollView(
+              ? packInfo == null
+                  ? Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      child: Container(
+                          child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Ionicons.md_paper,
+                              color: Constants.packDescIconColor,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'Here’s what you get in the ' +
+                                  widget.packName.toLowerCase() +
+                                  "!",
+                              style: TextStyle(
+                                  color: Constants.packDescHeadingColor,
+                                  fontSize: size.height / 60,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
+                        packInfo['pack_info']['pack_description'] != null
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ExpandableText(
+                                  packInfo['pack_info']['pack_description'],
+                                  expandText: "show more",
+                                  collapseText: "hide",
+                                  maxLines: 1,
+                                ),
+                              )
+                            : SizedBox(),
+                        (packInfo == null)
+                            ? Center(child: CircularProgressIndicator())
+                            : ListView.builder(
+                                itemCount: packProducts.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      _productInfo(packProducts[index]);
+                                    },
+                                    child: PackDescCard(
+                                      imgUrl:
+                                          '${packProducts[index]['image_url']}'
+                                              .replaceAll(
+                                                  'http://', 'https://'),
+                                      // onPressed: () {
+                                      //   _displayTextInputDialog(context);
+                                      // },
+                                      name:
+                                          '${packProducts[index]['product_name']}',
+                                      qty:
+                                          '${packProducts[index]['quantity']} ${packProducts[index]['metrics']}',
+                                      itemCount: packProducts[index]
+                                          ['item_pack_quantity'],
+                                    ),
+                                  );
+                                }),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        packInfo['pack_info']['pack_description'] == null ||
+                                packInfo['pack_info']['pack_description'] == ""
+                            ? SizedBox()
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Center(
+                                    child: Text(
+                                        "Note: You can get an offer of ${((packPrice / orginalPrice) * 100).toStringAsFixed(2)}% on this pack only if the original price of this pack is greater than ${packInfo['pack_info']['limit_for_offer']}/-",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: size.height / 60,
+                                          fontWeight: FontWeight.w600,
+                                          color: Constants.packDescHeadingColor,
+                                        ))),
+                              ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Container(
-                              child: Column(children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            height: size.height / 4.55,
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Ionicons.md_paper,
-                                  color: Constants.packDescIconColor,
-                                ),
                                 SizedBox(
-                                  width: 5,
+                                  height: 20,
                                 ),
-                                Text(
-                                  'Here’s what you get in the ' +
-                                      widget.packName.toLowerCase() +
-                                      "!",
-                                  style: TextStyle(
-                                      color: Constants.packDescHeadingColor,
-                                      fontSize: size.height / 60,
-                                      fontWeight: FontWeight.w600),
-                                )
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextWidget(
+                                          'Orginal Price',
+                                          textType: "para",
+                                        ),
+                                        TextWidget(
+                                          '₹ ' + orginalPrice.toString(),
+                                          textType: "para-bold",
+                                        )
+                                      ]),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextWidget(
+                                          'Pack Price',
+                                          textType: "para",
+                                        ),
+                                        TextWidget(
+                                          '₹ ' + packPrice.toString(),
+                                          textType: "para-bold",
+                                        )
+                                      ]),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextWidget(
+                                          'Tax',
+                                          textType: "para",
+                                        ),
+                                        TextWidget(
+                                          '₹ ' + tax.toString(),
+                                          textType: "para-bold",
+                                        )
+                                      ]),
+                                ),
+                                Divider(),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextWidget(
+                                          'Total',
+                                          textType: "para-bold",
+                                        ),
+                                        Text(
+                                          '₹ ' + totalPrice.toString(),
+                                          style: TextStyle(
+                                              color: Constants.headingTextBlack,
+                                              letterSpacing: 0.5,
+                                              fontSize: size.height / 45,
+                                              fontWeight: FontWeight.w600),
+                                        )
+                                      ]),
+                                ),
                               ],
                             ),
-                            (packInfo == null)
-                                ? Center(child: CircularProgressIndicator())
-                                : ListView.builder(
-                                    itemCount: packProducts.length,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          _productInfo(packProducts[index]);
-                                        },
-                                        child: PackDescCard(
-                                          imgUrl:
-                                              '${packProducts[index]['image_url']}'
-                                                  .replaceAll(
-                                                      'http://', 'https://'),
-                                          // onPressed: () {
-                                          //   _displayTextInputDialog(context);
-                                          // },
-                                          name:
-                                              '${packProducts[index]['product_name']}',
-                                          qty:
-                                              '${packProducts[index]['quantity']} ${packProducts[index]['metrics']}',
-                                          itemCount: packProducts[index]
-                                              ['item_pack_quantity'],
-                                        ),
-                                      );
-                                    }),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            packInfo['pack_info']['pack_description'] == null ||
-                                    packInfo['pack_info']['pack_description'] ==
-                                        ""
-                                ? SizedBox()
-                                : Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: Center(
-                                        child: Text(
-                                            "Note: ${packInfo['pack_info']['pack_description']}",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: size.height / 60,
-                                              fontWeight: FontWeight.w600,
-                                              color: Constants
-                                                  .packDescHeadingColor,
-                                            ))),
-                                  ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Container(
-                                height: size.height / 4.55,
-                                width: MediaQuery.of(context).size.width,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TextWidget(
-                                              'Orginal Price',
-                                              textType: "para",
-                                            ),
-                                            TextWidget(
-                                              '₹ ' + orginalPrice.toString(),
-                                              textType: "para-bold",
-                                            )
-                                          ]),
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TextWidget(
-                                              'Pack Price',
-                                              textType: "para",
-                                            ),
-                                            TextWidget(
-                                              '₹ ' + packPrice.toString(),
-                                              textType: "para-bold",
-                                            )
-                                          ]),
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TextWidget(
-                                              'Tax',
-                                              textType: "para",
-                                            ),
-                                            TextWidget(
-                                              '₹ ' + tax.toString(),
-                                              textType: "para-bold",
-                                            )
-                                          ]),
-                                    ),
-                                    Divider(),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TextWidget(
-                                              'Total',
-                                              textType: "para-bold",
-                                            ),
-                                            Text(
-                                              '₹ ' + totalPrice.toString(),
-                                              style: TextStyle(
-                                                  color: Constants
-                                                      .headingTextBlack,
-                                                  letterSpacing: 0.5,
-                                                  fontSize: size.height / 45,
-                                                  fontWeight: FontWeight.w600),
-                                            )
-                                          ]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            PrimaryButton(
-                              text: "Add to Cart",
-                              backgroundColor: Constants.primaryColor,
-                              textColor: Colors.white,
-                              onPressed: () async {
-                                Map packCart = {};
-                                packProducts.forEach((val) => {
-                                      val.removeWhere((key, value) =>
-                                          key == "product_description")
-                                    });
-                                packCart['OriginalPrice'] = orginalPrice;
-                                packCart['PackPrice'] = packPrice;
-                                packCart['products'] = packProducts;
-
-                                String jsonPackData = jsonEncode(packCart);
-                                showDialog(
-                                    context: context,
-                                    builder: (_) {
-                                      return Center(
-                                          child: CircularProgressIndicator());
-                                    });
-
-                                var resp = await cartHandler.addToCart({
-                                  'product_pack_id': packInfo['pack_info']
-                                      ['pack_id'],
-                                  'itemType': 'pack',
-                                  'quantity': '1',
-                                  'pack_data': jsonPackData
-                                });
-                                if (resp[0] == 200) {
-                                  Navigator.pop(context);
-                                  MyApp.showToast(resp[1]['message'], context);
-                                  List getResp = await cartHandler.getCart();
-                                  setState(() {
-                                    MyApp.cartList = getResp[1];
-                                  });
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => DashboardTabs(
-                                                page: 'cart',
-                                              )));
-                                }
-                                print(resp);
-                              },
-                            ),
-                          ])),
+                          ),
                         ),
-                )
+                        PrimaryButton(
+                          text: "Add to Cart",
+                          backgroundColor: Constants.primaryColor,
+                          textColor: Colors.white,
+                          onPressed: () async {
+                            Map packCart = {};
+                            packProducts.forEach((val) => {
+                                  val.removeWhere((key, value) =>
+                                      key == "product_description")
+                                });
+                            packCart['OriginalPrice'] = orginalPrice;
+                            packCart['PackPrice'] = packPrice;
+                            packCart['products'] = packProducts;
+
+                            String jsonPackData = jsonEncode(packCart);
+                            showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                });
+
+                            var resp = await cartHandler.addToCart({
+                              'product_pack_id': packInfo['pack_info']
+                                  ['pack_id'],
+                              'itemType': 'pack',
+                              'quantity': '1',
+                              'pack_data': jsonPackData
+                            });
+                            if (resp[0] == 200) {
+                              Navigator.pop(context);
+                              MyApp.showToast(resp[1]['message'], context);
+                              List getResp = await cartHandler.getCart();
+                              setState(() {
+                                MyApp.cartList = getResp[1];
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => DashboardTabs(
+                                            page: 'cart',
+                                          )));
+                            }
+                            print(resp);
+                          },
+                        ),
+                        SizedBox(height: size.height * 0.1)
+                      ])),
+                    )
               : Center(
                   child: TextWidget(
                     'This pack is empty',
@@ -403,7 +379,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                               image: imageProvider,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
                                         ),

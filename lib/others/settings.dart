@@ -75,67 +75,15 @@ class _SettingsState extends State<Settings> {
                     ' Enter proper email id',
                     style: TextStyle(color: Colors.red),
                   ),
-                SizedBox(height: 18),
-                TextWidget(
-                  'Address',
-                  textType: "label",
-                ),
-                TextFormField(
-                  style: TextStyle(fontSize: size.height / 50),
-                  keyboardType: TextInputType.text,
-                  controller: address,
-                ),
                 SizedBox(
                   height: 3,
-                ),
-                if (addressErr != '')
-                  Text(
-                    ' Enter proper phone number',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                SizedBox(height: 18),
-                Row(
-                  children: [
-                    TextWidget(
-                      'Your Location',
-                      textType: "label",
-                    ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        print("Button Pressed");
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => UserLocationOnMap()));
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            'Edit Location',
-                            style: TextStyle(
-                                color: Constants.kButtonTextColor,
-                                fontSize: size.height / 60,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Icon(Entypo.location_pin,
-                              color: Constants.kButtonTextColor)
-                        ],
-                      ),
-                    ),
-                  ],
                 ),
                 SizedBox(height: 30),
                 PrimaryButton(
                   onPressed: () async {
                     Map<String, dynamic> data = {
                       "name": name.text,
-                      "user_lat": location['latitude'],
-                      "user_lng": location['longitude'],
-                      "email": email.text,
-                      "address": address.text
+                      "email": email.text
                     };
 
                     RegisterApiHandler updateHandler = RegisterApiHandler(data);

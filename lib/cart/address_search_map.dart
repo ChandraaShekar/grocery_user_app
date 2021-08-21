@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_app/api/addressApi.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:user_app/api/registerapi.dart';
-// import 'package:user_app/cart/payments.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -30,7 +27,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
   AddressApiHandler addressApiHandler = new AddressApiHandler();
   TextEditingController addressType = new TextEditingController();
   TextEditingController address = new TextEditingController();
-  TextEditingController flat_no = new TextEditingController();
+  TextEditingController flatNo = new TextEditingController();
   TextEditingController landMark = new TextEditingController();
   List addressTypes = ["Home", "Work", "Other"];
 
@@ -192,7 +189,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                                           color:
                                                               Colors.black))),
                                               TextField(
-                                                  controller: flat_no,
+                                                  controller: flatNo,
                                                   decoration: InputDecoration(
                                                       labelText:
                                                           "Flat / House No.",
@@ -210,36 +207,40 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                               PrimaryCustomButton(
                                                   title: "Save",
                                                   onPressed: () async {
-                                                    var resp =
-                                                        await addressApiHandler
-                                                            .addAddress({
-                                                      "address_name":
-                                                          addressType.text,
-                                                      "address": address.text,
-                                                      "flat_no": flat_no.text,
-                                                      "lat": latitude,
-                                                      "lng": longitude,
-                                                      "landmark": landMark.text
-                                                    });
+                                                    if (address
+                                                            .text.isNotEmpty &&
+                                                        addressType
+                                                            .text.isNotEmpty &&
+                                                        flatNo
+                                                            .text.isNotEmpty &&
+                                                        landMark
+                                                            .text.isNotEmpty) {
+                                                      var resp =
+                                                          await addressApiHandler
+                                                              .addAddress({
+                                                        "address_name":
+                                                            addressType.text,
+                                                        "address": address.text,
+                                                        "flat_no": flatNo.text,
+                                                        "lat": latitude,
+                                                        "lng": longitude,
+                                                        "landmark":
+                                                            landMark.text
+                                                      });
 
-                                                    MyApp.showToast(
-                                                        resp[1]['message'],
-                                                        context);
-                                                    if (resp[0] == 200) {
-                                                      // MyApp.loadAddresses()
-                                                      //     .then((_) {
-                                                      //   MyApp.setDefaultAddress(
-                                                      //       MyApp.addresses
-                                                      //               .length -
-                                                      //           1);
-                                                      //   setState(() {});
-                                                      // });
+                                                      MyApp.showToast(
+                                                          resp[1]['message'],
+                                                          context);
                                                       Navigator.pushReplacement(
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (_) =>
                                                                   widget
                                                                       .onSave));
+                                                    } else {
+                                                      MyApp.showToast(
+                                                          "All fields are Mandatory",
+                                                          context);
                                                     }
                                                   })
                                             ])),

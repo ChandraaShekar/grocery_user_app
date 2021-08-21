@@ -13,7 +13,6 @@ class OrderHistory extends StatefulWidget {
 class _OrderHistoryState extends State<OrderHistory> {
   List orders;
   OrderApiHandler orderHandler = new OrderApiHandler();
-
   @override
   void initState() {
     loadData();
@@ -22,7 +21,6 @@ class _OrderHistoryState extends State<OrderHistory> {
 
   void loadData() async {
     List resp = await orderHandler.getOrderHistory();
-    print('hey' + resp[1].toString());
     if (resp[0] == 200) {
       setState(() {
         orders = resp[1];
@@ -42,7 +40,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                 : ListView.builder(
                     itemCount: orders.length,
                     itemBuilder: (context, index) {
-                      var date = DateFormat('MMM, dd yyyy')
+                      String date = DateFormat('MMM dd, yyyy')
                           .format(DateTime.parse(orders[index]['created_at']));
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -52,10 +50,21 @@ class _OrderHistoryState extends State<OrderHistory> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 10.0, top: 10, bottom: 5),
-                              child: TextWidget(
-                                '$date',
-                                textType: "label",
-                              ),
+                              child: ((index > 0 &&
+                                          orders[index]['created_at']
+                                                  .toString()
+                                                  .substring(0, 9) !=
+                                              orders[index - 1]['created_at']
+                                                  .toString()
+                                                  .substring(0, 9)) ||
+                                      index == 0)
+                                  ? Center(
+                                      child: TextWidget(
+                                        '$date',
+                                        textType: "label",
+                                      ),
+                                    )
+                                  : SizedBox(),
                             ),
                             OrderHistoryCard(
                               orderInfo: orders[index],

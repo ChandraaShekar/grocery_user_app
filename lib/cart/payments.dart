@@ -95,7 +95,8 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => PaymentStatus(paymentSuccess: resp[0] == 200)));
+            builder: (_) => PaymentStatus(
+                paymentSuccess: resp[0] == 200, orderId: orderId)));
   }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
@@ -110,7 +111,8 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => PaymentStatus(paymentSuccess: resp[0] == 200)));
+            builder: (_) => PaymentStatus(
+                paymentSuccess: resp[0] == 200, orderId: orderId)));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -727,7 +729,9 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                             //       print(MyApp.addresses[i]);
                                                             return ListTile(
                                                                 title: TextWidget(
-                                                                    "Other",
+                                                                    "${MyApp.addresses[
+                                                                            i][
+                                                                        'address_name']}",
                                                                     textType:
                                                                         "title"),
                                                                 subtitle: TextWidget(
@@ -806,7 +810,9 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                               })
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -940,22 +946,27 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (_) =>
-                                    PaymentStatus(paymentSuccess: false)));
+                                builder: (_) => PaymentStatus(
+                                    paymentSuccess: false,
+                                    orderId: resp[1]['order_id'])));
                       }
                     } else {
                       Navigator.pop(context);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => OrderStatus(orderSuccess: true)));
+                              builder: (_) => OrderStatus(
+                                  orderSuccess: true,
+                                  orderId: resp[1]['order_id'])));
                     }
                   } else {
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => OrderStatus(orderSuccess: false)));
+                            builder: (_) => OrderStatus(
+                                orderSuccess: false,
+                                orderId: resp[1]['order_id'])));
                   }
                 },
                 backgroundColor: Constants.kButtonBackgroundColor,

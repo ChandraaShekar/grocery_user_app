@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/api/loginapi.dart';
+import 'package:user_app/auth/login.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
@@ -187,6 +188,13 @@ class _OtpPageState extends State<OtpPage> {
                     text: "VERIFY",
                     width: MediaQuery.of(context).size.width,
                     onPressed: () async {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (_) => Center(
+                                child: Container(
+                                    child: CircularProgressIndicator()),
+                              ));
                       scode = otpController.text;
                       if (scode.length < 6) {
                         MyApp.showToast('Enter valid otp', context);
@@ -220,12 +228,13 @@ class _OtpPageState extends State<OtpPage> {
                                   jsonEncode(response[1]['access_token']));
                               MyApp.authTokenValue =
                                   response[1]['access_token'];
-                              MyApp.loadAddresses();
-                              MyApp.setDefaultAddress(0);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DashboardTabs()));
+                              MyApp.isLoggedIn().then((_) {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DashboardTabs()));
+                              });
                             } else if (response[0] == 404) {
                               Navigator.push(
                                   context,
@@ -271,6 +280,7 @@ class _OtpPageState extends State<OtpPage> {
                                     jsonEncode(response[1]['access_token']));
                                 MyApp.authTokenValue =
                                     response[1]['access_token'];
+                                MyApp.loadAddresses();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -281,16 +291,17 @@ class _OtpPageState extends State<OtpPage> {
                                     MaterialPageRoute(
                                         builder: (context) => Registration()));
                               } else {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => ()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login()));
                               }
                             }
                           });
                         } catch (e) {
                           FocusScope.of(context).unfocus();
-                          MyApp.showToast('Invalid otp', context);
+                          print("$e");
+                          // MyApp.showToast('Invalid otp', context);
                         }
                       }
                     },
