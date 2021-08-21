@@ -1,11 +1,13 @@
-import 'package:draw_graph/draw_graph.dart';
-import 'package:draw_graph/models/feature.dart';
+
 import 'package:flutter/material.dart';
+import 'package:user_app/api/settingsApi.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/widgets/text_widget.dart';
 import 'package:share/share.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
 
 class Refer extends StatefulWidget {
   @override
@@ -13,6 +15,29 @@ class Refer extends StatefulWidget {
 }
 
 class _ReferState extends State<Refer> {
+
+  var referData;
+
+
+  @override
+  void initState() {
+   _load();
+    super.initState();
+  }
+
+ void _load() async{
+   
+   SettingsApiHandler settingsHandler = new SettingsApiHandler({});
+   List referResp = await settingsHandler.refer();
+    if (referResp[0] == 200) {
+      referData=referResp[1];
+      print(referData['weekly_graph'].toString());
+      setState(() {});
+      print(referResp);
+    }
+ 
+ }
+
   @override
   Widget build(BuildContext context) {
     return (MyApp.userInfo['user_type'] == "AFFILIATE")
@@ -55,15 +80,15 @@ class _ReferState extends State<Refer> {
   Widget affiliateWidget() {
     return Scaffold(
       appBar: Header.appBar("Referal Performance", null, true),
-      body: SingleChildScrollView(
+      body: referData!=null? SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              infoCard("Total Redeems", "300"),
-              infoCard("Total redeems this week", "30"),
-              infoCard("Total redeems last week", "35"),
+              infoCard("Total Redeems", referData['total_count']),
+              infoCard("Total redeems this week", referData['this_week_count']),
+              infoCard("Total redeems last week", referData['last_week_count']),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: TextWidget("Weekly performance graph",
@@ -71,23 +96,47 @@ class _ReferState extends State<Refer> {
               ), //Remove this line after placing the graph
               Padding(
                 padding: const EdgeInsets.only(top: 15.0),
-                child: LineGraph(
-                  features: [
-                    Feature(
-                      color: Colors.blue,
-                      data: [0.3, 0.5, 0.3, 1.9],
-                    ),
-                  ],
-                  size: Size(MediaQuery.of(context).size.width, 350),
-                  labelX: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                  labelY: ['20', '40', '60', '80'],
-                  graphColor: Colors.black87,
-                ),
+                child:SfCartesianChart(
+                        // Initialize category axis
+                        primaryXAxis: CategoryAxis(),
+                        series: <ChartSeries>[
+                            // Initialize line series
+                            LineSeries<SalesData, String>(
+                                dataSource: [
+                                    // Bind data source
+                                    SalesData('28days ago', double.parse(referData['weekly_graph']['Last 28 days'].toString())),
+                                    SalesData('21days  ago', double.parse(referData['weekly_graph']['Last 21 days'].toString())),
+                                    SalesData('14days  ago', double.parse(referData['weekly_graph']['Last 14 days'].toString())),
+                                    SalesData('7days  ago', double.parse(referData['weekly_graph']['Last 7 days'].toString())),
+                                    SalesData('Current', double.parse(referData['weekly_graph']['Current Week'].toString()))
+                                ],
+                                xValueMapper: (SalesData sales, _) => sales.year,
+                                yValueMapper: (SalesData sales, _) => sales.sales
+                            )
+                        ]
+                    )
+                //  LineGraph(
+                //   features: [
+                //     Feature(
+                //       color: Colors.blue,
+                //       data: [0.3, 0.5, 0.3, 1.9],
+                //     ),
+                //   ],
+                //   size: Size(MediaQuery.of(context).size.width, 350),
+                //   labelX: ['21days ago', '14days  ago', '7days  ago', 'Current'],
+                //   labelY: [
+                //     referData['weekly_graph']['Last 21 days'].toString(),
+                //     referData['weekly_graph']['Last 14 days'].toString(),
+                //     referData['weekly_graph']['Last 7 days'].toString(),
+                //     referData['weekly_graph']['Current Week'].toString()
+                //     ],
+                //   graphColor: Colors.black87,
+                // ),
               )
             ],
           ),
         ),
-      ),
+      ):Container(),
     );
   }
 
@@ -110,3 +159,9 @@ class _ReferState extends State<Refer> {
     ));
   }
 }
+
+ class SalesData {
+        SalesData(this.year, this.sales);
+        final String year;
+        final double sales;
+    }

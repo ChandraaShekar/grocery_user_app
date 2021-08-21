@@ -25,6 +25,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
   OrderApiHandler orderHandler = new OrderApiHandler();
   List products = [];
   List packs = [];
+  String payMethod;
 
   @override
   void initState() {
@@ -403,7 +404,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                             Container(
                                 width: size.width * 0.4,
                                 child: TextWidget(
-                                    "${widget.orderInfo['payment_method']}",
+                                  payMethod?? "${widget.orderInfo['payment_method']}",
                                     textType: "para"))
                           ]),
                       (widget.orderInfo['payment_method'] == 'Pay Online' &&
@@ -438,6 +439,8 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                                             "${widget.orderInfo['order_id']}")
                                                         .then((val) {
                                                       if (val[0] == 200) {
+                                                        payMethod='Cash On Delivery';
+                                                        setState(() {});
                                                         MyApp.showToast(
                                                             "Updated Successfully",
                                                             context);

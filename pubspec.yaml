@@ -41,11 +41,11 @@ dependencies:
   firebase_messaging: 8.0.0-dev.15
   flutter_local_notifications:
   provider:
-  draw_graph:
   flutter_widget_from_html_core: ^0.6.1+4
   flutter_launcher_icons: "^0.9.0"
   flutter_typeahead:
   step_progress_indicator: 
+  syncfusion_flutter_charts:
 
 dev_dependencies:
   flutter_test:
