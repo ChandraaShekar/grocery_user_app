@@ -155,7 +155,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                             .replaceAll("http://", "https://")
                                         : 'https://www.bigbasket.com/media/uploads/p/m/40023008_2-nestle-nesquik-chocolate-syrup-imported.jpg',
                                     price: '${jData['PackPrice']}',
-                                    cartQuantity: packs[index]['cartQuantity'],
+                                    cartQuantity: packs[index]['quantity'],
                                     productId: packs[index]['product_id'],
                                   ),
                                 );
@@ -404,7 +404,8 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                             Container(
                                 width: size.width * 0.4,
                                 child: TextWidget(
-                                  payMethod?? "${widget.orderInfo['payment_method']}",
+                                    payMethod ??
+                                        "${widget.orderInfo['payment_method']}",
                                     textType: "para"))
                           ]),
                       (widget.orderInfo['payment_method'] == 'Pay Online' &&
@@ -439,7 +440,8 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                                             "${widget.orderInfo['order_id']}")
                                                         .then((val) {
                                                       if (val[0] == 200) {
-                                                        payMethod='Cash On Delivery';
+                                                        payMethod =
+                                                            'Cash On Delivery';
                                                         setState(() {});
                                                         MyApp.showToast(
                                                             "Updated Successfully",

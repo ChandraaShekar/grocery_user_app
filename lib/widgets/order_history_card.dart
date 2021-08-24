@@ -3,7 +3,6 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/orderApi.dart';
 import 'package:user_app/cart/payment_status.dart';
 import 'package:user_app/main.dart';
-import 'package:user_app/others/order_history_info.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/widgets/text_widget.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -63,7 +62,8 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => PaymentStatus(paymentSuccess: resp[0] == 200)));
+            builder: (_) => PaymentStatus(
+                paymentSuccess: resp[0] == 200, orderId: widget.orderNumber)));
   }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
@@ -78,7 +78,8 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => PaymentStatus(paymentSuccess: resp[0] == 200)));
+            builder: (_) => PaymentStatus(
+                paymentSuccess: resp[0] == 200, orderId: widget.orderNumber)));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -87,7 +88,6 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Card(
       elevation: 2,
       child: Container(
