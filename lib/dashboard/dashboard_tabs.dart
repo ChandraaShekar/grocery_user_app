@@ -1,5 +1,7 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:user_app/api/addressApi.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/productapi.dart';
@@ -50,6 +52,22 @@ class _DashboardTabsState extends State<DashboardTabs>
     }
     changeDisplayAddress(MyApp.selectedAddressId);
     setState(() {});
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("NEW MESSAGE ${message.notification}");
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+              android: AndroidNotificationDetails(
+                  channel.id, channel.name, channel.description,
+                  color: Colors.blue, playSound: true, icon: '@mipmap/logo')),
+        );
+      }
+    });
   }
 
   changeDisplayAddress(int i) async {

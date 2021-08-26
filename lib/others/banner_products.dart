@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/productapi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/products/product_details.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
+import 'package:user_app/widgets/counter.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class BannerProducts extends StatefulWidget {
   final Map content;
@@ -56,84 +60,127 @@ class _BannerProductsState extends State<BannerProducts> {
                         child: Card(
                             child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Stack(
                             children: [
-                              CachedNetworkImage(
-                                imageUrl: (items[x]['product_images']
-                                        .isNotEmpty)
-                                    ? items[x]['product_images'][0]['image_url']
-                                        .toString()
-                                        .replaceAll("http://", "https://")
-                                    : "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  width: size.width / 3.4,
-                                  height: 105,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) =>
-                                    Shimmer.fromColors(
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.white,
-                                  child: Container(
-                                    width: size.width / 3.4,
-                                    height: 105,
-                                    color: Colors.grey[300],
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: Container(
-                                    height: 100,
-                                    width: size.width / 1.8,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl: (items[x]['product_images']
+                                            .isNotEmpty)
+                                        ? items[x]['product_images'][0]
+                                                ['image_url']
+                                            .toString()
+                                            .replaceAll("http://", "https://")
+                                        : "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
+                                    imageBuilder: (context, imageProvider) =>
                                         Container(
-                                          height: 40,
-                                          child: Text(
-                                            "${items[x]['product_name']}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: size.height / 56),
-                                          ),
+                                      width: size.width / 3.4,
+                                      height: 105,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.contain,
                                         ),
-                                        Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.white,
+                                      child: Container(
+                                        width: size.width / 3.4,
+                                        height: 105,
+                                        color: Colors.grey[300],
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12.0),
+                                      child: Container(
+                                        height: 100,
+                                        width: size.width / 1.8,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 40,
+                                              child: Text(
+                                                "${items[x]['product_name']}",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: size.height / 56),
+                                              ),
+                                            ),
+                                            Container(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       vertical: 5.0,
                                                       horizontal: 8.0),
-                                              child: Text(
-                                                  "${items[x]['quantity']} ${items[x]['metrics']}"),
-                                            ),
-                                            color: Constants.qtyBgColor),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Text("Rs. ${items[x]['price']}")
-                                            ],
-                                          ),
-                                        )
-                                      ],
+                                                  child: Text(
+                                                      "${items[x]['quantity']} ${items[x]['metrics']}"),
+                                                ),
+                                                color: Constants.qtyBgColor),
+                                            Container(
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                      "Rs. ${items[x]['price']}")
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  )
+                                ],
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        color: Constants.primaryColor,
+                                        child: Text(
+                                          'Add to Cart',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      onTap: () async {
+                                        CartApiHandler cartHandler =
+                                            new CartApiHandler();
+                                        var resp = await cartHandler.addToCart({
+                                          "product_pack_id": items[x]
+                                              ['product_id'],
+                                          "quantity": "1"
+                                        });
+                                        MyApp.showToast(
+                                            resp[1]['message'], context);
+
+                                        List getResp =
+                                            await cartHandler.getCart();
+                                        setState(() {
+                                          MyApp.cartList = getResp[1];
+                                        });
+                                      },
+                                    ),
+                                  ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         )),

@@ -665,7 +665,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                       TextField(
                         controller: deliveryNote,
                         decoration: InputDecoration(
-                          labelText: "Delivery Note",
+                          labelText: "Special Instructions",
                           labelStyle: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -729,9 +729,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                             //       print(MyApp.addresses[i]);
                                                             return ListTile(
                                                                 title: TextWidget(
-                                                                    "${MyApp.addresses[
-                                                                            i][
-                                                                        'address_name']}",
+                                                                    "${MyApp.addresses[i]['address_name']}",
                                                                     textType:
                                                                         "title"),
                                                                 subtitle: TextWidget(

@@ -50,9 +50,14 @@ class _HomePageProductsState extends State<HomePageProducts> {
     return result;
   }
 
+  @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
+
   void loadData() async {
-    // print("DEFAULT: ${widget.homepageData['banners']}");
-    productsArround = int.parse(widget.homepageData['products_arround'] ?? "0");
+    productsArround = int.parse(widget.homepageData['products_arround']);
     featured = widget.homepageData['featured'];
     sale = widget.homepageData['sale'];
     bestDeals = widget.homepageData['best_deals'];
@@ -69,6 +74,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
     large_2 = promoBanners[5];
     large_3 = promoBanners[6];
     large_4 = promoBanners[7];
+    // setState(() {});
   }
 
   @override
@@ -284,7 +290,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                   ),
                                   (featured.length > 0)
                                       ? productList(
-                                          "Featured", "Featured", featured)
+                                          "Featured", "featured", featured)
                                       : SizedBox(),
                                   Padding(
                                     padding:
@@ -321,7 +327,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                       : SizedBox(),
                                   (bestDeals.length > 0)
                                       ? productList(
-                                          "best_deals", "Best Deals", bestDeals)
+                                          "Best Deals", "best_deals", bestDeals)
                                       : SizedBox(),
                                   Padding(
                                     padding:

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/productapi.dart';
 import 'package:user_app/api/wishlistapi.dart';
@@ -53,9 +55,10 @@ class _ProductDetailsState extends State<ProductDetails> {
   void load() async {
     print(MyApp.cartList.keys);
     // print(MyApp.cartList['products'].length + MyApp.cartList['packs'].length);
-    cartLen = MyApp.cartList.length > 0?
-        (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
-            .toString() : "0";
+    cartLen = MyApp.cartList.length > 0
+        ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
+            .toString()
+        : "0";
     ProductApiHandler productHandler = new ProductApiHandler(
         body: {"lat": "${MyApp.lat}", "lng": "${MyApp.lng}"});
     List resp = await productHandler.getProductFromId(widget.productId);
@@ -138,7 +141,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 4.0, horizontal: 5.0),
                               child: Text(
-                                "${ MyApp.cartList.length > 0 ? MyApp.cartList['products'].length + MyApp.cartList['packs'].length : 0}",
+                                "${MyApp.cartList.length > 0 ? MyApp.cartList['products'].length + MyApp.cartList['packs'].length : 0}",
                                 // style: TextStyle(color: Colors.white)
                               ),
                             ))
@@ -383,10 +386,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
-                                child: TextWidget(
-                                  "${productInfo['product_info'][0]['product_description']}",
-                                  textType: "para",
-                                ),
+                                child: HtmlWidget(
+                                    '''${productInfo['product_info'][0]['product_description']}''',
+                                    onTapUrl: (_url) async =>
+                                        await canLaunch(_url)
+                                            ? await launch(_url)
+                                            : throw 'Could not launch $_url'),
                               ),
                               SizedBox(
                                 height: 10,

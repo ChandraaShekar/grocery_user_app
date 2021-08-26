@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_app/api/orderApi.dart';
+import 'package:user_app/cart/order_placed.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -443,10 +444,16 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                                         payMethod =
                                                             'Cash On Delivery';
                                                         setState(() {});
-                                                        MyApp.showToast(
-                                                            "Updated Successfully",
-                                                            context);
+
                                                         Navigator.pop(context);
+                                                        Navigator.pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (_) => OrderStatus(
+                                                                    orderSuccess:
+                                                                        true,
+                                                                    orderId: widget
+                                                                        .orderId)));
                                                       } else {
                                                         MyApp.showToast(
                                                             "Failed to Update",

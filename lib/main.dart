@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
   static int selectedAddressId = 0;
   static double lat, lng;
   static IO.Socket socket;
+  static final FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   static showToast(String msg, BuildContext context) {
     Toast.show(msg, context,
@@ -97,6 +98,9 @@ class MyApp extends StatelessWidget {
     selectedAddressId = await getDefaultAddress();
     loadAddresses();
     reloadCart();
+    messaging
+        .subscribeToTopic(userInfo['uid'])
+        .then((value) => print("SUBBSCRIBED TO ${userInfo['uid']}"));
     List wishListResp = await wishlistHandler.getWishlistIds();
     if (wishListResp[0] == 200) {
       wishListIds = wishListResp[1];

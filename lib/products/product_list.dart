@@ -41,8 +41,8 @@ class _ProductListState extends State<ProductList> {
     });
     if (widget.type.isNotEmpty) {
       if (widget.type != "category") {
-        List resp = await productHandler.getFeaturedProducts();
-
+        List resp = await productHandler.getSpecialProducts();
+        print("SPECIAL RESPONSE: $resp");
         if (resp[0] == 200) {
           setState(() {
             productList = resp[1];
@@ -182,11 +182,14 @@ class _ProductListState extends State<ProductList> {
                                     right: 0,
                                     child: GestureDetector(
                                       child: Container(
-                                        width: size.width / 4,
-                                        height: size.height / 15,
-                                        // color: Colors.grey,
-                                        child: Icon(Icons.shopping_cart_rounded,
-                                            color: Constants.primaryColor),
+                                        padding: EdgeInsets.all(8),
+                                        color: Constants.primaryColor,
+                                        child: Text(
+                                          'Add to Cart',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600),
+                                        ),
                                       ),
                                       onTap: () async {
                                         CartApiHandler cartHandler =
