@@ -17,7 +17,7 @@ class _OrderStatusState extends State<OrderStatus> {
   Map options = {};
   @override
   void initState() {
-    MyApp.socket.emit("new Order", "New order Placed");
+    MyApp.socket.emit("new-order", "New order Placed");
     super.initState();
   }
 

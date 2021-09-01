@@ -285,7 +285,9 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                       ),
                                       CategoryGrid(
                                           categoriesList: categories,
-                                          totalLength: categories.length),
+                                          totalLength: categories.length > 8
+                                              ? 8
+                                              : categories.length),
                                     ],
                                   ),
                                   (featured.length > 0)
