@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/cartApi.dart';
@@ -823,17 +825,23 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                             height: size.height * 0.2,
-                            child: GoogleMap(
-                              zoomControlsEnabled: false,
-                              markers: <Marker>{
-                                Marker(
-                                  markerId: MarkerId('UserPin'),
-                                  position: LatLng(MyApp.lat, MyApp.lng),
-                                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                                      BitmapDescriptor.hueOrange),
-                                )
-                              },
-                              initialCameraPosition: _hyderabadLocation,
+                            child:  AbsorbPointer(
+                              absorbing: true,
+                              child: GoogleMap(
+                                zoomControlsEnabled: false,
+                                markers: <Marker>{
+                                  Marker(
+                                    markerId: MarkerId('UserPin'),
+                                    position: LatLng(MyApp.lat, MyApp.lng),
+                                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                                        BitmapDescriptor.hueOrange),
+                                  )
+                                },
+                                initialCameraPosition: _hyderabadLocation,
+                                 gestureRecognizers: {
+                                     Factory<OneSequenceGestureRecognizer>(() => ScaleGestureRecognizer()),
+                                  }
+                              ),
                             )),
                       ),
                       Divider(),

@@ -126,9 +126,19 @@ class _BigProductCardState extends State<BigProductCard> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 4.0, horizontal: 5.0),
-                          child: TextWidget(
-                              widget.productInfo[0]['product_name'],
-                              textType: "title"),
+                          child: Text(
+                             widget.productInfo[0]['product_name'],
+                             overflow: TextOverflow.ellipsis,
+                             maxLines: 2,
+                             style: TextStyle(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+          fontSize: size.height / 56,
+          color: Constants.headingTextBlack,
+        
+          )
+,
+                          )
                         ),
                       ),
                       Padding(
