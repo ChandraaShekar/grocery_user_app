@@ -6,6 +6,7 @@ import 'package:user_app/products/product_details.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 import '../main.dart';
 
@@ -134,7 +135,7 @@ class _ProductListState extends State<ProductList> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 12.0),
+                                          horizontal: 10.0),
                                       child: Container(
                                         height: 100,
                                         width: size.width / 1.8,
@@ -146,11 +147,9 @@ class _ProductListState extends State<ProductList> {
                                           children: [
                                             Container(
                                               height: 40,
-                                              child: Text(
+                                              child: TextWidget(
                                                 "${productList[i]['product_info'][0]['product_name']}",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: size.height / 56),
+                                               textType: "title",
                                               ),
                                             ),
                                             Container(
@@ -159,15 +158,17 @@ class _ProductListState extends State<ProductList> {
                                                           .symmetric(
                                                       vertical: 5.0,
                                                       horizontal: 8.0),
-                                                  child: Text(
-                                                      "${productList[i]['product_info'][0]['quantity']} ${productList[i]['product_info'][0]['metrics']}"),
+                                                  child: TextWidget(
+                                                      "${productList[i]['product_info'][0]['quantity']} ${productList[i]['product_info'][0]['metrics']}",
+                                                      textType: "label-grey",),
                                                 ),
                                                 color: Constants.qtyBgColor),
                                             Container(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      "Rs. ${productList[i]['product_info'][0]['price']}")
+                                                  TextWidget(
+                                                      "Rs. ${productList[i]['product_info'][0]['price']}",
+                                                      textType: "label",)
                                                 ],
                                               ),
                                             ),
@@ -188,7 +189,8 @@ class _ProductListState extends State<ProductList> {
                                           'Add to Cart',
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.w600),
+                                              letterSpacing: 1.5,
+                                              fontWeight: FontWeight.w800),
                                         ),
                                       ),
                                       onTap: () async {

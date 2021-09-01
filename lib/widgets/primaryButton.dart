@@ -20,15 +20,16 @@ class _PrimaryCustomButtonState extends State<PrimaryCustomButton> {
   _PrimaryCustomButtonState(this.title, this.onPressed, this.width);
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       child: Container(
-        height: 50,
+        height: size.width / 10,
         width: width ?? MediaQuery.of(context).size.width * 0.4,
         child: TextButton(
             child: Text('${this.title}',
                 style: TextStyle(
-                    fontSize: 16,
-                    letterSpacing: 1,
+                    fontSize: 14,
+                    letterSpacing: 1.5,
                     fontWeight: FontWeight.w700,
                     color: Colors.white)),
             style: ButtonStyle(

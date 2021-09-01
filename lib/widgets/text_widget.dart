@@ -87,7 +87,7 @@ class TextWidget extends StatelessWidget {
           fontWeight: FontWeight.w500,
           letterSpacing: 0.2,
           fontSize: size.height / 60,
-          color: Colors.grey);
+          color: Colors.grey[800]);
     }
     return y;
   }
