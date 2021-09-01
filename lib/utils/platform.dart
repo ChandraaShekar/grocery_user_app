@@ -4,6 +4,7 @@ import 'package:user_app/main.dart';
 import 'package:user_app/others/explore_packs.dart';
 import 'package:user_app/others/help.dart';
 import 'package:user_app/others/order_history.dart';
+import 'package:user_app/others/policy.dart';
 import 'package:user_app/others/refer.dart';
 import 'package:user_app/others/tandc.dart';
 import 'package:user_app/others/settings.dart';
@@ -115,6 +116,22 @@ class PlatformState extends State<Platform> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Settings()));
                   }),
+              Divider(
+                color: Colors.transparent,
+              ),
+              ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Constants.drawerBgColor,
+                    child: Icon(
+                      MaterialCommunityIcons.security,
+                      color: Constants.drawerIconColor,
+                    ),
+                  ),
+                  title: TextWidget(Constants.policyTag, textType: "title"),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Policy()));
+                  }),    
               Divider(
                 color: Colors.transparent,
               ),

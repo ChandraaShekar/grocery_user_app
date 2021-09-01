@@ -37,6 +37,7 @@ class Constants {
   static final String settingsTag = "Settings";
   static final String referTag = "Refer & Earn";
   static final String tncTag = "Terms & Conditions";
+  static final String policyTag = "Privacy Policy";
   static final String helpTag = "Help";
   static final String logoutTag = "Logout";
   static final String loginTag = "Login";
