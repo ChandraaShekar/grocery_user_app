@@ -20,6 +20,7 @@ class BannerProducts extends StatefulWidget {
 class _BannerProductsState extends State<BannerProducts> {
   List items;
   List<int> quantities;
+  CartApiHandler cartHandler = new CartApiHandler();
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _BannerProductsState extends State<BannerProducts> {
     ProductApiHandler productHandler = new ProductApiHandler();
     List resp = await productHandler
         .getBannerProducts({"products": "${widget.content['content']}"});
+    print("${MyApp.cartList}");
     print(resp[1]);
     items = resp[1];
     quantities = List.filled(items.length, 0);
@@ -49,13 +51,15 @@ class _BannerProductsState extends State<BannerProducts> {
                 child: ListView.builder(
                     itemCount: items.length,
                     itemBuilder: (context, x) {
+                      int y = MyApp.cartList['products'].indexWhere((elem) =>
+                          elem['product_id'] == items[x]['product_id']);
                       // if (MyApp.cartList['products'] != null) {
                       //   int y = MyApp.cartList['products'].indexWhere((elem) =>
                       //       items[x]['product_id'] == elem['product_id']);
-                      //   if (y != -1) {
-                      //     quantities[x] = int.parse(
-                      //         "${MyApp.cartList['products'][y]['quantity']}");
-                      //   }
+                      if (y != -1) {
+                        quantities[x] = int.parse(
+                            "${MyApp.cartList['products'][y]['cartQuantity']}");
+                      }
                       // }
                       return GestureDetector(
                         onTap: () {
@@ -157,84 +161,135 @@ class _BannerProductsState extends State<BannerProducts> {
                                 right: 0,
                                 child: Column(
                                   children: [
-                                    Row(children: [
-                                      GestureDetector(
-                                          child: Container(
-                                            child: Center(
-                                                child: Text("-",
-                                                    style: TextStyle(
-                                                        color: Colors.white))),
-                                            decoration: BoxDecoration(
-                                                color: Constants.primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            width: size.width * 0.06,
-                                            height: size.width * 0.06,
-                                          ),
-                                          onTap: () {
-                                            if (quantities[x] > 0) {
-                                              setState(() {
-                                                quantities[x] -= 1;
+                                    (y != -1)
+                                        ? Row(children: [
+                                            GestureDetector(
+                                                child: Container(
+                                                  child: Center(
+                                                      child: Text("-",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white))),
+                                                  decoration: BoxDecoration(
+                                                      color: Constants
+                                                          .primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  width: size.width * 0.06,
+                                                  height: size.width * 0.06,
+                                                ),
+                                                onTap: () async {
+                                                  if (quantities[x] > 0) {
+                                                    quantities[x] -= 1;
+                                                    List resp =
+                                                        await cartHandler
+                                                            .updateCart({
+                                                      "product_pack_id":
+                                                          MyApp.cartList[
+                                                                  'products'][y]
+                                                              ['product_id'],
+                                                      "quantity": quantities[x]
+                                                    });
+                                                    if (resp[0] == 200) {
+                                                      setState(() {
+                                                        MyApp.cartList['products']
+                                                                    [y][
+                                                                'cartQuantity'] =
+                                                            quantities[x];
+                                                      });
+                                                    } else {
+                                                      quantities[x] += 1;
+                                                      MyApp.showToast(
+                                                          resp[1]['message'],
+                                                          context);
+                                                    }
+                                                    setState(() {});
+                                                  }
+                                                }),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: TextWidget(
+                                                  "${MyApp.cartList['products'][y]['cartQuantity']}",
+                                                  textType: "title"),
+                                            ),
+                                            GestureDetector(
+                                                child: Container(
+                                                  child: Center(
+                                                      child: Text("+",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white))),
+                                                  decoration: BoxDecoration(
+                                                      color: Constants
+                                                          .primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  width: size.width * 0.06,
+                                                  height: size.width * 0.06,
+                                                ),
+                                                onTap: () async {
+                                                  if (quantities[x] < 10) {
+                                                    quantities[x] += 1;
+                                                    List resp =
+                                                        await cartHandler
+                                                            .updateCart({
+                                                      "product_pack_id":
+                                                          MyApp.cartList[
+                                                                  'products'][y]
+                                                              ['product_id'],
+                                                      "quantity": quantities[x]
+                                                    });
+                                                    if (resp[0] == 200) {
+                                                      setState(() {
+                                                        MyApp.cartList['products']
+                                                                    [y][
+                                                                'cartQuantity'] =
+                                                            quantities[x];
+                                                      });
+                                                    } else {
+                                                      quantities[x] -= 1;
+                                                      MyApp.showToast(
+                                                          resp[1]['message'],
+                                                          context);
+                                                    }
+                                                    setState(() {});
+                                                  }
+                                                })
+                                          ])
+                                        : SizedBox(),
+                                    (y == -1)
+                                        ? GestureDetector(
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              color: Constants.primaryColor,
+                                              child: Text(
+                                                'Add to Cart',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ),
+                                            onTap: () async {
+                                              var resp = await cartHandler
+                                                  .addToCart({
+                                                "product_pack_id": items[x]
+                                                    ['product_id'],
+                                                "quantity": "1"
                                               });
-                                            }
-                                          }),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: TextWidget("${quantities[x]}",
-                                            textType: "title"),
-                                      ),
-                                      GestureDetector(
-                                          child: Container(
-                                            child: Center(
-                                                child: Text("+",
-                                                    style: TextStyle(
-                                                        color: Colors.white))),
-                                            decoration: BoxDecoration(
-                                                color: Constants.primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            width: size.width * 0.06,
-                                            height: size.width * 0.06,
-                                          ),
-                                          onTap: () {
-                                            if (quantities[x] < 10) {
-                                              setState(() {
-                                                quantities[x] += 1;
-                                              });
-                                            }
-                                          })
-                                    ]),
-                                    GestureDetector(
-                                        child: Container(
-                                          padding: EdgeInsets.all(8),
-                                          color: Constants.primaryColor,
-                                          child: Text(
-                                            'Add to Cart',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                        onTap: () async {
-                                          if (quantities[x] > 0) {
-                                            CartApiHandler cartHandler =
-                                                new CartApiHandler();
-                                            var resp = await cartHandler
-                                                .addToCart({
-                                              "product_pack_id": items[x]
-                                                  ['product_id'],
-                                              "quantity": "${quantities[x]}"
-                                            });
-                                            MyApp.showToast(
-                                                resp[1]['message'], context);
+                                              MyApp.showToast(
+                                                  resp[1]['message'], context);
 
-                                            List getResp =
-                                                await cartHandler.getCart();
-                                            setState(() {
-                                              MyApp.cartList = getResp[1];
-                                            });
-                                          }
-                                        }),
+                                              List getResp =
+                                                  await cartHandler.getCart();
+                                              setState(() {
+                                                MyApp.cartList = getResp[1];
+                                              });
+                                            })
+                                        : SizedBox(),
                                   ],
                                 ),
                               ),

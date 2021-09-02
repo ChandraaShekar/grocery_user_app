@@ -50,8 +50,9 @@ class ProductApiHandler {
     return urlsData;
   }
 
-  Future<dynamic> getAllCategories() async {
-    ServiceWithHeader urlHelper = ServiceWithHeader(getAllCategoriesUrl);
+  Future<dynamic> getAllCategories(Map<String, dynamic> locationData) async {
+    ServiceWithHeaderDataPost urlHelper =
+        ServiceWithHeaderDataPost(getAllCategoriesUrl, locationData);
     var urlsData = await urlHelper.data();
     return urlsData;
   }

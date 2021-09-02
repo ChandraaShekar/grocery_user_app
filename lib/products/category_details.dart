@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/api/productapi.dart';
+import 'package:user_app/main.dart';
 import 'package:user_app/utils/header.dart';
 import 'package:user_app/widgets/CategoryGrid.dart';
 
@@ -19,7 +20,9 @@ class _AllCatgoriesState extends State<AllCatgories> {
   }
 
   void load() async {
-    var resp = await productHandler.getAllCategories();
+    var resp = await productHandler
+        .getAllCategories({"lat": MyApp.lat, "lng": MyApp.lng});
+    print({"lat": MyApp.lat, "lng": MyApp.lng});
     if (resp[0] == 200) {
       setState(() {
         categories = resp[1];

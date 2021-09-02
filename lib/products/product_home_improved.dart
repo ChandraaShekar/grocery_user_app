@@ -74,7 +74,6 @@ class _HomePageProductsState extends State<HomePageProducts> {
     large_2 = promoBanners[5];
     large_3 = promoBanners[6];
     large_4 = promoBanners[7];
-    // setState(() {});
   }
 
   @override
