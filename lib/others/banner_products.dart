@@ -122,14 +122,9 @@ class _BannerProductsState extends State<BannerProducts> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              height: 40,
-                                              child: Text(
-                                                "${items[x]['product_name']}",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: size.height / 56),
-                                              ),
+                                            TextWidget(
+                                              "${items[x]['product_name']}",
+                                              textType: "title",
                                             ),
                                             Container(
                                                 child: Padding(
@@ -137,15 +132,19 @@ class _BannerProductsState extends State<BannerProducts> {
                                                           .symmetric(
                                                       vertical: 5.0,
                                                       horizontal: 8.0),
-                                                  child: Text(
-                                                      "${items[x]['quantity']} ${items[x]['metrics']}"),
+                                                  child: TextWidget(
+                                                    "${items[x]['quantity']} ${items[x]['metrics']}",
+                                                    textType: "label-light",
+                                                  ),
                                                 ),
                                                 color: Constants.qtyBgColor),
                                             Container(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      "Rs. ${items[x]['price']}")
+                                                  TextWidget(
+                                                    "Rs. ${items[x]['price']}",
+                                                    textType: "label",
+                                                  )
                                                 ],
                                               ),
                                             )

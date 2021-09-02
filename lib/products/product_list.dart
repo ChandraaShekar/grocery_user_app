@@ -144,7 +144,7 @@ class _ProductListState extends State<ProductList> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 12.0),
+                                          horizontal: 10.0),
                                       child: Container(
                                         height: 100,
                                         width: size.width / 1.8,
@@ -156,11 +156,9 @@ class _ProductListState extends State<ProductList> {
                                           children: [
                                             Container(
                                               height: 40,
-                                              child: Text(
+                                              child: TextWidget(
                                                 "${productList[i]['product_info'][0]['product_name']}",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: size.height / 56),
+                                                textType: "title",
                                               ),
                                             ),
                                             Container(
@@ -169,15 +167,19 @@ class _ProductListState extends State<ProductList> {
                                                           .symmetric(
                                                       vertical: 5.0,
                                                       horizontal: 8.0),
-                                                  child: Text(
-                                                      "${productList[i]['product_info'][0]['quantity']} ${productList[i]['product_info'][0]['metrics']}"),
+                                                  child: TextWidget(
+                                                    "${productList[i]['product_info'][0]['quantity']} ${productList[i]['product_info'][0]['metrics']}",
+                                                    textType: "label-grey",
+                                                  ),
                                                 ),
                                                 color: Constants.qtyBgColor),
                                             Container(
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                      "Rs. ${productList[i]['product_info'][0]['price']}")
+                                                  TextWidget(
+                                                    "Rs. ${productList[i]['product_info'][0]['price']}",
+                                                    textType: "label",
+                                                  )
                                                 ],
                                               ),
                                             ),

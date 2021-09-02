@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:user_app/api/cartApi.dart';
@@ -212,9 +214,9 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextWidget("Cart Items ", textType: "title"),
+                        child: TextWidget("Cart Items ", textType: "title-light"),
                       ),
-                      SizedBox(height: 10),
+                      // SizedBox(height: 10),
                       ListView.builder(
                           shrinkWrap: true,
                           itemCount: MyApp.cartList['products'].length,
@@ -381,6 +383,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                               ),
                             );
                           }),
+                      SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Container(
@@ -427,6 +430,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                         color: Constants
                                                             .dangerColor,
                                                         letterSpacing: 0.5,
+                                                        fontSize: size.height / 56,
                                                         fontWeight:
                                                             FontWeight.w800)),
                                                 onTap: () async {
@@ -662,11 +666,17 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         ),
                       ),
                       Divider(),
-                      TextField(
-                        controller: deliveryNote,
-                        decoration: InputDecoration(
-                          labelText: "Special Instructions",
-                          labelStyle: TextStyle(color: Colors.black),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: deliveryNote,
+                          style: TextStyle(
+                            fontSize: size.height / 54
+                          ),
+                          decoration: InputDecoration(
+                            labelText: "Add Special Instructions",
+                            labelStyle: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                       Divider(),
@@ -815,17 +825,23 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                             height: size.height * 0.2,
-                            child: GoogleMap(
-                              zoomControlsEnabled: false,
-                              markers: <Marker>{
-                                Marker(
-                                  markerId: MarkerId('UserPin'),
-                                  position: LatLng(MyApp.lat, MyApp.lng),
-                                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                                      BitmapDescriptor.hueOrange),
-                                )
-                              },
-                              initialCameraPosition: _hyderabadLocation,
+                            child:  AbsorbPointer(
+                              absorbing: true,
+                              child: GoogleMap(
+                                zoomControlsEnabled: false,
+                                markers: <Marker>{
+                                  Marker(
+                                    markerId: MarkerId('UserPin'),
+                                    position: LatLng(MyApp.lat, MyApp.lng),
+                                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                                        BitmapDescriptor.hueOrange),
+                                  )
+                                },
+                                initialCameraPosition: _hyderabadLocation,
+                                 gestureRecognizers: {
+                                     Factory<OneSequenceGestureRecognizer>(() => ScaleGestureRecognizer()),
+                                  }
+                              ),
                             )),
                       ),
                       Divider(),

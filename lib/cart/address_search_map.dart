@@ -113,7 +113,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
@@ -125,12 +125,12 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.fromLTRB(8, 0, 16, 10),
                           child: GestureDetector(
                             child: Container(
                               // padding: EdgeInsets.all(12),
-                              height: size.height * 0.08,
-                              width: size.width * 0.3,
+                              height: size.width * 0.1,
+                              width: size.width * 0.25,
                               decoration: BoxDecoration(
                                   color: Constants.primaryColor,
                                   borderRadius: BorderRadius.circular(15)),
@@ -138,19 +138,19 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                 children: [
                                   Positioned(
                                     left: 10,
-                                    top: size.height * 0.025,
+                                    top: size.width * 0.020,
                                     child: Text("Select",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 20,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.w900)),
                                   ),
                                   Positioned(
                                     right: 0,
-                                    top: size.height * 0.01,
+                                    top: size.width * 0.010,
                                     child: Icon(
                                         Icons.keyboard_arrow_right_outlined,
-                                        size: 50,
+                                        size: 30,
                                         color: Colors.white),
                                   )
                                 ],
@@ -203,7 +203,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.black))),
-                                              SizedBox(height: 20),
+                                              // SizedBox(height: 20),
                                               PrimaryCustomButton(
                                                   title: "Save",
                                                   onPressed: () async {

@@ -28,7 +28,7 @@ class _BigProductCardState extends State<BigProductCard> {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
-        height: size.width / 1.5,
+        height: size.width / 1.2,
         width: size.width / 2.25,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -88,7 +88,7 @@ class _BigProductCardState extends State<BigProductCard> {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
+              // SizedBox(height: 5),
               CachedNetworkImage(
                 imageUrl: widget.productImages[0]['image_url']
                     .toString()
@@ -119,16 +119,26 @@ class _BigProductCardState extends State<BigProductCard> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 2.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 2.0, horizontal: 5.0),
-                          child: TextWidget(
-                              widget.productInfo[0]['product_name'],
-                              textType: "title"),
+                              vertical: 4.0, horizontal: 5.0),
+                          child: Text(
+                             widget.productInfo[0]['product_name'],
+                             overflow: TextOverflow.ellipsis,
+                             maxLines: 2,
+                             style: TextStyle(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+          fontSize: size.height / 56,
+          color: Constants.headingTextBlack,
+        
+          )
+,
+                          )
                         ),
                       ),
                       Padding(

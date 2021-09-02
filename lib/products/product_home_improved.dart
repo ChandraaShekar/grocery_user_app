@@ -471,7 +471,7 @@ class _HomePageProductsState extends State<HomePageProducts> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Container(
-            height: size.width / 1.7,
+            height: size.width / 1.9,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: data.length > 5 ? 5 : data.length,
