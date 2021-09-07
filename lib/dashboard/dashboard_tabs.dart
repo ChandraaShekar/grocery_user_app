@@ -51,6 +51,11 @@ class _DashboardTabsState extends State<DashboardTabs>
     if (MyApp.lat == null || MyApp.lng == null) {
       loadAddresses();
     }
+    MyApp.socket.emit("join-new-user", {
+      "uid": MyApp.userInfo['uid'],
+      "name": MyApp.userInfo['name'],
+      "status": "ONLINE"
+    });
     changeDisplayAddress(MyApp.selectedAddressId);
     setState(() {});
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

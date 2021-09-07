@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -84,8 +86,6 @@ class MyApp extends StatelessWidget {
     });
     socket.connect();
     socket.onConnect((data) => {print("SOCKET CONNECTED")});
-    socket.emit("join-new-user",
-        {"uid": userInfo['uid'], "name": userInfo['name'], "status": "ONLINE"});
     socket.onConnectError((data) => print("SOCKET STATUS: $data"));
   }
 
@@ -107,6 +107,7 @@ class MyApp extends StatelessWidget {
     if (wishListResp[0] == 200) {
       wishListIds = wishListResp[1];
     }
+    log("$userInfo");
     return userInfo;
   }
 
@@ -170,6 +171,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    isLoggedIn().then((val) => print("USER INFO: $val"));
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -205,6 +212,7 @@ class MyApp extends StatelessWidget {
                   if (snapshot.hasError ||
                       snapshot.data.isEmpty ||
                       userInfo == null) {
+                    print("${snapshot.data} |||| $userInfo");
                     return Login();
                   } else if (snapshot.data.isNotEmpty &&
                       userInfo['account_status'] == 'ACTIVE') {
