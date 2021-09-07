@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:user_app/api/orderApi.dart';
+import 'package:user_app/api/reviewApi.dart';
 import 'package:user_app/cart/order_placed.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
@@ -26,6 +27,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
   OrderApiHandler orderHandler = new OrderApiHandler();
   List products = [];
   List packs = [];
+  var deliveryPartnerInfo, deliveryReview;
   String payMethod;
 
   @override
@@ -37,9 +39,13 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
 
   getOrderInfo() async {
     var resp = await orderHandler.getOrderInfo(this.widget.orderId);
-    print(resp);
+    // print(resp);
     products = resp[1]['products'];
     packs = resp[1]['packs'];
+    deliveryPartnerInfo = resp[1]['delivery_partner'];
+    deliveryReview = resp[1]['delivery_review'];
+    print("DELIVERY REVIEW: ${resp[1]['delivery_review']}");
+    print("DELIVERY PARTNER: ${resp[1]['delivery_partner']}");
     setState(() {});
   }
 
@@ -351,6 +357,104 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                           ],
                         ),
                       ),
+                      deliveryPartnerInfo == null || deliveryPartnerInfo.isEmpty
+                          ? Row(
+                              children: [
+                                TextWidget("Order Status: ", textType: "title"),
+                                TextWidget(
+                                    "${widget.orderInfo['order_status']}",
+                                    textType: "title"),
+                              ],
+                            )
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Card(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Container(
+                                          width: size.width * 0.2,
+                                          height: size.width * 0.2,
+                                          child: Image.network(
+                                              deliveryPartnerInfo['photo'])),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            TextWidget(
+                                                "${deliveryPartnerInfo['name']}",
+                                                textType: "title"),
+                                            TextWidget(
+                                                "Delivery Status: ${widget.orderInfo['delivery_status']}",
+                                                textType: "title"),
+                                            (widget.orderInfo[
+                                                            'delivery_status'] ==
+                                                        "DELIVERED" &&
+                                                    deliveryReview.isEmpty)
+                                                ? Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: GestureDetector(
+                                                        child: Text(
+                                                            "Write a Review",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.blue,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400)),
+                                                        onTap: () async {
+                                                          await showRatingDialogue(
+                                                              deliveryPartnerInfo[
+                                                                  'uid'],
+                                                              deliveryPartnerInfo[
+                                                                  'name']);
+                                                        }),
+                                                  )
+                                                : Row(
+                                                    children: [
+                                                      Icon(Icons.star_outlined),
+                                                      Text(
+                                                          "${deliveryReview['rating']}")
+                                                    ],
+                                                  )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    (widget.orderInfo['delivery_status'] !=
+                                            "DELIVERED")
+                                        ? GestureDetector(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                  width: size.width * 0.05,
+                                                  height: size.width * 0.05,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
+                                                  child: Icon(Icons
+                                                      .phone_in_talk_outlined)),
+                                            ),
+                                            onTap: () async {})
+                                        : SizedBox()
+                                  ],
+                                ),
+                              ))),
                       Divider(),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -479,5 +583,149 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
         ),
       )),
     );
+  }
+
+  Future<void> showRatingDialogue(String deliveryId, String name) async {
+    int rating = 0;
+    Size size = MediaQuery.of(context).size;
+    TextEditingController reviewController = new TextEditingController();
+    List ratingDescription = [
+      "Rate your Delivery",
+      "Very Poor",
+      "Poor",
+      "Satisfactory",
+      "Good",
+      "Excellent"
+    ];
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              Widget activeStar = Icon(Icons.star_rate_rounded,
+                  color: Constants.successColor, size: 35);
+              Widget inactiveStar = Icon(Icons.star_rate_outlined,
+                  color: Constants.successColor, size: 35);
+              return AlertDialog(
+                  title: Text("Review for $name",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  actions: [
+                    PrimaryCustomButton(
+                      title: "Submit",
+                      onPressed: () async {
+                        ReviewApiHandler reviewHandler = new ReviewApiHandler();
+                        Map<String, dynamic> data = {
+                          "to": widget.orderInfo['delivery_person_id'],
+                          "rating": rating,
+                          "review": reviewController.text,
+                          "order_id": widget.orderId
+                        };
+                        print("SENDING DATA: $data");
+                        List resp = await reviewHandler.writeReview(data);
+                        Navigator.pop(context);
+                        MyApp.showToast("${resp[1]['message']}", context);
+                      },
+                    )
+                  ],
+                  content: Container(
+                    height: 275,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Container(
+                            width: size.width,
+                            child: Column(
+                              children: [
+                                Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                          child: rating >= 1
+                                              ? activeStar
+                                              : inactiveStar,
+                                          onTap: () {
+                                            setState(() {
+                                              rating = 1;
+                                            });
+                                          }),
+                                      GestureDetector(
+                                          child: rating >= 2
+                                              ? activeStar
+                                              : inactiveStar,
+                                          onTap: () {
+                                            setState(() {
+                                              rating = 2;
+                                            });
+                                          }),
+                                      GestureDetector(
+                                          child: rating >= 3
+                                              ? activeStar
+                                              : inactiveStar,
+                                          onTap: () {
+                                            setState(() {
+                                              rating = 3;
+                                            });
+                                          }),
+                                      GestureDetector(
+                                          child: rating >= 4
+                                              ? activeStar
+                                              : inactiveStar,
+                                          onTap: () {
+                                            setState(() {
+                                              rating = 4;
+                                            });
+                                          }),
+                                      GestureDetector(
+                                          child: rating >= 5
+                                              ? activeStar
+                                              : inactiveStar,
+                                          onTap: () {
+                                            setState(() {
+                                              rating = 5;
+                                            });
+                                          }),
+                                    ]),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("${ratingDescription[rating]}"),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Write a Review"),
+                        ),
+                        TextField(
+                          maxLines: 5,
+                          controller: reviewController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 5.0),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
+              // return Container(
+              //     color: Colors.white,
+              //     child: Column(
+              //       children: [
+              //         Text("Review for $name",
+              //             style: TextStyle(
+              //                 fontSize: 18, fontWeight: FontWeight.bold))
+              //       ],
+              //     ));
+            },
+          );
+        });
   }
 }

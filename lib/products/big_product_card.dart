@@ -124,28 +124,43 @@ class _BigProductCardState extends State<BigProductCard> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4.0, horizontal: 5.0),
-                          child: Text(
-                             widget.productInfo[0]['product_name'],
-                             overflow: TextOverflow.ellipsis,
-                             maxLines: 2,
-                             style: TextStyle(
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
-          fontSize: size.height / 56,
-          color: Constants.headingTextBlack,
-        
-          )
-,
-                          )
-                        ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4.0, horizontal: 5.0),
+                            child: Text(
+                              widget.productInfo[0]['product_name'],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5,
+                                fontSize: size.height / 56,
+                                color: Constants.headingTextBlack,
+                              ),
+                            )),
                       ),
                       Padding(
                           padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 2),
-                          child: TextWidget(
-                              "Rs. ${(widget.productInfo[0]['offer_price'] == "0" || widget.productInfo[0]['offer_price'] == 0) ? widget.productInfo[0]['price'] : widget.productInfo[0]['offer_price']}",
-                              textType: "card-price"))
+                          child: (widget.productInfo[0]['offer_price'] == "0" ||
+                                  widget.productInfo[0]['offer_price'] == 0)
+                              ? TextWidget(
+                                  "Rs.${widget.productInfo[0]['price']}",
+                                  textType: "card-price")
+                              : Row(
+                                  children: [
+                                    Text(
+                                        "Rs.${widget.productInfo[0]['offer_price']}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16)),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text("Rs.${widget.productInfo[0]['price']}",
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.lineThrough)),
+                                  ],
+                                ))
                     ],
                   ),
                 ),

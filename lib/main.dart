@@ -84,6 +84,8 @@ class MyApp extends StatelessWidget {
     });
     socket.connect();
     socket.onConnect((data) => {print("SOCKET CONNECTED")});
+    socket.emit("join-new-user",
+        {"uid": userInfo['uid'], "name": userInfo['name'], "status": "ONLINE"});
     socket.onConnectError((data) => print("SOCKET STATUS: $data"));
   }
 

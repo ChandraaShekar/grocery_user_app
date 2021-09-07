@@ -32,6 +32,7 @@ class _DashboardTabsState extends State<DashboardTabs>
       MyApp.cartList['products'] != null || MyApp.cartList['packs'] != null
           ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
           : 0;
+  bool _addressIsOpen = false;
   CartApiHandler cartHandler = new CartApiHandler();
   AddressApiHandler addressApi = AddressApiHandler();
 
@@ -123,13 +124,20 @@ class _DashboardTabsState extends State<DashboardTabs>
         displayAddress.isEmpty ||
         displayAddress == "") {
       MyApp.setDefaultAddress(0).then((_) {
-        setState(() {
-          displayAddress = MyApp.addresses[0]['address'];
-          MyApp.lat = double.parse(MyApp.addresses[0]['lat']);
-          MyApp.lng = double.parse(MyApp.addresses[0]['lng']);
-          MyApp.loadHomePage(MyApp.lat, MyApp.lng)
-              .then((value) => MyApp.homePage = value);
-        });
+        if (!_addressIsOpen) {
+          addressDialog();
+        }
+        // setState(() {
+        //   displayAddress = MyApp.addresses[0]['address'];
+        //   MyApp.lat = double.parse(MyApp.addresses[0]['lat']);
+        //   MyApp.lng = double.parse(MyApp.addresses[0]['lng']);
+        // });
+        // Future.delayed(Duration(seconds: 5), () async {
+        //   MyApp.homePage = await MyApp.loadHomePage(
+        //       double.parse(MyApp.addresses[0]['lat']),
+        //       double.parse(MyApp.addresses[0]['lng']));
+        //   setState(() {});
+        // });
       });
     }
     return Scaffold(
@@ -248,9 +256,12 @@ class _DashboardTabsState extends State<DashboardTabs>
     );
   }
 
-  Future<Widget> addressDialog() async {
+  addressDialog() async {
     Size size = MediaQuery.of(context).size;
-    return await showModalBottomSheet(
+    setState(() {
+      _addressIsOpen = true;
+    });
+    showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (context, setState) {
@@ -402,6 +413,10 @@ class _DashboardTabsState extends State<DashboardTabs>
                       ]),
                 ));
           });
-        });
+        }).then((value) {
+      setState(() {
+        _addressIsOpen = false;
+      });
+    });
   }
 }

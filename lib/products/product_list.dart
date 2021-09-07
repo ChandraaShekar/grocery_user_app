@@ -215,28 +215,47 @@ class _ProductListState extends State<ProductList> {
                                                   onTap: () async {
                                                     if (quantities[i] > 0) {
                                                       quantities[i] -= 1;
-                                                      List resp =
-                                                          await cartHandler
-                                                              .updateCart({
-                                                        "product_pack_id": MyApp
-                                                                    .cartList[
-                                                                'products'][y]
-                                                            ['product_id'],
-                                                        "quantity":
-                                                            quantities[i]
-                                                      });
-                                                      if (resp[0] == 200) {
-                                                        setState(() {
-                                                          MyApp.cartList['products']
-                                                                      [y][
-                                                                  'cartQuantity'] =
-                                                              quantities[i];
-                                                        });
-                                                      } else {
-                                                        quantities[i] += 1;
+                                                      if (quantities[i] == 0) {
+                                                        List resp = await cartHandler
+                                                            .deleteFromCart(MyApp
+                                                                        .cartList[
+                                                                    'products'][y]
+                                                                ['product_id']);
                                                         MyApp.showToast(
                                                             resp[1]['message'],
                                                             context);
+                                                        if (resp[0] == 200) {
+                                                          setState(() {
+                                                            MyApp.cartList[
+                                                                    'products']
+                                                                .removeAt(i);
+                                                          });
+                                                        }
+                                                      } else {
+                                                        List resp =
+                                                            await cartHandler
+                                                                .updateCart({
+                                                          "product_pack_id": MyApp
+                                                                      .cartList[
+                                                                  'products'][y]
+                                                              ['product_id'],
+                                                          "quantity":
+                                                              quantities[i]
+                                                        });
+                                                        if (resp[0] == 200) {
+                                                          setState(() {
+                                                            MyApp.cartList['products']
+                                                                        [y][
+                                                                    'cartQuantity'] =
+                                                                quantities[i];
+                                                          });
+                                                        } else {
+                                                          quantities[i] += 1;
+                                                          MyApp.showToast(
+                                                              resp[1]
+                                                                  ['message'],
+                                                              context);
+                                                        }
                                                       }
                                                       setState(() {});
                                                     }

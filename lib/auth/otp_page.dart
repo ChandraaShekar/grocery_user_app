@@ -38,6 +38,7 @@ class _OtpPageState extends State<OtpPage> {
   void _load() async {
     if (kIsWeb) {
       // running on the web!
+
       confirmationResult = await FirebaseAuth.instance
           .signInWithPhoneNumber('+91${widget.phoneNumber}');
       // .then(
@@ -281,6 +282,12 @@ class _OtpPageState extends State<OtpPage> {
                                 MyApp.authTokenValue =
                                     response[1]['access_token'];
                                 MyApp.loadAddresses();
+                                MyApp.loadHomePage(MyApp.lat, MyApp.lng);
+                                MyApp.socket.emit("join-new-user", {
+                                  "uid": MyApp.userInfo['uid'],
+                                  "name": MyApp.userInfo['name'],
+                                  "status": "ONLINE"
+                                });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
