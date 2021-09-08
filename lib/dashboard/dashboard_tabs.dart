@@ -36,10 +36,10 @@ class _DashboardTabsState extends State<DashboardTabs>
   CartApiHandler cartHandler = new CartApiHandler();
   AddressApiHandler addressApi = AddressApiHandler();
 
-  Map homeProducts = {};
-  String displayAddress = MyApp.addresses != null && MyApp.addresses.length > 0
-      ? MyApp.addresses[MyApp.selectedAddressId]['address']
-      : "";
+  // Map homeProducts = {};
+  // String displayAddress = MyApp.addresses != null && MyApp.addresses.length > 0
+  //     ? MyApp.addresses[MyApp.selectedAddressId]['address']
+  //     : "";
   List addresses;
   @override
   void initState() {
@@ -51,11 +51,11 @@ class _DashboardTabsState extends State<DashboardTabs>
     if (MyApp.lat == null || MyApp.lng == null) {
       loadAddresses();
     }
-    MyApp.socket.emit("join-new-user", {
-      "uid": MyApp.userInfo['uid'],
-      "name": MyApp.userInfo['name'],
-      "status": "ONLINE"
-    });
+    // MyApp.socket.emit("join-new-user", {
+    //   "uid": MyApp.userInfo['uid'],
+    //   "name": MyApp.userInfo['name'],
+    //   "status": "ONLINE"
+    // });
     changeDisplayAddress(MyApp.selectedAddressId);
     setState(() {});
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -75,7 +75,7 @@ class _DashboardTabsState extends State<DashboardTabs>
       }
     });
 
-    if (homeProducts.isEmpty) {
+    if (MyApp.homePage.isEmpty) {
       addressDialog();
     }
   }
@@ -89,8 +89,8 @@ class _DashboardTabsState extends State<DashboardTabs>
         MyApp.setDefaultAddress(i);
         MyApp.lat = double.parse(MyApp.addresses[i]['lat']);
         MyApp.lng = double.parse(MyApp.addresses[i]['lng']);
-        displayAddress = MyApp.addresses[i]['address'];
-        homeProducts = await MyApp.loadHomePage(MyApp.lat, MyApp.lng);
+        MyApp.displayAddress = MyApp.addresses[i]['address'];
+        MyApp.loadHomePage(MyApp.lat, MyApp.lng);
         setState(() {});
       }
     }
@@ -98,12 +98,12 @@ class _DashboardTabsState extends State<DashboardTabs>
 
   loadAddresses() async {
     MyApp.selectedAddressId = await MyApp.getDefaultAddress();
-    displayAddress = MyApp.addresses[MyApp.selectedAddressId]['address'];
+    // MyApp.displayAddress = MyApp.addresses[MyApp.selectedAddressId]['address'];
     AddressApiHandler addressApiHandler = AddressApiHandler();
     List resp = await addressApiHandler.getAddresses();
     setState(() {
       MyApp.addresses = resp[1];
-      displayAddress = MyApp.addresses[MyApp.selectedAddressId == -1
+      MyApp.displayAddress = MyApp.addresses[MyApp.selectedAddressId == -1
           ? 0
           : MyApp.selectedAddressId]['address'];
       MyApp.lat = double.parse(resp[1][MyApp.selectedAddressId]['lat']);
@@ -118,33 +118,13 @@ class _DashboardTabsState extends State<DashboardTabs>
             MyApp.cartList['packs'] != null
         ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
         : 0;
-    setState(() {});
+    // setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     loadCartCount();
-    if (displayAddress == null ||
-        displayAddress.isEmpty ||
-        displayAddress == "") {
-      MyApp.setDefaultAddress(0).then((_) {
-        if (!_addressIsOpen) {
-          addressDialog();
-        }
-        // setState(() {
-        //   displayAddress = MyApp.addresses[0]['address'];
-        //   MyApp.lat = double.parse(MyApp.addresses[0]['lat']);
-        //   MyApp.lng = double.parse(MyApp.addresses[0]['lng']);
-        // });
-        // Future.delayed(Duration(seconds: 5), () async {
-        //   MyApp.homePage = await MyApp.loadHomePage(
-        //       double.parse(MyApp.addresses[0]['lat']),
-        //       double.parse(MyApp.addresses[0]['lng']));
-        //   setState(() {});
-        // });
-      });
-    }
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -157,7 +137,8 @@ class _DashboardTabsState extends State<DashboardTabs>
               Icon(Icons.location_pin),
               Container(
                 width: MediaQuery.of(context).size.width * 0.5,
-                child: TextWidget("$displayAddress...", textType: "title"),
+                child:
+                    TextWidget("${MyApp.displayAddress}...", textType: "title"),
               )
             ]),
           ),
@@ -241,11 +222,25 @@ class _DashboardTabsState extends State<DashboardTabs>
             ),
             Expanded(
               child: Container(
+                  //     child: IndexedStack(
+                  //   index: _controller.index,
+                  //   children: [
+                  //     HomePageProducts(
+                  //       homepageData: MyApp.homePage,
+                  //     ),
+                  //     CartList(
+                  //       onCountChange: (x) => setState(() {
+                  //         cartCount = x;
+                  //       }),
+                  //     ),
+                  //     WishListProducts(),
+                  //   ],
+                  // )
                   child: new TabBarView(
                       controller: _controller,
                       children: <Widget>[
                     HomePageProducts(
-                      homepageData: homeProducts,
+                      homepageData: MyApp.homePage,
                     ),
                     CartList(
                       onCountChange: (x) => setState(() {
@@ -360,12 +355,11 @@ class _DashboardTabsState extends State<DashboardTabs>
                                               if (respx[0] == 200) {
                                                 changeDisplayAddress(i);
 
-                                                homeProducts =
-                                                    await MyApp.loadHomePage(
-                                                        MyApp.addresses[i]
-                                                            ['lat'],
-                                                        MyApp.addresses[i]
-                                                            ['lng']);
+                                                // homeProducts =
+                                                //     await
+                                                MyApp.loadHomePage(
+                                                    MyApp.addresses[i]['lat'],
+                                                    MyApp.addresses[i]['lng']);
                                                 setState(() {});
                                               }
                                             }
@@ -373,10 +367,11 @@ class _DashboardTabsState extends State<DashboardTabs>
                                         } else {
                                           changeDisplayAddress(i);
 
-                                          homeProducts =
-                                              await MyApp.loadHomePage(
-                                                  MyApp.addresses[i]['lat'],
-                                                  MyApp.addresses[i]['lng']);
+                                          // homeProducts =
+                                          //     await
+                                          MyApp.loadHomePage(
+                                              MyApp.addresses[i]['lat'],
+                                              MyApp.addresses[i]['lng']);
                                           setState(() {});
                                         }
                                       } else {

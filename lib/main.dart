@@ -52,6 +52,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   static String loginIdValue;
   static String authTokenValue;
+  static String displayAddress;
   static Map userInfo;
   static List wishListIds = [];
   static List addresses = [];
@@ -100,6 +101,11 @@ class MyApp extends StatelessWidget {
     selectedAddressId = await getDefaultAddress();
     loadAddresses();
     reloadCart();
+    displayAddress =
+        addresses[selectedAddressId == -1 ? 0 : selectedAddressId]['address'];
+    lat = double.parse(addresses[MyApp.selectedAddressId]['lat']);
+    lng = double.parse(addresses[MyApp.selectedAddressId]['lng']);
+    loadHomePage(lat, lng).then((val) => print("HOMEPAGE LOADED $homePage"));
     messaging
         .subscribeToTopic(userInfo['uid'])
         .then((value) => print("SUBBSCRIBED TO ${userInfo['uid']}"));

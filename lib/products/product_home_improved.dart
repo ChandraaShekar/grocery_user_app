@@ -57,23 +57,25 @@ class _HomePageProductsState extends State<HomePageProducts> {
   }
 
   void loadData() async {
-    productsArround = int.parse(widget.homepageData['products_arround']);
-    featured = widget.homepageData['featured'];
-    sale = widget.homepageData['sale'];
-    bestDeals = widget.homepageData['best_deals'];
-    frutteChoice = widget.homepageData['frutte_choice'];
-    topOffers = widget.homepageData['top_offers'];
-    categories = widget.homepageData['categories'];
-    banners = widget.homepageData['banners'];
-    promoBanners = widget.homepageData['promotional_banners'];
-    small_1 = promoBanners[0];
-    small_2 = promoBanners[1];
-    small_3 = promoBanners[2];
-    small_4 = promoBanners[3];
-    large_1 = promoBanners[4];
-    large_2 = promoBanners[5];
-    large_3 = promoBanners[6];
-    large_4 = promoBanners[7];
+    if (widget.homepageData['products_arround'] != null) {
+      productsArround = int.parse(widget.homepageData['products_arround']);
+      featured = widget.homepageData['featured'];
+      sale = widget.homepageData['sale'];
+      bestDeals = widget.homepageData['best_deals'];
+      frutteChoice = widget.homepageData['frutte_choice'];
+      topOffers = widget.homepageData['top_offers'];
+      categories = widget.homepageData['categories'];
+      banners = widget.homepageData['banners'];
+      promoBanners = widget.homepageData['promotional_banners'];
+      small_1 = promoBanners[0];
+      small_2 = promoBanners[1];
+      small_3 = promoBanners[2];
+      small_4 = promoBanners[3];
+      large_1 = promoBanners[4];
+      large_2 = promoBanners[5];
+      large_3 = promoBanners[6];
+      large_4 = promoBanners[7];
+    }
   }
 
   @override
