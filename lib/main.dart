@@ -101,11 +101,6 @@ class MyApp extends StatelessWidget {
     selectedAddressId = await getDefaultAddress();
     loadAddresses();
     reloadCart();
-    displayAddress =
-        addresses[selectedAddressId == -1 ? 0 : selectedAddressId]['address'];
-    lat = double.parse(addresses[MyApp.selectedAddressId]['lat']);
-    lng = double.parse(addresses[MyApp.selectedAddressId]['lng']);
-    loadHomePage(lat, lng).then((val) => print("HOMEPAGE LOADED $homePage"));
     messaging
         .subscribeToTopic(userInfo['uid'])
         .then((value) => print("SUBBSCRIBED TO ${userInfo['uid']}"));
@@ -170,9 +165,9 @@ class MyApp extends StatelessWidget {
     AddressApiHandler addressApiHandler = AddressApiHandler();
     List resp = await addressApiHandler.getAddresses();
     selectedAddressId = await getDefaultAddress();
-    MyApp.addresses = resp[1];
-    MyApp.lat = double.parse(resp[1][MyApp.selectedAddressId]['lat']);
-    MyApp.lng = double.parse(resp[1][MyApp.selectedAddressId]['lng']);
+    addresses = resp[1];
+    lat = double.parse(resp[1][selectedAddressId]['lat']);
+    lng = double.parse(resp[1][selectedAddressId]['lng']);
   }
 
   @override

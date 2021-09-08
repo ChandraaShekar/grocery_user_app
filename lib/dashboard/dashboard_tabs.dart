@@ -118,7 +118,7 @@ class _DashboardTabsState extends State<DashboardTabs>
             MyApp.cartList['packs'] != null
         ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
         : 0;
-    // setState(() {});
+    setState(() {});
   }
 
   @override
