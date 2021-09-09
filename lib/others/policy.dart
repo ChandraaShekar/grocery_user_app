@@ -9,43 +9,12 @@ class Policy extends StatefulWidget {
 }
 
 class _PolicyState extends State<Policy> {
-
-  String policy='''
+  String policy = '''
 
 <html>
 
 <head>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
-<meta name=Generator content="Microsoft Word 15 (filtered)">
-<style>
-<!--
- /* Font Definitions */
- @font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
- /* Style Definitions */
- p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	line-height:115%;
-	font-size:11.0pt;
-	}
-.MsoChpDefault
-	{}
-.MsoPapDefault
-	{line-height:115%;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
- /* List Definitions */
- ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
--->
-</style>
-
 </head>
 
 <body lang=EN-US style='word-wrap:break-word'>
@@ -277,8 +246,6 @@ the extent permitted by law.</span></p>
 </body>
 
 </html>
-
-
   ''';
 
   @override
@@ -286,9 +253,9 @@ the extent permitted by law.</span></p>
     return Scaffold(
         appBar: Header.appBar(Constants.policyTag, null, true),
         body: SingleChildScrollView(
-            child:Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: HtmlWidget(policy),
-            )));
+            child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: HtmlWidget(policy),
+        )));
   }
 }
