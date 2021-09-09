@@ -824,7 +824,7 @@ color:#475055'>&nbsp;</span></p>
         appBar: Header.appBar(Constants.tncTag, null, true),
         body: SingleChildScrollView(
             child:Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15.0),
               child: HtmlWidget(tandc),
             )));
   }

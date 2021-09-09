@@ -116,7 +116,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                   "!",
                               style: TextStyle(
                                   color: Constants.packDescHeadingColor,
-                                  fontSize: size.height / 60,
+                                  fontSize: size.height / 58,
                                   fontWeight: FontWeight.w600),
                             )
                           ],
@@ -183,7 +183,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
                           height: 5,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          padding: const EdgeInsets.only(left: 15, right: 15),
                           child: Container(
                             height: size.height / 4.55,
                             width: MediaQuery.of(context).size.width,
@@ -267,6 +267,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 10),
                         PrimaryButton(
                           text: "Add to Cart",
                           backgroundColor: Constants.primaryColor,

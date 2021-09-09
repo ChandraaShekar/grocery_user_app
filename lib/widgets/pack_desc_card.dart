@@ -14,10 +14,11 @@ class PackDescCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 5, 8, 0),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Card(
+        elevation: 1,
         // shape: BorderRadius.circular(15),
-        color: Color(0xFFF9F9F9),
+        // color: Color(0xFFF9F9F9),
         child: Container(
           height: 80,
           child: Padding(

@@ -28,54 +28,62 @@ class _OrderStatusState extends State<OrderStatus> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
         return false;
       },
       child: Scaffold(
-        body: Center(
-          child: Column(children: [
-            Image.asset(
-                (widget.orderSuccess)
-                    ? Constants.paymentSuccessImage
-                    : Constants.paymentFailedImage,
-                width: MediaQuery.of(context).size.width),
-            TextWidget(
-                (widget.orderSuccess)
-                    ? "Order Placed Successfully."
-                    : "Failed to place order.",
-                textType: "title"),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextWidget("Your Order ID: ", textType: "title"),
-                    TextWidget("${widget.orderId}", textType: "title"),
-                  ]),
-            ),
-            (widget.orderSuccess)
-                ? Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: TextWidget("Your order will be delivered in 1 hour",
-                        textType: "title"))
-                : SizedBox(),
-            (widget.orderSuccess)
-                ? Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: TextWidget(
-                        "Everyone Frutte's crew are either fully or partially vacciated, We follow all the guidelines issued by the WHO & Ministry of Health.",
-                        textType: "title"))
-                : SizedBox(),
-            TextButton(
-              child: Text("Continue Shopping"),
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => DashboardTabs()));
-              },
-            )
-          ]),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Center(
+            child: Column(children: [
+              Image.asset(
+                  (widget.orderSuccess)
+                      ? Constants.paymentSuccessImage
+                      : Constants.paymentFailedImage,
+                  width: MediaQuery.of(context).size.width),
+              TextWidget(
+                  (widget.orderSuccess)
+                      ? "Order Placed Successfully."
+                      : "Failed to place order.",
+                  textType: "title"),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextWidget("Your Order ID: ", textType: "title"),
+                      TextWidget("${widget.orderId}", textType: "title"),
+                    ]),
+              ),
+              (widget.orderSuccess)
+                  ? Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: TextWidget(
+                          "Your order will be delivered in 1 hour",
+                          textType: "title"))
+                  : SizedBox(),
+              (widget.orderSuccess)
+                  ? Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: TextWidget(
+                          "Everyone Frutte's crew are either fully or partially vacciated, We follow all the guidelines issued by the WHO & Ministry of Health.",
+                          textType: "title"))
+                  : SizedBox(),
+              TextButton(
+                child: Text(
+                  "Continue Shopping",
+                  style: TextStyle(fontSize: size.height / 56),
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => DashboardTabs()));
+                },
+              )
+            ]),
+          ),
         ),
       ),
     );

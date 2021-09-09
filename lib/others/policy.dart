@@ -23,31 +23,26 @@ class _PolicyState extends State<Policy> {
  @font-face
 	{font-family:"Cambria Math";
 	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Georgia;
-	panose-1:2 4 5 2 5 4 5 2 3 3;}
  /* Style Definitions */
  p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin-top:0in;
-	margin-right:0in;
-	margin-bottom:8.0pt;
-	margin-left:0in;
-	line-height:107%;
+	{margin:0in;
+	line-height:115%;
 	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
+	}
 .MsoChpDefault
-	{font-family:"Calibri",sans-serif;}
+	{}
 .MsoPapDefault
-	{margin-bottom:8.0pt;
-	line-height:107%;}
+	{line-height:115%;}
 @page WordSection1
-	{size:595.3pt 841.9pt;
+	{size:8.5in 11.0in;
 	margin:1.0in 1.0in 1.0in 1.0in;}
 div.WordSection1
 	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
 -->
 </style>
 
@@ -59,14 +54,14 @@ div.WordSection1
 
 <p class=MsoNormal align=center style='text-align:center;line-height:normal;
 background:white;border:none'><b><span lang=EN-IN style='font-size:12.0pt;
-font-family:"Arial",sans-serif;color:#222222'>                FRUTTE PRIVACY
+color:#222222'>                FRUTTE PRIVACY
 NOTE TO THE USERS:</span></b></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><u><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>1.<b>Introduction</b>&nbsp;:</span></u></p>
+lang=EN-IN style='font-size:12.0pt;color:#222222'>1.<b>Introduction</b>&nbsp;:</span></u></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>while
+lang=EN-IN style='font-size:12.0pt;color:#222222'>while
 using Frutte, you trust us with your private data. We pledge to keep that
 trust. That starts with assisting you understand our privacy practices.<br>
 This note elaborates the private data we collect, how it’s used and shared, and
@@ -75,23 +70,23 @@ We request you to go through this along with our privacy overviews which
 highlights and describes the key points of our privacy practices.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'><br>
+lang=EN-IN style='font-size:12.0pt;color:#222222'><br>
 <u>2.<b>Overview</b>:</u></span></p>
 
 <p class=MsoNormal style='margin-top:14.0pt;margin-right:0in;margin-bottom:
 12.0pt;margin-left:0in;line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>This
+lang=EN-IN style='font-size:12.0pt;color:#222222'>This
 note describes how Frutte collects and uses private data.<br>
 This note appeals to all users of our apps, websites, features, or other
 services.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>This
+lang=EN-IN style='font-size:12.0pt;color:#222222'>This
 notice specifically applies to: Delivery recipients: Individuals who request ,
 order or receive food, or other products and services, including via Frutte.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>This
+lang=EN-IN style='font-size:12.0pt;color:#222222'>This
 notice also governs Frutte's other collections of private information in
 connection with its services.<br>
 In detail, we may acquire the contact information of individuals who use
@@ -102,7 +97,7 @@ or other personal data in connection with our navigation technology and
 features.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'><br>
+lang=EN-IN style='font-size:12.0pt;color:#222222'><br>
 <u>3.&nbsp;<b>Data Controller and transfer</b></u>: Frutte has it's own data
 controllers for the personal data collected in connection with use of Frutte
 services.<br>
@@ -114,13 +109,13 @@ Use, or based on users’ prior consent, adequacy decisions for the relevant
 locations.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>Questions,
+lang=EN-IN style='font-size:12.0pt;color:#222222'>Questions,
 comments, and complaints about Frutte data practices can be submitted here. You
 may also use this form to submit a question to the Frutee Data Protection
 Executive.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'><br>
+lang=EN-IN style='font-size:12.0pt;color:#222222'><br>
 <u>4.<b>Data collections and uses</b></u>:<br>
 A).&nbsp;The data Frutte collect:<br>
 I)Frutte collects personal data: Provided by users to Frutte, during account
@@ -132,7 +127,7 @@ vendors,<br>
 insurance and financial solution providers, and governmental authorities.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'><br>
+lang=EN-IN style='font-size:12.0pt;color:#222222'><br>
 B). Data collections and uses:<br>
 Provided by users to Frutte, during account creation:<br>
 I)User profile: We collect data when users create or update their Uber
@@ -141,13 +136,13 @@ password, address, profile picture, payment or banking information (including
 related payment verification information),</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>II)
+lang=EN-IN style='font-size:12.0pt;color:#222222'>II)
 Demographic data: We consider this option for collecting data about users,
 including through user surveys. In some locations, we may also receive
 demographic data about users from third parties.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>III
+lang=EN-IN style='font-size:12.0pt;color:#222222'>III
 )User content: We collect the data submitted by users when they contact Frutte
 customer support ( Chats , Calls and emails) , provide ratings or compliments
 for other users, restaurants or merchants, or otherwise contact Frutee. This
@@ -156,7 +151,7 @@ including picture , written format )submitted by users in connection with
 customer support.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>5.<b><u>Travel
+lang=EN-IN style='font-size:12.0pt;color:#222222'>5.<b><u>Travel
 information</u></b>: We collect travel itinerary information, including the
 times and dates of upcoming orders, from users of our Frutte Travel feature.<br>
 We collect such information:<br>
@@ -181,7 +176,7 @@ your device’s operating system), and any time the app is running in the
 foreground (app open and on-screen) of their mobile device.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>Riders
+lang=EN-IN style='font-size:12.0pt;color:#222222'>Riders
 and delivery recipients may use the Frutte apps without enabling Frutte to
 collect precise location data from their mobile devices. However, this may
 affect features in the Frutte app.<br>
@@ -193,7 +188,7 @@ including for purposes of receipt generation, customer support, fraud
 detection, insurance, and litigation.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>II)Transaction
+lang=EN-IN style='font-size:12.0pt;color:#222222'>II)Transaction
 information: We collect transaction information related to the use of our
 services, including the type of services requested or provided, order details,
 payment transaction information (such as a restaurant’s or merchant's name and
@@ -203,7 +198,7 @@ Additionally, if someone uses your promotion code, we may associate your name
 with that person.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>III)Communications
+lang=EN-IN style='font-size:12.0pt;color:#222222'>III)Communications
 data: We enable users to communicate with each other and Frutee through Frutte
 mobile apps and websites. For example, we enable drivers and riders, and
 delivery persons and delivery recipients, to call, text, or send other files to
@@ -216,15 +211,15 @@ support services (including to resolve disputes between users), for safety and
 security purposes, to improve our services and features, and for analytics.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>B.&nbsp;How
+lang=EN-IN style='font-size:12.0pt;color:#222222'>B.&nbsp;How
 we use personal data:</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>This
+lang=EN-IN style='font-size:12.0pt;color:#222222'>This
 includes using data to:</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>1)
+lang=EN-IN style='font-size:12.0pt;color:#222222'>1)
 create/update accounts<br>
 2)Enable transportation and delivery services (such as using location data to
 facilitate a pick up or delivery), features that involve data sharing (such as
@@ -236,20 +231,20 @@ process payments.<br>
 personalized restaurant or food recommendations based on their prior orders.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'><br>
+lang=EN-IN style='font-size:12.0pt;color:#222222'><br>
 C.&nbsp;Cookies and third-party technologies:<br>
 Frutee and use cookies and other identification technologies on our apps,
 websites, emails, and online ads for purposes described in this notice, and
 Frutte's Cookie Notice.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>Cookies
+lang=EN-IN style='font-size:12.0pt;color:#222222'>Cookies
 are small text files that are stored on browsers or devices by websites, apps,
 online media, and advertisements. Frutte uses cookies and similar technologies
 for purposes such as:</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>1)Authenticating
+lang=EN-IN style='font-size:12.0pt;color:#222222'>1)Authenticating
 users.<br>
 2)Remembering user preferences and settings.<br>
 3)Determining the popularity of content.<br>
@@ -258,20 +253,20 @@ users.<br>
 behaviors and interests of people who interact with our services.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><u><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'><br>
+lang=EN-IN style='font-size:12.0pt;color:#222222'><br>
 <b>6. Updates to this notice:</b></span></u><span lang=EN-IN style='font-size:
-12.0pt;font-family:"Arial",sans-serif;color:#222222'><br>
+12.0pt;color:#222222'><br>
 We may occasionally update this notice.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>We
+lang=EN-IN style='font-size:12.0pt;color:#222222'>We
 may occasionally update this notice. If we make significant changes, we will
 notify users in advance of the changes through the Frutte apps or through other
 means, such as email. We encourage users to periodically review this notice for
 the latest information on our privacy practices.</span></p>
 
 <p class=MsoNormal style='line-height:normal;background:white;border:none'><span
-lang=EN-IN style='font-size:12.0pt;font-family:"Arial",sans-serif;color:#222222'>Use
+lang=EN-IN style='font-size:12.0pt;color:#222222'>Use
 of our services after an update constitutes consent to the updated notice to
 the extent permitted by law.</span></p>
 
@@ -292,7 +287,7 @@ the extent permitted by law.</span></p>
         appBar: Header.appBar(Constants.policyTag, null, true),
         body: SingleChildScrollView(
             child:Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15.0),
               child: HtmlWidget(policy),
             )));
   }
