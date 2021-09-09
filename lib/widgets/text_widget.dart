@@ -28,6 +28,13 @@ class TextWidget extends StatelessWidget {
           letterSpacing: 0.5,
           fontSize: size.height / 50,
           color: Constants.secondaryTextColor);
+    } else if (x == "platform-title") {
+      y = TextStyle(
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.5,
+          fontSize: size.height / 56,
+          color: Constants.greyHeading
+          );
     } else if (x == "title") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
@@ -80,11 +87,17 @@ class TextWidget extends StatelessWidget {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.2,
-          fontSize: size.height / 65,
+          fontSize: size.height / 60,
           color: Colors.white);
     } else if (x == "label-light") {
       y = TextStyle(
           fontWeight: FontWeight.w500,
+          letterSpacing: 0.2,
+          fontSize: size.height / 60,
+          color: Colors.grey[800]);
+    } else if (x == "label-grey") {
+      y = TextStyle(
+          fontWeight: FontWeight.w600,
           letterSpacing: 0.2,
           fontSize: size.height / 60,
           color: Colors.grey[800]);
