@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/api/wishlistapi.dart';
 import 'package:user_app/products/product_details.dart';
+import 'package:user_app/widgets/text_widget.dart';
 import 'package:user_app/widgets/wishlist_product_card.dart';
 
 class WishListProducts extends StatefulWidget {
@@ -33,7 +34,7 @@ class _WishListProductsState extends State<WishListProducts> {
     return (products == null)
         ? Center(child: CircularProgressIndicator())
         : (products.length == 0)
-            ? Center(child: Text("Your wish list is Empty."))
+            ? Center(child: TextWidget("Your wish list is Empty.", textType: "title",))
             : ListView.builder(
                 itemCount: products.length,
                 itemBuilder: (BuildContext context, int index) {
