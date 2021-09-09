@@ -58,7 +58,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(Constants.homeTag, textType: "platform-title"),
+                  title: TextWidget(Constants.homeTag, textType: "title"),
                   onTap: () {
                     Navigator.pop(context);
                   }),
@@ -74,7 +74,7 @@ class PlatformState extends State<Platform> {
                     ),
                   ),
                   title:
-                      TextWidget(Constants.orderHistoryTag, textType: "platform-title"),
+                      TextWidget(Constants.orderHistoryTag, textType: "title"),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -93,7 +93,7 @@ class PlatformState extends State<Platform> {
                     ),
                   ),
                   title:
-                      TextWidget(Constants.explorePacksTag, textType: "platform-title"),
+                      TextWidget(Constants.explorePacksTag, textType: "title"),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -111,7 +111,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(Constants.settingsTag, textType: "platform-title"),
+                  title: TextWidget(Constants.settingsTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Settings()));
@@ -127,7 +127,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(Constants.policyTag, textType: "platform-title"),
+                  title: TextWidget(Constants.policyTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Policy()));
@@ -143,7 +143,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(Constants.tncTag, textType: "platform-title"),
+                  title: TextWidget(Constants.tncTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => TandC()));
@@ -159,7 +159,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(Constants.helpTag, textType: "platform-title"),
+                  title: TextWidget(Constants.helpTag, textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Help()));
@@ -179,7 +179,7 @@ class PlatformState extends State<Platform> {
                       (MyApp.userInfo['user_type'] == "NORMAL")
                           ? Constants.referTag
                           : "Referal Performance",
-                      textType: "platform-title"),
+                      textType: "title"),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Refer()));
@@ -195,7 +195,7 @@ class PlatformState extends State<Platform> {
                       color: Constants.drawerIconColor,
                     ),
                   ),
-                  title: TextWidget(Constants.logoutTag, textType: "platform-title"),
+                  title: TextWidget(Constants.logoutTag, textType: "title"),
                   onTap: () {
                     MyApp.logout();
                     Navigator.of(context).pushNamedAndRemoveUntil(

@@ -106,7 +106,7 @@ class _ProductListState extends State<ProductList> {
                             child: Card(
                               elevation: 2,
                                 child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(10.0),
                               child: Stack(
                                 children: [
                                   Row(

@@ -391,10 +391,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     onTapUrl: (_url) async =>
                                         await canLaunch(_url)
                                             ? await launch(_url)
-                                            : throw 'Could not launch $_url'),
+                                            : throw 'Could not launch $_url',
+                                            textStyle: TextStyle(fontSize: size.height / 58, letterSpacing: 0.2,)),
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                             ],
                           ),

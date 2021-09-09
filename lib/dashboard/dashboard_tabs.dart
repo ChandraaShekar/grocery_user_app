@@ -266,14 +266,14 @@ class _DashboardTabsState extends State<DashboardTabs>
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (context, setState) {
             return Container(
-                height: size.height * 0.5,
+                height: size.height * 0.6,
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextWidget("Pick your Address", textType: "heading"),
+                        TextWidget("Pick your Address", textType: "subheading"),
                         SizedBox(height: 10),
                         Divider(),
                         SizedBox(height: 10),
@@ -281,121 +281,124 @@ class _DashboardTabsState extends State<DashboardTabs>
                           child: ListView.builder(
                               itemCount: MyApp.addresses.length,
                               itemBuilder: (_, i) {
-                                return ListTile(
-                                    title: TextWidget(
-                                        "${MyApp.addresses[i]['address_name']}",
-                                        textType: "title"),
-                                    subtitle: TextWidget(
-                                        MyApp.addresses[i]['address'],
-                                        textType: "para"),
-                                    trailing: (MyApp.addresses.length <= 1)
-                                        ? SizedBox()
-                                        : (MyApp.selectedAddressId == i)
-                                            ? SizedBox()
-                                            : IconButton(
-                                                icon: Icon(Icons.delete,
-                                                    color:
-                                                        Constants.dangerColor),
-                                                onPressed: () async {
-                                                  var resp = await addressApi
-                                                      .deleteAddress(MyApp
-                                                          .addresses[i]['id']);
-                                                  if (resp[0] == 200) {
-                                                    MyApp.addresses.removeAt(i);
-                                                  }
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5),
+                                  child: ListTile(
+                                      title: TextWidget(
+                                          "${MyApp.addresses[i]['address_name']}",
+                                          textType: "title"),
+                                      subtitle: TextWidget(
+                                          MyApp.addresses[i]['address'],
+                                          textType: "para"),
+                                      trailing: (MyApp.addresses.length <= 1)
+                                          ? SizedBox()
+                                          : (MyApp.selectedAddressId == i)
+                                              ? SizedBox()
+                                              : IconButton(
+                                                  icon: Icon(Icons.delete,
+                                                      color:
+                                                          Constants.dangerColor),
+                                                  onPressed: () async {
+                                                    var resp = await addressApi
+                                                        .deleteAddress(MyApp
+                                                            .addresses[i]['id']);
+                                                    if (resp[0] == 200) {
+                                                      MyApp.addresses.removeAt(i);
+                                                    }
+                                                    setState(() {});
+                                                  }),
+                                      onTap: () async {
+                                        ProductApiHandler productHandler =
+                                            new ProductApiHandler();
+                                        List resp = await productHandler
+                                            .checkCart({
+                                          "current_address_id": MyApp.addresses[i]
+                                              ['id']
+                                        });
+                                        print("RESP STATUS: ${resp[1]}");
+                                        if (resp[0] == 200) {
+                                          if (resp[1]['available_item_count'] !=
+                                              resp[1]['total_item_count']) {
+                                            return showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder: (_) {
+                                                  return AlertDialog(
+                                                    title: TextWidget("Warning!",
+                                                        textType: "heading"),
+                                                    content: TextWidget(
+                                                        "Some products in your cart are not available in the selected location would you like to clear the cart?",
+                                                        textType: "title"),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: Text("No"),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context, false),
+                                                      ),
+                                                      SizedBox(width: 5.0),
+                                                      TextButton(
+                                                        child: Text("Yes"),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context, true),
+                                                      ),
+                                                    ],
+                                                  );
+                                                }).then((val) async {
+                                              if (val) {
+                                                var respx =
+                                                    await cartHandler.clearCart();
+                                                print(
+                                                    "RESPX: ${respx[1]['message']}");
+                                                MyApp.showToast(
+                                                    respx[1]['message'], context);
+                                                Navigator.pop(context);
+                                                if (respx[0] == 200) {
+                                                  changeDisplayAddress(i);
+
+                                                  // homeProducts =
+                                                  //     await
+                                                  MyApp.loadHomePage(
+                                                      MyApp.addresses[i]['lat'],
+                                                      MyApp.addresses[i]['lng']);
                                                   setState(() {});
-                                                }),
-                                    onTap: () async {
-                                      ProductApiHandler productHandler =
-                                          new ProductApiHandler();
-                                      List resp = await productHandler
-                                          .checkCart({
-                                        "current_address_id": MyApp.addresses[i]
-                                            ['id']
-                                      });
-                                      print("RESP STATUS: ${resp[1]}");
-                                      if (resp[0] == 200) {
-                                        if (resp[1]['available_item_count'] !=
-                                            resp[1]['total_item_count']) {
-                                          return showDialog(
-                                              barrierDismissible: false,
+                                                }
+                                              }
+                                            });
+                                          } else {
+                                            changeDisplayAddress(i);
+
+                                            // homeProducts =
+                                            //     await
+                                            MyApp.loadHomePage(
+                                                MyApp.addresses[i]['lat'],
+                                                MyApp.addresses[i]['lng']);
+                                            setState(() {});
+                                          }
+                                        } else {
+                                          showDialog(
                                               context: context,
                                               builder: (_) {
                                                 return AlertDialog(
                                                   title: TextWidget("Warning!",
                                                       textType: "heading"),
                                                   content: TextWidget(
-                                                      "Some products in your cart are not available in the selected location would you like to clear the cart?",
+                                                      "Sorry, There was a problem while changing your location. Try again later.",
                                                       textType: "title"),
                                                   actions: [
                                                     TextButton(
-                                                      child: Text("No"),
+                                                      child: Text("ok"),
                                                       onPressed: () =>
-                                                          Navigator.pop(
-                                                              context, false),
-                                                    ),
-                                                    SizedBox(width: 5.0),
-                                                    TextButton(
-                                                      child: Text("Yes"),
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context, true),
+                                                          Navigator.pop(context),
                                                     ),
                                                   ],
                                                 );
-                                              }).then((val) async {
-                                            if (val) {
-                                              var respx =
-                                                  await cartHandler.clearCart();
-                                              print(
-                                                  "RESPX: ${respx[1]['message']}");
-                                              MyApp.showToast(
-                                                  respx[1]['message'], context);
-                                              Navigator.pop(context);
-                                              if (respx[0] == 200) {
-                                                changeDisplayAddress(i);
-
-                                                // homeProducts =
-                                                //     await
-                                                MyApp.loadHomePage(
-                                                    MyApp.addresses[i]['lat'],
-                                                    MyApp.addresses[i]['lng']);
-                                                setState(() {});
-                                              }
-                                            }
-                                          });
-                                        } else {
-                                          changeDisplayAddress(i);
-
-                                          // homeProducts =
-                                          //     await
-                                          MyApp.loadHomePage(
-                                              MyApp.addresses[i]['lat'],
-                                              MyApp.addresses[i]['lng']);
-                                          setState(() {});
+                                              });
                                         }
-                                      } else {
-                                        showDialog(
-                                            context: context,
-                                            builder: (_) {
-                                              return AlertDialog(
-                                                title: TextWidget("Warning!",
-                                                    textType: "heading"),
-                                                content: TextWidget(
-                                                    "Sorry, There was a problem while changing your location. Try again later.",
-                                                    textType: "title"),
-                                                actions: [
-                                                  TextButton(
-                                                    child: Text("ok"),
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                  ),
-                                                ],
-                                              );
-                                            });
-                                      }
-                                      Navigator.pop(context);
-                                    });
+                                        Navigator.pop(context);
+                                      }),
+                                );
                               }),
                         ),
                         SizedBox(height: 5),

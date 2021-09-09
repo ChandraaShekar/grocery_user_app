@@ -172,7 +172,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                             color: Colors.white,
                                             child: Column(children: [
                                               TextWidget("Enter Landmark",
-                                                  textType: "heading"),
+                                                  textType: "subheading"),
                                               TextField(
                                                   controller: addressType,
                                                   decoration: InputDecoration(
@@ -203,7 +203,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.black))),
-                                              // SizedBox(height: 20),
+                                              SizedBox(height: 20),
                                               PrimaryCustomButton(
                                                   title: "Save",
                                                   onPressed: () async {

@@ -139,7 +139,7 @@ class _ProductsHomeState extends State<ProductsHome> {
                                             scrollDirection: Axis.horizontal,
                                             //  pauseAutoPlayOnTouch: Duration(seconds: 5),
                                             initialPage: 0,
-                                            height: 150,
+                                            height: 200,
 
                                             onPageChanged: (index, reason) {
                                               setState(() {
