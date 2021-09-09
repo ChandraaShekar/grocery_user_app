@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 class PrimaryCustomButton extends StatefulWidget {
   final String title;
@@ -26,12 +27,8 @@ class _PrimaryCustomButtonState extends State<PrimaryCustomButton> {
         height: size.width / 10,
         width: width ?? MediaQuery.of(context).size.width * 0.4,
         child: TextButton(
-            child: Text('${this.title}',
-                style: TextStyle(
-                    fontSize: 14,
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white)),
+            child: TextWidget('${this.title}',
+              textType: "btn-white"),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Constants.primaryColor)),

@@ -346,26 +346,30 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                             'true',
                                     onChanged: null),
                                 TextWidget("Schedule Delivery: ",
-                                    textType: "title"),
+                                    textType: "title-light"),
                               ],
                             ),
                             TextButton(
                               child:
-                                  Text("${widget.orderInfo['schedule_time']}"),
+                                  TextWidget("${widget.orderInfo['schedule_time']}", textType: "title",),
                               onPressed: null,
                             )
                           ],
                         ),
                       ),
                       deliveryPartnerInfo == null || deliveryPartnerInfo.isEmpty
-                          ? Row(
-                              children: [
-                                TextWidget("Order Status: ", textType: "title"),
-                                TextWidget(
-                                    "${widget.orderInfo['order_status']}",
-                                    textType: "title"),
-                              ],
-                            )
+                          ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextWidget("Order Status: ", textType: "title-light"),
+                                  TextWidget(
+                                      "${widget.orderInfo['order_status']}",
+                                      textType: "title"),
+                                ],
+                              ),
+                          )
                           : Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 10.0),
@@ -497,22 +501,20 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                             textType: "title"),
                       ),
                       Divider(),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 8.0),
-                              child: TextWidget("Selected Payment Method: ",
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextWidget("Selected Payment Method: ",
                                   textType: "title-light"),
-                            ),
-                            Container(
-                                width: size.width * 0.4,
-                                child: TextWidget(
-                                    payMethod ??
-                                        "${widget.orderInfo['payment_method']}",
-                                    textType: "para"))
-                          ]),
+                              TextWidget(
+                                  payMethod ??
+                                      "${widget.orderInfo['payment_method']}",
+                                  textType: "title"),
+                            ]),
+                      ),
+                      SizedBox(height: 20),
                       (widget.orderInfo['payment_method'] == 'Pay Online' &&
                               (widget.orderInfo['payment_status'] ==
                                       'PAYMENT PENDING' ||

@@ -101,6 +101,12 @@ class TextWidget extends StatelessWidget {
           letterSpacing: 0.2,
           fontSize: size.height / 60,
           color: Colors.grey[800]);
+    } else if (x == "btn-white") {
+      y = TextStyle(
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.2,
+          fontSize: size.height / 60,
+          color: Colors.white);
     }
     return y;
   }
