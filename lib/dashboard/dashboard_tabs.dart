@@ -32,7 +32,7 @@ class _DashboardTabsState extends State<DashboardTabs>
       MyApp.cartList['products'] != null || MyApp.cartList['packs'] != null
           ? (MyApp.cartList['products'].length + MyApp.cartList['packs'].length)
           : 0;
-  bool _addressIsOpen = false;
+  // bool _addressIsOpen = false;
   CartApiHandler cartHandler = new CartApiHandler();
   AddressApiHandler addressApi = AddressApiHandler();
 
@@ -258,9 +258,6 @@ class _DashboardTabsState extends State<DashboardTabs>
 
   addressDialog() async {
     Size size = MediaQuery.of(context).size;
-    setState(() {
-      _addressIsOpen = true;
-    });
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -282,7 +279,8 @@ class _DashboardTabsState extends State<DashboardTabs>
                               itemCount: MyApp.addresses.length,
                               itemBuilder: (_, i) {
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5),
                                   child: ListTile(
                                       title: TextWidget(
                                           "${MyApp.addresses[i]['address_name']}",
@@ -296,14 +294,16 @@ class _DashboardTabsState extends State<DashboardTabs>
                                               ? SizedBox()
                                               : IconButton(
                                                   icon: Icon(Icons.delete,
-                                                      color:
-                                                          Constants.dangerColor),
+                                                      color: Constants
+                                                          .dangerColor),
                                                   onPressed: () async {
                                                     var resp = await addressApi
-                                                        .deleteAddress(MyApp
-                                                            .addresses[i]['id']);
+                                                        .deleteAddress(
+                                                            MyApp.addresses[i]
+                                                                ['id']);
                                                     if (resp[0] == 200) {
-                                                      MyApp.addresses.removeAt(i);
+                                                      MyApp.addresses
+                                                          .removeAt(i);
                                                     }
                                                     setState(() {});
                                                   }),
@@ -312,8 +312,8 @@ class _DashboardTabsState extends State<DashboardTabs>
                                             new ProductApiHandler();
                                         List resp = await productHandler
                                             .checkCart({
-                                          "current_address_id": MyApp.addresses[i]
-                                              ['id']
+                                          "current_address_id":
+                                              MyApp.addresses[i]['id']
                                         });
                                         print("RESP STATUS: ${resp[1]}");
                                         if (resp[0] == 200) {
@@ -324,7 +324,8 @@ class _DashboardTabsState extends State<DashboardTabs>
                                                 context: context,
                                                 builder: (_) {
                                                   return AlertDialog(
-                                                    title: TextWidget("Warning!",
+                                                    title: TextWidget(
+                                                        "Warning!",
                                                         textType: "heading"),
                                                     content: TextWidget(
                                                         "Some products in your cart are not available in the selected location would you like to clear the cart?",
@@ -347,12 +348,13 @@ class _DashboardTabsState extends State<DashboardTabs>
                                                   );
                                                 }).then((val) async {
                                               if (val) {
-                                                var respx =
-                                                    await cartHandler.clearCart();
+                                                var respx = await cartHandler
+                                                    .clearCart();
                                                 print(
                                                     "RESPX: ${respx[1]['message']}");
                                                 MyApp.showToast(
-                                                    respx[1]['message'], context);
+                                                    respx[1]['message'],
+                                                    context);
                                                 Navigator.pop(context);
                                                 if (respx[0] == 200) {
                                                   changeDisplayAddress(i);
@@ -361,7 +363,8 @@ class _DashboardTabsState extends State<DashboardTabs>
                                                   //     await
                                                   MyApp.loadHomePage(
                                                       MyApp.addresses[i]['lat'],
-                                                      MyApp.addresses[i]['lng']);
+                                                      MyApp.addresses[i]
+                                                          ['lng']);
                                                   setState(() {});
                                                 }
                                               }
@@ -390,7 +393,8 @@ class _DashboardTabsState extends State<DashboardTabs>
                                                     TextButton(
                                                       child: Text("ok"),
                                                       onPressed: () =>
-                                                          Navigator.pop(context),
+                                                          Navigator.pop(
+                                                              context),
                                                     ),
                                                   ],
                                                 );
@@ -416,10 +420,6 @@ class _DashboardTabsState extends State<DashboardTabs>
                       ]),
                 ));
           });
-        }).then((value) {
-      setState(() {
-        _addressIsOpen = false;
-      });
-    });
+        });
   }
 }

@@ -33,7 +33,7 @@ class _AllCatgoriesState extends State<AllCatgories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Header.appBar("Categories", null, true),
+        appBar: Header.appBar("Categories", null, true, context, true),
         body: (categories.length == 0)
             ? Center(child: CircularProgressIndicator())
             : SingleChildScrollView(

@@ -31,7 +31,8 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: Header.appBar(Constants.settingsTag, null, true),
+        appBar:
+            Header.appBar(Constants.settingsTag, null, true, context, false),
         body: SingleChildScrollView(
             child: Container(
           child: Padding(

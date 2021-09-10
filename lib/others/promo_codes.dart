@@ -34,7 +34,7 @@ class _PromoCodesState extends State<PromoCodes> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: Header.appBar("Promo Codes", null, true),
+        appBar: Header.appBar("Promo Codes", null, true, context, false),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -39,7 +39,7 @@ class _ExplorePacksState extends State<ExplorePacks> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: Header.appBar(Constants.explorePacksTag, null, true),
+      appBar: Header.appBar(Constants.explorePacksTag, null, true, context, true),
       body: packs == null
           ? Center(child: CircularProgressIndicator())
           : packs.length == 0

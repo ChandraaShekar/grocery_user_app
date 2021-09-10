@@ -78,7 +78,7 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: Header.appBar('Pick your location', null, true),
+        appBar: Header.appBar('Pick your location', null, true, context, false),
         body: Stack(
           // mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -113,7 +113,8 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [

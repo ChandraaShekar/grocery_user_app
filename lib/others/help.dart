@@ -15,7 +15,7 @@ class _HelpState extends State<Help> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Header.appBar('Help', null, true),
+        appBar: Header.appBar('Help', null, true, context, false),
         body: Center(
           child: Column(
             children: [

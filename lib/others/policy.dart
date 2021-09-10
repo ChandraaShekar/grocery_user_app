@@ -251,7 +251,7 @@ the extent permitted by law.</span></p>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Header.appBar(Constants.policyTag, null, true),
+        appBar: Header.appBar(Constants.policyTag, null, true, context, false),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.all(15.0),

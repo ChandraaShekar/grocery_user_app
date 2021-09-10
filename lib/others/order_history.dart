@@ -32,7 +32,7 @@ class _OrderHistoryState extends State<OrderHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Header.appBar('Order History', null, true),
+        appBar: Header.appBar('Order History', null, true, context, true),
         body: orders == null
             ? Center(child: CircularProgressIndicator())
             : (orders.length == 0)

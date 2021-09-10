@@ -15,7 +15,8 @@ class _BannerContentState extends State<BannerContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header.appBar("${widget.content['banner_name']}", null, true),
+      appBar: Header.appBar(
+          "${widget.content['banner_name']}", null, true, context, true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

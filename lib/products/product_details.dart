@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/productapi.dart';
 import 'package:user_app/api/wishlistapi.dart';
-import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
@@ -119,37 +118,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                           }
                         },
                       ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => DashboardTabs(
-                                            page: 'cart',
-                                          )));
-                            },
-                            child: Icon(Icons.shopping_bag_outlined, size: 22)),
-                        Container(
-                            decoration: BoxDecoration(
-                                // color: Constants.primaryColor,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 5.0),
-                              child: Text(
-                                "${MyApp.cartList.length > 0 ? MyApp.cartList['products'].length + MyApp.cartList['packs'].length : 0}",
-                                // style: TextStyle(color: Colors.white)
-                              ),
-                            ))
-                      ],
-                    )),
               ],
             ),
           ),
+          true,
+          context,
           true),
       body: (productInfo == null)
           ? Center(child: CircularProgressIndicator())
@@ -392,7 +365,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         await canLaunch(_url)
                                             ? await launch(_url)
                                             : throw 'Could not launch $_url',
-                                            textStyle: TextStyle(fontSize: size.height / 58, letterSpacing: 0.2,)),
+                                    textStyle: TextStyle(
+                                      fontSize: size.height / 58,
+                                      letterSpacing: 0.2,
+                                    )),
                               ),
                               SizedBox(
                                 height: 5,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
 
   getOrderInfo() async {
     var resp = await orderHandler.getOrderInfo(this.widget.orderId);
-    // print(resp);
+    log("$resp");
     products = resp[1]['products'];
     packs = resp[1]['packs'];
     deliveryPartnerInfo = resp[1]['delivery_partner'];
@@ -61,7 +62,7 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: Header.appBar(this.widget.orderId, null, true),
+      appBar: Header.appBar(this.widget.orderId, null, true, context, false),
       body: SingleChildScrollView(
           child: Container(
         child: Column(
@@ -350,8 +351,10 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                               ],
                             ),
                             TextButton(
-                              child:
-                                  TextWidget("${widget.orderInfo['schedule_time']}", textType: "title",),
+                              child: TextWidget(
+                                "${widget.orderInfo['schedule_time']}",
+                                textType: "title",
+                              ),
                               onPressed: null,
                             )
                           ],
@@ -359,17 +362,19 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                       ),
                       deliveryPartnerInfo == null || deliveryPartnerInfo.isEmpty
                           ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  TextWidget("Order Status: ", textType: "title-light"),
+                                  TextWidget("Order Status: ",
+                                      textType: "title-light"),
                                   TextWidget(
                                       "${widget.orderInfo['order_status']}",
                                       textType: "title"),
                                 ],
                               ),
-                          )
+                            )
                           : Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 10.0),
@@ -427,13 +432,16 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                                                   'name']);
                                                         }),
                                                   )
-                                                : Row(
-                                                    children: [
-                                                      Icon(Icons.star_outlined),
-                                                      Text(
-                                                          "${deliveryReview['rating']}")
-                                                    ],
-                                                  )
+                                                : (deliveryReview.isNotEmpty)
+                                                    ? Row(
+                                                        children: [
+                                                          Icon(Icons
+                                                              .star_outlined),
+                                                          Text(
+                                                              "${deliveryReview['rating']}")
+                                                        ],
+                                                      )
+                                                    : SizedBox()
                                           ],
                                         ),
                                       ),

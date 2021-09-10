@@ -795,7 +795,7 @@ color:#475055'>&nbsp;</span></p>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Header.appBar(Constants.tncTag, null, true),
+        appBar: Header.appBar(Constants.tncTag, null, true, context, false),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.all(15.0),

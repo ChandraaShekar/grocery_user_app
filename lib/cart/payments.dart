@@ -199,7 +199,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: Header.appBar('Order Details', null, true),
+      appBar: Header.appBar('Order Details', null, true, context, false),
       body: SingleChildScrollView(
           child: Container(
         child: Column(

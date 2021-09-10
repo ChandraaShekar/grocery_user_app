@@ -89,7 +89,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: Header.appBar(widget.packName, null, true),
+      appBar: Header.appBar(widget.packName, null, true, context, true),
       body: loading
           ? Center(
               child: CircularProgressIndicator(),

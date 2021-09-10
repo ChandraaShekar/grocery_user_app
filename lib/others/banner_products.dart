@@ -43,7 +43,7 @@ class _BannerProductsState extends State<BannerProducts> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: Header.appBar("${widget.content['banner_name']}", null, true),
+        appBar: Header.appBar("${widget.content['banner_name']}", null, true, context, true),
         body: (items == null)
             ? Center(child: CircularProgressIndicator())
             : Padding(
