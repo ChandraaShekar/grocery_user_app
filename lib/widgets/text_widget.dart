@@ -16,6 +16,12 @@ class TextWidget extends StatelessWidget {
           // letterSpacing: 0.2,
           fontSize: size.height / 45,
           color: Constants.headingTextBlack);
+    } if (x == "heading-green") {
+      y = TextStyle(
+          fontWeight: FontWeight.w600,
+          // letterSpacing: 0.2,
+          fontSize: size.height / 45,
+          color: Constants.kMain2);
     } else if (x == "subheading") {
       y = TextStyle(
           fontWeight: FontWeight.w800,
