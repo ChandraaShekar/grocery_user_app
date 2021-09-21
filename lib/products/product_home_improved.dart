@@ -370,7 +370,8 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                         100,
                                     color: Colors.black38),
                             ],
-                          )
+                          ),
+                           SizedBox(height: 30,)
                         ],
                       ),
                     ),

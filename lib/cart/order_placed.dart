@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/utils/primary_button.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
 class OrderStatus extends StatefulWidget {
@@ -38,6 +39,7 @@ class _OrderStatusState extends State<OrderStatus> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Center(
             child: Column(children: [
+              SizedBox(height: 30),
               Image.asset(
                   (widget.orderSuccess)
                       ? Constants.paymentSuccessImage
@@ -47,41 +49,41 @@ class _OrderStatusState extends State<OrderStatus> {
                   (widget.orderSuccess)
                       ? "Order Placed Successfully."
                       : "Failed to place order.",
-                  textType: "title"),
+                  textType: "subheading"),
               Divider(),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextWidget("Your Order ID: ", textType: "title"),
+                      TextWidget("Your Order ID: ", textType: "title-light"),
                       TextWidget("${widget.orderId}", textType: "title"),
                     ]),
               ),
               (widget.orderSuccess)
                   ? Padding(
-                      padding: EdgeInsets.all(10.0),
+                     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                       child: TextWidget(
                           "Your order will be delivered in 1 hour",
-                          textType: "title"))
+                          textType: "para"))
                   : SizedBox(),
               (widget.orderSuccess)
                   ? Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                       child: TextWidget(
-                          "Everyone Frutte's crew are either fully or partially vacciated, We follow all the guidelines issued by the WHO & Ministry of Health.",
-                          textType: "title"))
+                          "Everyone in Frutte's crew are either fully or partially vaccinated, We follow all the guidelines issued by the WHO & Ministry of Health.",
+                          textType: "label-light"))
                   : SizedBox(),
-              TextButton(
-                child: Text(
-                  "Continue Shopping",
-                  style: TextStyle(fontSize: size.height / 56),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => DashboardTabs()));
-                },
-              )
+                  PrimaryButton(
+                            backgroundColor: Constants.kButtonBackgroundColor,
+                            textColor: Constants.kButtonTextColor,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            text: "CONTINUE SHOPPING",
+                            onPressed: () {
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (_) => DashboardTabs()));
+                              },
+                  ),
             ]),
           ),
         ),
