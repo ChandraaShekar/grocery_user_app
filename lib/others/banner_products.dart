@@ -50,352 +50,394 @@ class _BannerProductsState extends State<BannerProducts> {
     return Scaffold(
         appBar: Header.appBar(
             "${widget.content['banner_name']}", null, true, context, true),
-        body: (items == null)
-            ? Center(child: CircularProgressIndicator())
-            : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, x) {
-                      int y = MyApp.cartList['products'].indexWhere((elem) =>
-                          elem['product_id'] == items[x]['product_id']);
-                      // if (MyApp.cartList['products'] != null) {
-                      //   int y = MyApp.cartList['products'].indexWhere((elem) =>
-                      //       items[x]['product_id'] == elem['product_id']);
-                      if (y != -1) {
-                        quantities[x] = int.parse(
-                            "${MyApp.cartList['products'][y]['cartQuantity']}");
-                      }
-                      // }
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProductDetails(
-                                      productId: items[x]['product_id'])));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Card(
-                              elevation: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Stack(
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+        body: Container(
+          height: size.height * 0.9,
+          child: (items == null)
+              ? Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                      itemCount: items.length + 1,
+                      itemBuilder: (context, x) {
+                        if (items.length == x) {
+                          return Container(
+                            height: size.height * 0.1,
+                            child: Center(
+                                child: TextWidget("No more products",
+                                    textType: "title")),
+                          );
+                        } else {
+                          int y = MyApp.cartList['products'].indexWhere(
+                              (elem) =>
+                                  elem['product_id'] == items[x]['product_id']);
+                          // if (MyApp.cartList['products'] != null) {
+                          //   int y = MyApp.cartList['products'].indexWhere((elem) =>
+                          //       items[x]['product_id'] == elem['product_id']);
+                          if (y != -1) {
+                            quantities[x] = int.parse(
+                                "${MyApp.cartList['products'][y]['cartQuantity']}");
+                          }
+                          // }
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductDetails(
+                                          productId: items[x]['product_id'])));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Card(
+                                  elevation: 2,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Stack(
                                       children: [
-                                        CachedNetworkImage(
-                                          imageUrl: (items[x]['product_images']
-                                                  .isNotEmpty)
-                                              ? items[x]['product_images'][0]
-                                                      ['image_url']
-                                                  .toString()
-                                                  .replaceAll(
-                                                      "http://", "https://")
-                                              : "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
-                                          imageBuilder:
-                                              (context, imageProvider) =>
-                                                  Container(
-                                            width: size.width / 3.4,
-                                            height: 105,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
-                                          ),
-                                          placeholder: (context, url) =>
-                                              Shimmer.fromColors(
-                                            baseColor: Colors.grey[300],
-                                            highlightColor: Colors.white,
-                                            child: Container(
-                                              width: size.width / 3.4,
-                                              height: 105,
-                                              color: Colors.grey[300],
-                                            ),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12.0),
-                                            child: Container(
-                                              height: 100,
-                                              width: size.width / 1.8,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextWidget(
-                                                    "${items[x]['product_name']}",
-                                                    textType: "title",
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CachedNetworkImage(
+                                              imageUrl: (items[x]
+                                                          ['product_images']
+                                                      .isNotEmpty)
+                                                  ? items[x]['product_images']
+                                                          [0]['image_url']
+                                                      .toString()
+                                                      .replaceAll(
+                                                          "http://", "https://")
+                                                  : "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      Container(
+                                                width: size.width / 3.4,
+                                                height: 105,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.contain,
                                                   ),
-                                                  Container(
-                                                      child: Padding(
+                                                ),
+                                              ),
+                                              placeholder: (context, url) =>
+                                                  Shimmer.fromColors(
+                                                baseColor: Colors.grey[300],
+                                                highlightColor: Colors.white,
+                                                child: Container(
+                                                  width: size.width / 3.4,
+                                                  height: 105,
+                                                  color: Colors.grey[300],
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12.0),
+                                                child: Container(
+                                                  height: 100,
+                                                  width: size.width / 1.8,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      TextWidget(
+                                                        "${items[x]['product_name']}",
+                                                        textType: "title",
+                                                      ),
+                                                      Container(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        5.0,
+                                                                    horizontal:
+                                                                        8.0),
+                                                            child: TextWidget(
+                                                              "${items[x]['quantity']} ${items[x]['metrics']}",
+                                                              textType:
+                                                                  "label-grey",
+                                                            ),
+                                                          ),
+                                                          color: Constants
+                                                              .qtyBgColor),
+                                                      Container(
+                                                        child: Row(
+                                                          children: [
+                                                            TextWidget(
+                                                              "Rs. ${items[x]['price']}",
+                                                              textType: "label",
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          right: 0,
+                                          child: Column(
+                                            children: [
+                                              (y != -1)
+                                                  ? Row(children: [
+                                                      GestureDetector(
+                                                          child: Container(
+                                                            child: Center(
+                                                                child:
+                                                                    TextWidget(
+                                                              "-",
+                                                              textType:
+                                                                  "label-white",
+                                                            )),
+                                                            decoration: BoxDecoration(
+                                                                color: Constants
+                                                                    .primaryColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                            width: size.width *
+                                                                0.08,
+                                                            height: size.width *
+                                                                0.08,
+                                                          ),
+                                                          onTap: () async {
+                                                            if (quantities[x] >
+                                                                0) {
+                                                              setState(() {
+                                                                quantities[x] -=
+                                                                    1;
+                                                                MyApp.cartList['products']
+                                                                            [y][
+                                                                        'cartQuantity'] =
+                                                                    quantities[
+                                                                        x];
+                                                              });
+                                                              if (quantities[
+                                                                      x] ==
+                                                                  0) {
+                                                                List resp = await cartHandler
+                                                                    .deleteFromCart(
+                                                                        MyApp.cartList['products'][y]
+                                                                            [
+                                                                            'product_id']);
+                                                                MyApp.showToast(
+                                                                    resp[1][
+                                                                        'message'],
+                                                                    context);
+                                                                if (resp[0] ==
+                                                                    200) {
+                                                                  MyApp
+                                                                      .cartList[
+                                                                          'products']
+                                                                      .removeAt(
+                                                                          x);
+                                                                }
+                                                              } else {
+                                                                List resp =
+                                                                    await cartHandler
+                                                                        .updateCart({
+                                                                  "product_pack_id":
+                                                                      MyApp.cartList['products']
+                                                                              [
+                                                                              y]
+                                                                          [
+                                                                          'product_id'],
+                                                                  "quantity":
+                                                                      quantities[
+                                                                          x]
+                                                                });
+                                                                if (resp[0] ==
+                                                                    200) {
+                                                                  MyApp.cartList['products']
+                                                                              [
+                                                                              y]
+                                                                          [
+                                                                          'cartQuantity'] =
+                                                                      quantities[
+                                                                          x];
+                                                                } else {
+                                                                  quantities[
+                                                                      x] += 1;
+                                                                  MyApp.showToast(
+                                                                      resp[1][
+                                                                          'message'],
+                                                                      context);
+                                                                }
+                                                              }
+
+                                                              setState(() {});
+                                                            }
+                                                          }),
+                                                      Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 5.0,
-                                                                horizontal:
-                                                                    8.0),
-                                                        child: TextWidget(
-                                                          "${items[x]['quantity']} ${items[x]['metrics']}",
-                                                          textType:
-                                                              "label-grey",
-                                                        ),
+                                                                .all(8.0),
+                                                        child: (quantitiesLoading[
+                                                                x])
+                                                            ? Image.asset(
+                                                                Constants
+                                                                    .loadingImage,
+                                                                width:
+                                                                    size.width *
+                                                                        0.06)
+                                                            : TextWidget(
+                                                                "${MyApp.cartList['products'][y]['cartQuantity']}",
+                                                                textType:
+                                                                    "title"),
                                                       ),
-                                                      color:
-                                                          Constants.qtyBgColor),
-                                                  Container(
-                                                    child: Row(
-                                                      children: [
-                                                        TextWidget(
-                                                          "Rs. ${items[x]['price']}",
-                                                          textType: "label",
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Positioned(
-                                      bottom: 0,
-                                      right: 0,
-                                      child: Column(
-                                        children: [
-                                          (y != -1)
-                                              ? Row(children: [
-                                                  GestureDetector(
-                                                      child: Container(
-                                                        child: Center(
-                                                            child: TextWidget(
-                                                          "-",
-                                                          textType:
-                                                              "label-white",
-                                                        )),
-                                                        decoration: BoxDecoration(
-                                                            color: Constants
-                                                                .primaryColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                        width:
-                                                            size.width * 0.08,
-                                                        height:
-                                                            size.width * 0.08,
-                                                      ),
-                                                      onTap: () async {
-                                                        if (quantities[x] > 0) {
-                                                          setState(() {
-                                                            quantities[x] -= 1;
-                                                            MyApp.cartList['products']
-                                                                        [y][
-                                                                    'cartQuantity'] =
-                                                                quantities[x];
-                                                          });
-                                                          if (quantities[x] ==
-                                                              0) {
-                                                            List resp = await cartHandler
-                                                                .deleteFromCart(
-                                                                    MyApp.cartList[
-                                                                            'products'][y]
-                                                                        [
-                                                                        'product_id']);
-                                                            MyApp.showToast(
-                                                                resp[1]
-                                                                    ['message'],
-                                                                context);
-                                                            if (resp[0] ==
-                                                                200) {
-                                                              MyApp.cartList[
-                                                                      'products']
-                                                                  .removeAt(x);
-                                                            }
-                                                          } else {
-                                                            List resp =
-                                                                await cartHandler
-                                                                    .updateCart({
-                                                              "product_pack_id":
-                                                                  MyApp.cartList[
-                                                                          'products'][y]
-                                                                      [
-                                                                      'product_id'],
-                                                              "quantity":
-                                                                  quantities[x]
-                                                            });
-                                                            if (resp[0] ==
-                                                                200) {
+                                                      GestureDetector(
+                                                          child: Container(
+                                                            child: Center(
+                                                                child:
+                                                                    TextWidget(
+                                                              "+",
+                                                              textType:
+                                                                  "label-white",
+                                                            )),
+                                                            decoration: BoxDecoration(
+                                                                color: Constants
+                                                                    .primaryColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                            width: size.width *
+                                                                0.08,
+                                                            height: size.width *
+                                                                0.08,
+                                                          ),
+                                                          onTap: () async {
+                                                            setState(() {
+                                                              quantities[x] +=
+                                                                  1;
                                                               MyApp.cartList['products']
                                                                           [y][
                                                                       'cartQuantity'] =
                                                                   quantities[x];
-                                                            } else {
-                                                              quantities[x] +=
-                                                                  1;
-                                                              MyApp.showToast(
-                                                                  resp[1][
-                                                                      'message'],
-                                                                  context);
+                                                            });
+                                                            if (quantities[x] <
+                                                                10) {
+                                                              List resp =
+                                                                  await cartHandler
+                                                                      .updateCart({
+                                                                "product_pack_id":
+                                                                    MyApp.cartList[
+                                                                            'products'][y]
+                                                                        [
+                                                                        'product_id'],
+                                                                "quantity":
+                                                                    quantities[
+                                                                        x]
+                                                              });
+                                                              log("$resp");
+                                                              if (resp[0] ==
+                                                                  200) {
+                                                                MyApp.cartList['products']
+                                                                            [y][
+                                                                        'cartQuantity'] =
+                                                                    quantities[
+                                                                        x];
+                                                              } else {
+                                                                quantities[x] -=
+                                                                    1;
+                                                                MyApp.cartList['products']
+                                                                            [y][
+                                                                        'cartQuantity'] =
+                                                                    quantities[
+                                                                        x];
+                                                                MyApp.showToast(
+                                                                    resp[1][
+                                                                        'message'],
+                                                                    context);
+                                                              }
+                                                              setState(() {
+                                                                // quantitiesLoading[
+                                                                //     x] = false;
+                                                              });
                                                             }
-                                                          }
-
-                                                          setState(() {});
-                                                        }
-                                                      }),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: (quantitiesLoading[
-                                                            x])
-                                                        ? Image.asset(
-                                                            Constants
-                                                                .loadingImage,
-                                                            width: size.width *
-                                                                0.06)
-                                                        : TextWidget(
-                                                            "${MyApp.cartList['products'][y]['cartQuantity']}",
-                                                            textType: "title"),
-                                                  ),
-                                                  GestureDetector(
+                                                          })
+                                                    ])
+                                                  : SizedBox(),
+                                              (y == -1)
+                                                  ? GestureDetector(
                                                       child: Container(
-                                                        child: Center(
-                                                            child: TextWidget(
-                                                          "+",
-                                                          textType:
-                                                              "label-white",
-                                                        )),
-                                                        decoration: BoxDecoration(
-                                                            color: Constants
-                                                                .primaryColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                        width:
-                                                            size.width * 0.08,
-                                                        height:
-                                                            size.width * 0.08,
-                                                      ),
-                                                      onTap: () async {
-                                                        setState(() {
-                                                          quantities[x] += 1;
-                                                          MyApp.cartList['products']
-                                                                      [y][
-                                                                  'cartQuantity'] =
-                                                              quantities[x];
-                                                        });
-                                                        if (quantities[x] <
-                                                            10) {
-                                                          List resp =
-                                                              await cartHandler
-                                                                  .updateCart({
-                                                            "product_pack_id": MyApp
-                                                                        .cartList[
-                                                                    'products'][
-                                                                y]['product_id'],
-                                                            "quantity":
-                                                                quantities[x]
-                                                          });
-                                                          log("$resp");
-                                                          if (resp[0] == 200) {
-                                                            MyApp.cartList['products']
-                                                                        [y][
-                                                                    'cartQuantity'] =
-                                                                quantities[x];
-                                                          } else {
-                                                            quantities[x] -= 1;
-                                                            MyApp.cartList['products']
-                                                                        [y][
-                                                                    'cartQuantity'] =
-                                                                quantities[x];
-                                                            MyApp.showToast(
-                                                                resp[1]
-                                                                    ['message'],
-                                                                context);
-                                                          }
-                                                          setState(() {
-                                                            // quantitiesLoading[
-                                                            //     x] = false;
-                                                          });
-                                                        }
-                                                      })
-                                                ])
-                                              : SizedBox(),
-                                          (y == -1)
-                                              ? GestureDetector(
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(10),
-                                                    color:
-                                                        (quantitiesLoading[x])
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        color: (quantitiesLoading[
+                                                                x])
                                                             ? Colors.white
                                                             : Constants
                                                                 .primaryColor,
-                                                    child: (quantitiesLoading[
-                                                            x])
-                                                        ? Image.asset(
-                                                            Constants
-                                                                .loadingImage,
-                                                            width: size.width *
-                                                                0.1)
-                                                        : TextWidget(
-                                                            'Add to Cart',
-                                                            textType:
-                                                                "label-white",
-                                                          ),
-                                                  ),
-                                                  onTap: () async {
-                                                    setState(() {
-                                                      quantitiesLoading[x] =
-                                                          true;
-                                                    });
-                                                    var resp = await cartHandler
-                                                        .addToCart({
-                                                      "product_pack_id":
-                                                          items[x]
-                                                              ['product_id'],
-                                                      "quantity": "1"
-                                                    });
-                                                    MyApp.showToast(
-                                                        resp[1]['message'],
-                                                        context);
-                                                    if (resp[0] == 200) {
-                                                      List getResp =
-                                                          await cartHandler
-                                                              .getCart();
-                                                      MyApp.cartList =
-                                                          getResp[1];
-                                                    }
-                                                    setState(() {
-                                                      quantitiesLoading[x] =
-                                                          false;
-                                                    });
-                                                  })
-                                              : SizedBox(),
-                                        ],
-                                      ),
+                                                        child: (quantitiesLoading[
+                                                                x])
+                                                            ? Image.asset(
+                                                                Constants
+                                                                    .loadingImage,
+                                                                width:
+                                                                    size.width *
+                                                                        0.1)
+                                                            : TextWidget(
+                                                                'Add to Cart',
+                                                                textType:
+                                                                    "label-white",
+                                                              ),
+                                                      ),
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          quantitiesLoading[x] =
+                                                              true;
+                                                        });
+                                                        var resp =
+                                                            await cartHandler
+                                                                .addToCart({
+                                                          "product_pack_id":
+                                                              items[x][
+                                                                  'product_id'],
+                                                          "quantity": "1"
+                                                        });
+                                                        MyApp.showToast(
+                                                            resp[1]['message'],
+                                                            context);
+                                                        if (resp[0] == 200) {
+                                                          List getResp =
+                                                              await cartHandler
+                                                                  .getCart();
+                                                          MyApp.cartList =
+                                                              getResp[1];
+                                                        }
+                                                        setState(() {
+                                                          quantitiesLoading[x] =
+                                                              false;
+                                                        });
+                                                      })
+                                                  : SizedBox(),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )),
-                        ),
-                      );
-                    }),
-              ));
+                                  )),
+                            ),
+                          );
+                        }
+                      }),
+                ),
+        ));
   }
 }

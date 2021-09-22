@@ -16,7 +16,8 @@ class TextWidget extends StatelessWidget {
           // letterSpacing: 0.2,
           fontSize: size.height / 45,
           color: Constants.headingTextBlack);
-    } if (x == "heading-green") {
+    }
+    if (x == "heading-green") {
       y = TextStyle(
           fontWeight: FontWeight.w600,
           // letterSpacing: 0.2,
@@ -39,8 +40,7 @@ class TextWidget extends StatelessWidget {
           fontWeight: FontWeight.w700,
           letterSpacing: 0.5,
           fontSize: size.height / 56,
-          color: Constants.greyHeading
-          );
+          color: Constants.greyHeading);
     } else if (x == "title") {
       y = TextStyle(
           fontWeight: FontWeight.w600,

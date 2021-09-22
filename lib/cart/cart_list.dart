@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
-
+import 'package:expandable_widgets/expandable_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/cart/payments.dart';
@@ -24,9 +24,11 @@ class _CartListState extends State<CartList> {
   double subtotal = 0;
   double delivery = 0;
   double tax = 0;
+  double taxPercentage = 0;
   double total = 0;
   List packs = [];
   bool loaded = false;
+  String deliveryRemark = "None";
 
   @override
   void initState() {
@@ -44,32 +46,34 @@ class _CartListState extends State<CartList> {
 
   void loadPrice() async {
     subtotal = 0;
+    List resp = await cartHandler.getDeliveryPrice();
+    if (resp[0] == 200) {
+      int del = int.parse(resp[1][0]['delivery_price']);
+      delivery = del * 1.0;
+      taxPercentage = double.parse(resp[1][0]['tax_percentage']);
+      deliveryRemark = resp[1][0]['remarks'];
+    }
     MyApp.cartList['products'].forEach((element) {
       subtotal += double.parse(element['offer_price'] != '0'
               ? element['offer_price']
               : element['price']) *
           int.parse(element['cartQuantity']);
     });
-    // MyApp.cartList['packs'].forEach((element) {
-    //   var jData = jsonDecode(element['pack_data']);
-    //   subtotal += (double.parse(jData['PackPrice']) *
-    //       int.parse(element['cartQuantity']));
-    // });
     packs = MyApp.cartList['packs'];
     packs.forEach((element) {
       var jData = jsonDecode(element['pack_data']);
       subtotal += jData['PackPrice'] * int.parse(element['cartQuantity']);
       print("ELEMENT: $jData");
     });
-    tax = (subtotal * 5).toInt() / 100;
+    tax = (subtotal * taxPercentage).toInt() / 100;
     total = ((subtotal + tax + delivery) * 100).toInt() / 100;
+    print(resp);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // MyApp.reloadCart();
     return loaded
         ? SingleChildScrollView(
             child: Padding(
@@ -355,9 +359,23 @@ class _CartListState extends State<CartList> {
                                           SizedBox(
                                             width: 15,
                                           ),
-                                          TextWidget(
-                                            '₹ ' + delivery.toStringAsFixed(2),
-                                            textType: "para-bold",
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              TextWidget(
+                                                '₹ ' +
+                                                    delivery.toStringAsFixed(2),
+                                                textType: "para-bold",
+                                              ),
+                                              (deliveryRemark.toLowerCase() ==
+                                                      "none")
+                                                  ? SizedBox()
+                                                  : Text("$deliveryRemark",
+                                                      style: TextStyle(
+                                                          color: Constants
+                                                              .dangerColor))
+                                            ],
                                           )
                                         ]),
                                   ),
@@ -365,15 +383,39 @@ class _CartListState extends State<CartList> {
                                     height: 2,
                                   ),
                                   Container(
-                                    width: MediaQuery.of(context).size.width,
+                                    width: size.width,
+                                    height: size.height * 0.07,
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          TextWidget(
-                                            'Service Tax',
-                                            textType: "para",
-                                          ),
+                                          Expandable(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 0.0,
+                                                      horizontal: 8.0),
+                                              primaryWidget: Text(
+                                                'Taxes and Charges',
+                                                style: TextStyle(
+                                                    decorationStyle:
+                                                        TextDecorationStyle
+                                                            .dashed,
+                                                    decorationThickness: 1.5,
+                                                    decoration: TextDecoration
+                                                        .underline),
+                                              ),
+                                              secondaryWidget: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextWidget("GST",
+                                                      textType: "para"),
+                                                  TextWidget("Packaging",
+                                                      textType: "para")
+                                                ],
+                                              )),
                                           TextWidget(
                                             '₹ ' + tax.toStringAsFixed(2),
                                             textType: "para-bold",

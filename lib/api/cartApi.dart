@@ -6,6 +6,7 @@ var removeFromCartUrl = Constants.baseUrl + 'user/remove-from-cart/';
 var getFromCartUrl = Constants.baseUrl + 'user/get-from-cart';
 var updateCartUrl = Constants.baseUrl + 'user/update-cart';
 var clearCartUrl = Constants.baseUrl + 'user/clear-cart';
+var deliveryPriceUrl = Constants.baseUrl + 'user/get-delivery-price';
 
 class CartApiHandler {
   Future<dynamic> getCart() async {
@@ -37,6 +38,12 @@ class CartApiHandler {
 
   Future<dynamic> clearCart() async {
     ServiceWithHeader urlHelper = ServiceWithHeader(clearCartUrl);
+    var urlsData = await urlHelper.data();
+    return urlsData;
+  }
+
+  Future<dynamic> getDeliveryPrice() async {
+    ServiceWithHeader urlHelper = ServiceWithHeader(deliveryPriceUrl);
     var urlsData = await urlHelper.data();
     return urlsData;
   }

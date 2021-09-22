@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:expandable_widgets/expandable_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -42,13 +43,22 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   bool couponApplied = false;
   bool couponValid = false;
   String couponCode = "";
+  String deliveryRemark = "None";
   double newOfferPrice = 0.0;
+  double taxPercentage = 0.0;
   bool isScheduled = false;
   DateTime selectedDate = DateTime.now();
   String paymentMethod = "Cash on Delivery";
   Razorpay _razorpay = new Razorpay();
   String orderId = "";
   void loadPrice() async {
+    List resp = await cartHandler.getDeliveryPrice();
+    if (resp[0] == 200) {
+      int del = int.parse(resp[1][0]['delivery_price']);
+      delivery = del * 1.0;
+      taxPercentage = double.parse(resp[1][0]['tax_percentage']);
+      deliveryRemark = resp[1][0]['remarks'];
+    }
     subtotal = 0;
     MyApp.cartList['products'].forEach((element) {
       subtotal += double.parse(element['offer_price'] != '0'
@@ -62,7 +72,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
       subtotal += jData['OriginalPrice'] * int.parse(element['cartQuantity']);
       print("ELEMENT: $jData");
     });
-    tax = (subtotal * 5).toInt() / 100;
+    tax = (subtotal * taxPercentage).toInt() / 100;
     total = ((subtotal + tax + delivery) * 100).toInt() / 100;
     setState(() {});
   }
@@ -214,7 +224,8 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextWidget("Cart Items ", textType: "title-light"),
+                        child:
+                            TextWidget("Cart Items ", textType: "title-light"),
                       ),
                       // SizedBox(height: 10),
                       ListView.builder(
@@ -430,7 +441,8 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                         color: Constants
                                                             .dangerColor,
                                                         letterSpacing: 0.5,
-                                                        fontSize: size.height / 56,
+                                                        fontSize:
+                                                            size.height / 56,
                                                         fontWeight:
                                                             FontWeight.w800)),
                                                 onTap: () async {
@@ -562,9 +574,22 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                       SizedBox(
                                         width: 15,
                                       ),
-                                      TextWidget(
-                                        '₹ ' + delivery.toStringAsFixed(2),
-                                        textType: "para-bold",
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          TextWidget(
+                                            '₹ ' + delivery.toStringAsFixed(2),
+                                            textType: "para-bold",
+                                          ),
+                                          (deliveryRemark.toLowerCase() ==
+                                                  "none")
+                                              ? SizedBox()
+                                              : Text("$deliveryRemark",
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .dangerColor))
+                                        ],
                                       )
                                     ]),
                               ),
@@ -572,15 +597,36 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                 height: 2,
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width,
+                                width: size.width,
+                                height: size.height * 0.07,
                                 child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      TextWidget(
-                                        'Service Tax',
-                                        textType: "para",
-                                      ),
+                                      Expandable(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0.0, horizontal: 8.0),
+                                          primaryWidget: Text(
+                                            'Taxes and Charges',
+                                            style: TextStyle(
+                                                decorationStyle:
+                                                    TextDecorationStyle.dashed,
+                                                decorationThickness: 1.5,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          ),
+                                          secondaryWidget: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              TextWidget("GST",
+                                                  textType: "para"),
+                                              TextWidget("Packaging",
+                                                  textType: "para")
+                                            ],
+                                          )),
                                       TextWidget(
                                         '₹ ' + tax.toStringAsFixed(2),
                                         textType: "para-bold",
@@ -670,9 +716,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           controller: deliveryNote,
-                          style: TextStyle(
-                            fontSize: size.height / 54
-                          ),
+                          style: TextStyle(fontSize: size.height / 54),
                           decoration: InputDecoration(
                             labelText: "Add Special Instructions",
                             labelStyle: TextStyle(color: Colors.black),
@@ -825,23 +869,24 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                             height: size.height * 0.2,
-                            child:  AbsorbPointer(
+                            child: AbsorbPointer(
                               absorbing: true,
                               child: GoogleMap(
-                                zoomControlsEnabled: false,
-                                markers: <Marker>{
-                                  Marker(
-                                    markerId: MarkerId('UserPin'),
-                                    position: LatLng(MyApp.lat, MyApp.lng),
-                                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                                        BitmapDescriptor.hueOrange),
-                                  )
-                                },
-                                initialCameraPosition: _hyderabadLocation,
-                                 gestureRecognizers: {
-                                     Factory<OneSequenceGestureRecognizer>(() => ScaleGestureRecognizer()),
-                                  }
-                              ),
+                                  zoomControlsEnabled: false,
+                                  markers: <Marker>{
+                                    Marker(
+                                      markerId: MarkerId('UserPin'),
+                                      position: LatLng(MyApp.lat, MyApp.lng),
+                                      icon:
+                                          BitmapDescriptor.defaultMarkerWithHue(
+                                              BitmapDescriptor.hueOrange),
+                                    )
+                                  },
+                                  initialCameraPosition: _hyderabadLocation,
+                                  gestureRecognizers: {
+                                    Factory<OneSequenceGestureRecognizer>(
+                                        () => ScaleGestureRecognizer()),
+                                  }),
                             )),
                       ),
                       Divider(),
@@ -934,12 +979,12 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                     });
                     if (paymentMethod == "Pay Online") {
                       Map<String, dynamic> options = {
-                        "key": "rzp_test_kL23yx68xeTo63",
+                        "key": "rzp_live_mVre0FOigXdI18",
                         "amount":
                             (double.parse(resp[1]['amount'].toString()) * 100)
                                 .toInt(),
                         "name": "Order Id: #${resp[1]['order_id']}",
-                        "description": "One final set to finish the order",
+                        "description": "One final step to finish the order",
                         // "order_id": resp[1]['order_id'],
                         "timeout": 180,
                         "prefil": {

@@ -152,7 +152,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
                                     .toStringAsFixed(0));
                             try {
                               Map<String, dynamic> options = {
-                                "key": "rzp_test_kL23yx68xeTo63",
+                                "key": "rzp_live_mVre0FOigXdI18",
                                 "amount": discountPrice > 0
                                     ? discountPrice
                                     : totalPrice,

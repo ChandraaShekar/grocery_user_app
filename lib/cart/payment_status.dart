@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
+import 'package:user_app/utils/primary_button.dart';
 import 'package:user_app/widgets/text_widget.dart';
 
 class PaymentStatus extends StatefulWidget {
@@ -71,6 +72,14 @@ class _PaymentStatusState extends State<PaymentStatus> {
               ),
               (widget.paymentSuccess)
                   ? Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                      child: TextWidget(
+                          "Your order will be delivered in 1 hour",
+                          textType: "subheading"))
+                  : SizedBox(),
+              (widget.paymentSuccess)
+                  ? Padding(
                       padding: EdgeInsets.all(10.0),
                       child: TextWidget(
                           "Your order will be delivered in 1 hour",
@@ -78,18 +87,23 @@ class _PaymentStatusState extends State<PaymentStatus> {
                   : SizedBox(),
               (widget.paymentSuccess)
                   ? Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                       child: TextWidget(
-                          "Everyone Frutte's crew are either fully or partially vacciated, We follow all the guidelines issued by the WHO & Ministry of Health.",
-                          textType: "title"))
+                          "Everyone in Frutte's crew are either fully or partially vaccinated, We follow all the guidelines issued by the WHO & Ministry of Health.",
+                          textType: "title-light"))
                   : SizedBox(),
-              TextButton(
-                child: Text("Continue Shopping"),
+              SizedBox(height: 30),
+              PrimaryButton(
+                backgroundColor: Constants.kButtonBackgroundColor,
+                textColor: Constants.kButtonTextColor,
+                width: MediaQuery.of(context).size.width * 0.6,
+                text: "CONTINUE SHOPPING",
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => DashboardTabs()));
                 },
-              )
+              ),
             ]),
           ),
         ),

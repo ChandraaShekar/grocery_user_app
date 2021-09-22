@@ -46,10 +46,11 @@ class _OrderStatusState extends State<OrderStatus> {
                       : Constants.paymentFailedImage,
                   width: MediaQuery.of(context).size.width),
               TextWidget(
-                  (widget.orderSuccess)
-                      ? "Order Placed Successfully!"
-                      : "Failed to place order!",
-                  textType: "heading-green",),
+                (widget.orderSuccess)
+                    ? "Order Placed Successfully!"
+                    : "Failed to place order!",
+                textType: "heading-green",
+              ),
               // Divider(),
               SizedBox(height: 30),
               Padding(
@@ -63,29 +64,31 @@ class _OrderStatusState extends State<OrderStatus> {
               ),
               (widget.orderSuccess)
                   ? Padding(
-                     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                       child: TextWidget(
                           "Your order will be delivered in 1 hour",
                           textType: "subheading"))
                   : SizedBox(),
               (widget.orderSuccess)
                   ? Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                       child: TextWidget(
                           "Everyone in Frutte's crew are either fully or partially vaccinated, We follow all the guidelines issued by the WHO & Ministry of Health.",
                           textType: "title-light"))
                   : SizedBox(),
-                  SizedBox(height: 30),
-                  PrimaryButton(
-                            backgroundColor: Constants.kButtonBackgroundColor,
-                            textColor: Constants.kButtonTextColor,
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            text: "CONTINUE SHOPPING",
-                            onPressed: () {
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (_) => DashboardTabs()));
-                              },
-                  ),
+              SizedBox(height: 30),
+              PrimaryButton(
+                backgroundColor: Constants.kButtonBackgroundColor,
+                textColor: Constants.kButtonTextColor,
+                width: MediaQuery.of(context).size.width * 0.6,
+                text: "CONTINUE SHOPPING",
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => DashboardTabs()));
+                },
+              ),
             ]),
           ),
         ),

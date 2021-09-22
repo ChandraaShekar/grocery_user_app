@@ -6,10 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/api/registerapi.dart';
 import 'package:user_app/cart/address_search_map.dart';
 import 'package:user_app/dashboard/dashboard_tabs.dart';
+import 'package:user_app/others/tandc.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:user_app/widgets/text_widget.dart';
+import 'package:flutter/gestures.dart';
 import '../main.dart';
 
 class Registration extends StatefulWidget {
@@ -143,6 +145,26 @@ class _RegistrationState extends State<Registration> {
                           pincodeErr,
                           style: TextStyle(color: Colors.red),
                         ),
+                      SizedBox(height: 35),
+                      RichText(
+                        text: TextSpan(
+                          text:
+                              'By clicking on Continue Shopping, you are accepting to our ',
+                          style: TextStyle(color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'Terms & Conditions',
+                                style: TextStyle(color: Constants.dangerColor),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => TandC()));
+                                  }),
+                          ],
+                        ),
+                      ),
                       SizedBox(height: 35),
                       PrimaryButton(
                         onPressed: () async {
