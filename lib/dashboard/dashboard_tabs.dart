@@ -125,132 +125,137 @@ class _DashboardTabsState extends State<DashboardTabs>
   Widget build(BuildContext context) {
     loadCartCount();
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: GestureDetector(
-            onTap: () {
-              addressDialog();
-            },
-            child: Row(children: [
-              Icon(Icons.location_pin),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child:
-                    TextWidget("${MyApp.displayAddress}...", textType: "title"),
-              )
-            ]),
-          ),
-          actions: [
-            Row(
-              children: [
-                IconButton(
-                    icon: Icon(Ionicons.ios_search),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductSearch()));
-                    }),
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: GestureDetector(
+              onTap: () {
+                addressDialog();
+              },
+              child: Row(children: [
+                Icon(Icons.location_pin),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: TextWidget("${MyApp.displayAddress}...",
+                      textType: "title"),
+                )
+              ]),
             ),
-          ]),
-      drawer: PlatformState.getDrawer(context),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              child: new TabBar(
-                controller: _controller,
-                labelColor: Constants.iconColor,
-                isScrollable: true,
-                indicatorColor: Constants.iconColor,
-                unselectedLabelColor: Colors.grey,
-                tabs: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    child: Tab(
-                      icon: Icon(
-                        Entypo.shop,
-                        color: Constants.iconColor,
-                        size: size.height / 32,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    child: Tab(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Feather.shopping_cart,
-                            color: Constants.iconColor,
-                            size: size.height / 35,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: Constants.primaryColor,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4.0, horizontal: 5.0),
-                                  child: Text("$cartCount",
-                                      style: TextStyle(color: Colors.white)),
-                                )),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    child: Tab(
-                      icon: Icon(
-                        AntDesign.hearto,
-                        color: Constants.iconColor,
-                        size: size.height / 35,
-                      ),
-                    ),
-                  ),
+            actions: [
+              Row(
+                children: [
+                  IconButton(
+                      icon: Icon(Ionicons.ios_search),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductSearch()));
+                      }),
                 ],
               ),
-            ),
-            Expanded(
-              child: Container(
-                  //     child: IndexedStack(
-                  //   index: _controller.index,
-                  //   children: [
-                  //     HomePageProducts(
-                  //       homepageData: MyApp.homePage,
-                  //     ),
-                  //     CartList(
-                  //       onCountChange: (x) => setState(() {
-                  //         cartCount = x;
-                  //       }),
-                  //     ),
-                  //     WishListProducts(),
-                  //   ],
-                  // )
-                  child: new TabBarView(
-                      controller: _controller,
-                      children: <Widget>[
-                    HomePageProducts(
-                      homepageData: MyApp.homePage,
+            ]),
+        drawer: PlatformState.getDrawer(context),
+        body: Container(
+          child: Column(
+            children: [
+              Container(
+                child: new TabBar(
+                  controller: _controller,
+                  labelColor: Constants.iconColor,
+                  isScrollable: true,
+                  indicatorColor: Constants.iconColor,
+                  unselectedLabelColor: Colors.grey,
+                  tabs: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      child: Tab(
+                        icon: Icon(
+                          Entypo.shop,
+                          color: Constants.iconColor,
+                          size: size.height / 32,
+                        ),
+                      ),
                     ),
-                    CartList(
-                      onCountChange: (x) => setState(() {
-                        cartCount = x;
-                      }),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      child: Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Feather.shopping_cart,
+                              color: Constants.iconColor,
+                              size: size.height / 35,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Constants.primaryColor,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0, horizontal: 5.0),
+                                    child: Text("$cartCount",
+                                        style: TextStyle(color: Colors.white)),
+                                  )),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                    WishListProducts(),
-                  ])),
-            )
-          ],
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      child: Tab(
+                        icon: Icon(
+                          AntDesign.hearto,
+                          color: Constants.iconColor,
+                          size: size.height / 35,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                    //     child: IndexedStack(
+                    //   index: _controller.index,
+                    //   children: [
+                    //     HomePageProducts(
+                    //       homepageData: MyApp.homePage,
+                    //     ),
+                    //     CartList(
+                    //       onCountChange: (x) => setState(() {
+                    //         cartCount = x;
+                    //       }),
+                    //     ),
+                    //     WishListProducts(),
+                    //   ],
+                    // )
+                    child: new TabBarView(
+                        controller: _controller,
+                        children: <Widget>[
+                      HomePageProducts(
+                        homepageData: MyApp.homePage,
+                      ),
+                      CartList(
+                        onCountChange: (x) => setState(() {
+                          cartCount = x;
+                        }),
+                      ),
+                      WishListProducts(),
+                    ])),
+              )
+            ],
+          ),
         ),
       ),
     );

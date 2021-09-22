@@ -36,6 +36,8 @@ class _HomePageProductsState extends State<HomePageProducts> {
       small_2,
       small_3,
       small_4,
+      small_5,
+      small_6,
       large_1,
       large_2,
       large_3,
@@ -71,10 +73,13 @@ class _HomePageProductsState extends State<HomePageProducts> {
       small_2 = promoBanners[1];
       small_3 = promoBanners[2];
       small_4 = promoBanners[3];
-      large_1 = promoBanners[4];
-      large_2 = promoBanners[5];
-      large_3 = promoBanners[6];
-      large_4 = promoBanners[7];
+      small_5 = promoBanners[4];
+      small_6 = promoBanners[5];
+      large_1 = promoBanners[6];
+      large_2 = promoBanners[7];
+      large_3 = promoBanners[8];
+      large_4 = promoBanners[9];
+      large_5 = promoBanners[10];
     }
   }
 
@@ -358,9 +363,31 @@ class _HomePageProductsState extends State<HomePageProducts> {
                                           large_3['status'] == 'active')
                                       ? bigCard(large_3)
                                       : SizedBox(),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        (small_5 != null &&
+                                                small_5['status'] == 'active')
+                                            ? smallCard(small_5)
+                                            : SizedBox(),
+                                        (small_6 != null &&
+                                                small_6['status'] == 'active')
+                                            ? smallCard(small_6)
+                                            : SizedBox(),
+                                      ],
+                                    ),
+                                  ),
                                   (large_4 != null &&
                                           large_4['status'] == 'active')
                                       ? bigCard(large_4)
+                                      : SizedBox(),
+                                  (large_5 != null &&
+                                          large_5['status'] == 'active')
+                                      ? bigCard(large_5)
                                       : SizedBox(),
                                 ],
                               )),

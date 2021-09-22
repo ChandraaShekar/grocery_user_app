@@ -15,8 +15,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  TextEditingController name, email, address;
-  String nameErr = '', emailErr = '', addressErr = '';
+  TextEditingController name, email;
+  String nameErr = '', emailErr = '';
   Map<String, double> location = {};
 
   @override
@@ -24,7 +24,6 @@ class _SettingsState extends State<Settings> {
     super.initState();
     name = TextEditingController(text: MyApp.userInfo['name']);
     email = TextEditingController(text: MyApp.userInfo['email']);
-    address = TextEditingController(text: MyApp.userInfo['address']);
   }
 
   @override
@@ -81,11 +80,13 @@ class _SettingsState extends State<Settings> {
                   onPressed: () async {
                     Map<String, dynamic> data = {
                       "name": name.text,
-                      "email": email.text
+                      "email": email.text,
+                      "address": MyApp.userInfo['address']
                     };
 
                     RegisterApiHandler updateHandler = RegisterApiHandler(data);
                     List resp = await updateHandler.update();
+                    print(resp);
                     if (resp[0] == 200) {
                       FocusScope.of(context).unfocus();
                       MyApp.userInfo = resp[1]['user'];

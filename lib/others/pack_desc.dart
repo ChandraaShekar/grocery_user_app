@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:expandable_text/expandable_text.dart';
+import 'package:expandable_widgets/expandable_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:user_app/api/cartApi.dart';
 import 'package:user_app/api/packsApi.dart';
@@ -124,12 +125,32 @@ class _PackageDescriptionState extends State<PackageDescription> {
                         packInfo['pack_info']['pack_description'] != null
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ExpandableText(
-                                  packInfo['pack_info']['pack_description'],
-                                  expandText: "show more",
-                                  collapseText: "hide",
-                                  maxLines: 1,
+                                child: Expandable(
+                                  primaryWidget: TextWidget("Pack Information",
+                                      textType: "title"),
+                                  elevation: 2,
+                                  padding: EdgeInsets.all(10.0),
+                                  animationDuration:
+                                      Duration(milliseconds: 200),
+                                  secondaryWidget: HtmlWidget(
+                                      packInfo['pack_info']
+                                          ['pack_description']),
+                                  // Text(
+                                  //   packInfo['pack_info']['pack_description'],
+                                  //   maxLines: 3,
+                                  //   overflow: TextOverflow.ellipsis,
+                                  // ),
+                                  showArrowIcon: true,
+                                  hoverOn: false,
+                                  arrowLocation: ArrowLocation.right,
                                 ),
+
+                                // ExpandableText(
+                                //   packInfo['pack_info']['pack_description'],
+                                //   expandText: "show more",
+                                //   collapseText: "hide",
+                                //   maxLines: 1,
+                                // ),
                               )
                             : SizedBox(),
                         (packInfo == null)

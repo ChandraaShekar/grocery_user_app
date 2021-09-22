@@ -29,6 +29,7 @@ class _ProductListState extends State<ProductList> {
   List productList;
   CartApiHandler cartHandler = new CartApiHandler();
   List<int> quantities;
+  List<bool> quantitiesLoading;
   @override
   void initState() {
     load();
@@ -65,6 +66,7 @@ class _ProductListState extends State<ProductList> {
       });
     }
     quantities = List.filled(productList.length, 0);
+    quantitiesLoading = List.filled(productList.length, false);
   }
 
   @override
@@ -210,7 +212,7 @@ class _ProductListState extends State<ProductList> {
                                       ),
                                       Positioned(
                                         bottom: 0,
-                                        right: 20,
+                                        right: 0,
                                         child: Column(
                                           children: [
                                             (y != -1)
@@ -231,14 +233,21 @@ class _ProductListState extends State<ProductList> {
                                                                       .circular(
                                                                           5)),
                                                           width:
-                                                              size.width * 0.06,
+                                                              size.width * 0.08,
                                                           height:
-                                                              size.width * 0.06,
+                                                              size.width * 0.08,
                                                         ),
                                                         onTap: () async {
                                                           if (quantities[i] >
                                                               0) {
-                                                            quantities[i] -= 1;
+                                                            setState(() {
+                                                              quantities[i] -=
+                                                                  1;
+                                                              MyApp.cartList['products']
+                                                                          [y][
+                                                                      'cartQuantity'] =
+                                                                  quantities[i];
+                                                            });
                                                             if (quantities[i] ==
                                                                 0) {
                                                               List resp = await cartHandler
@@ -254,13 +263,10 @@ class _ProductListState extends State<ProductList> {
                                                                   context);
                                                               if (resp[0] ==
                                                                   200) {
-                                                                setState(() {
-                                                                  MyApp
-                                                                      .cartList[
-                                                                          'products']
-                                                                      .removeAt(
-                                                                          i);
-                                                                });
+                                                                MyApp.cartList[
+                                                                        'products']
+                                                                    .removeAt(
+                                                                        i);
                                                               }
                                                             } else {
                                                               List resp =
@@ -277,15 +283,11 @@ class _ProductListState extends State<ProductList> {
                                                               });
                                                               if (resp[0] ==
                                                                   200) {
-                                                                setState(() {
-                                                                  MyApp.cartList['products']
-                                                                              [
-                                                                              y]
-                                                                          [
-                                                                          'cartQuantity'] =
-                                                                      quantities[
-                                                                          i];
-                                                                });
+                                                                MyApp.cartList['products']
+                                                                            [y][
+                                                                        'cartQuantity'] =
+                                                                    quantities[
+                                                                        i];
                                                               } else {
                                                                 quantities[i] +=
                                                                     1;
@@ -295,6 +297,7 @@ class _ProductListState extends State<ProductList> {
                                                                     context);
                                                               }
                                                             }
+
                                                             setState(() {});
                                                           }
                                                         }),
@@ -302,9 +305,18 @@ class _ProductListState extends State<ProductList> {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               8.0),
-                                                      child: TextWidget(
-                                                          "${MyApp.cartList['products'][y]['cartQuantity']}",
-                                                          textType: "title"),
+                                                      child: (quantitiesLoading[
+                                                              i])
+                                                          ? Image.asset(
+                                                              Constants
+                                                                  .loadingImage,
+                                                              width:
+                                                                  size.width *
+                                                                      0.06)
+                                                          : TextWidget(
+                                                              "${MyApp.cartList['products'][y]['cartQuantity']}",
+                                                              textType:
+                                                                  "title"),
                                                     ),
                                                     GestureDetector(
                                                         child: Container(
@@ -322,14 +334,20 @@ class _ProductListState extends State<ProductList> {
                                                                       .circular(
                                                                           5)),
                                                           width:
-                                                              size.width * 0.06,
+                                                              size.width * 0.08,
                                                           height:
-                                                              size.width * 0.06,
+                                                              size.width * 0.08,
                                                         ),
                                                         onTap: () async {
+                                                          setState(() {
+                                                            quantities[i] += 1;
+                                                            MyApp.cartList['products']
+                                                                        [y][
+                                                                    'cartQuantity'] =
+                                                                quantities[i];
+                                                          });
                                                           if (quantities[i] <
                                                               10) {
-                                                            quantities[i] += 1;
                                                             List resp =
                                                                 await cartHandler
                                                                     .updateCart({
@@ -343,22 +361,26 @@ class _ProductListState extends State<ProductList> {
                                                             });
                                                             if (resp[0] ==
                                                                 200) {
-                                                              setState(() {
-                                                                MyApp.cartList['products']
-                                                                            [y][
-                                                                        'cartQuantity'] =
-                                                                    quantities[
-                                                                        i];
-                                                              });
+                                                              MyApp.cartList['products']
+                                                                          [y][
+                                                                      'cartQuantity'] =
+                                                                  quantities[i];
                                                             } else {
                                                               quantities[i] -=
                                                                   1;
+                                                              MyApp.cartList['products']
+                                                                          [y][
+                                                                      'cartQuantity'] =
+                                                                  quantities[i];
                                                               MyApp.showToast(
                                                                   resp[1][
                                                                       'message'],
                                                                   context);
                                                             }
-                                                            setState(() {});
+                                                            setState(() {
+                                                              // quantitiesLoading[
+                                                              //     x] = false;
+                                                            });
                                                           }
                                                         })
                                                   ])
@@ -367,16 +389,31 @@ class _ProductListState extends State<ProductList> {
                                                 ? GestureDetector(
                                                     child: Container(
                                                       padding:
-                                                          EdgeInsets.all(8),
-                                                      color: Constants
-                                                          .primaryColor,
-                                                      child: TextWidget(
-                                                        'Add to Cart',
-                                                        textType: "label-white",
-                                                      ),
+                                                          EdgeInsets.all(10),
+                                                      color:
+                                                          (quantitiesLoading[i])
+                                                              ? Colors.white
+                                                              : Constants
+                                                                  .primaryColor,
+                                                      child: (quantitiesLoading[
+                                                              i])
+                                                          ? Image.asset(
+                                                              Constants
+                                                                  .loadingImage,
+                                                              width:
+                                                                  size.width *
+                                                                      0.1)
+                                                          : TextWidget(
+                                                              'Add to Cart',
+                                                              textType:
+                                                                  "label-white",
+                                                            ),
                                                     ),
                                                     onTap: () async {
-                                                      print(productList[i]);
+                                                      setState(() {
+                                                        quantitiesLoading[i] =
+                                                            true;
+                                                      });
                                                       var resp =
                                                           await cartHandler
                                                               .addToCart({
@@ -387,23 +424,25 @@ class _ProductListState extends State<ProductList> {
                                                                 0]['product_id'],
                                                         "quantity": "1"
                                                       });
-                                                      print(resp);
                                                       MyApp.showToast(
                                                           resp[1]['message'],
                                                           context);
-
-                                                      List getResp =
-                                                          await cartHandler
-                                                              .getCart();
-                                                      setState(() {
+                                                      if (resp[0] == 200) {
+                                                        List getResp =
+                                                            await cartHandler
+                                                                .getCart();
                                                         MyApp.cartList =
                                                             getResp[1];
+                                                      }
+                                                      setState(() {
+                                                        quantitiesLoading[i] =
+                                                            false;
                                                       });
                                                     })
                                                 : SizedBox(),
                                           ],
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 )),
@@ -411,6 +450,7 @@ class _ProductListState extends State<ProductList> {
                         );
                       }),
             ),
+            Padding(padding: EdgeInsets.symmetric())
           ],
         ),
       ),

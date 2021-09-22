@@ -25,6 +25,7 @@ class Constants {
   static final String couponFailedImage = "assets/images/coupon-failed.gif";
   static final String paymentFailedImage = "assets/images/payment-failed.gif";
   static final String paymentSuccessImage = "assets/images/payment-success.gif";
+  static final String loadingImage = "assets/images/loading.gif";
   static final String locationNotFountImage =
       "assets/images/location-unavailable.gif";
 

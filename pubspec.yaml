@@ -46,6 +46,9 @@ dependencies:
   flutter_typeahead:
   step_progress_indicator: 
   syncfusion_flutter_charts:
+  expandable_widgets:
+  progress_indicators: 
+
 
 dev_dependencies:
   flutter_test:
