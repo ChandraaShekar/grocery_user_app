@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:user_app/auth/login.dart';
 import 'package:user_app/main.dart';
@@ -197,6 +198,9 @@ class PlatformState extends State<Platform> {
                   ),
                   title: TextWidget(Constants.logoutTag, textType: "title"),
                   onTap: () {
+                                              
+                   FirebaseMessaging.instance.unsubscribeFromTopic(MyApp.userInfo['uid'].toString());
+                    FirebaseMessaging.instance.deleteToken();
                     MyApp.logout();
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         Login.tag, (Route<dynamic> route) => false);

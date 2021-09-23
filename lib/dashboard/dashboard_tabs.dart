@@ -70,7 +70,7 @@ class _DashboardTabsState extends State<DashboardTabs>
           NotificationDetails(
               android: AndroidNotificationDetails(
                   channel.id, channel.name, channel.description,
-                  color: Colors.blue, playSound: true, icon: '@mipmap/logo')),
+                  color: Constants.kMain, playSound: true, icon: '@drawable/notify')),
         );
       }
     });
