@@ -353,7 +353,7 @@ class _CartListState extends State<CartList> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           TextWidget(
-                                            'Delivery',
+                                            'Delivery charges',
                                             textType: "para",
                                           ),
                                           SizedBox(

@@ -102,7 +102,7 @@ class _OrderHistoryCardState extends State<OrderHistoryCard> {
               ),
               SizedBox(height: 15),
               Text(
-                "Rs. ${int.parse(this.widget.discountPrice) > 0 ? this.widget.discountPrice : this.widget.totalPrice}",
+                "Rs. ${double.parse(this.widget.discountPrice) > 0 ? this.widget.discountPrice : this.widget.totalPrice}",
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,

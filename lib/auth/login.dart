@@ -6,6 +6,7 @@ import 'package:user_app/auth/otp_page.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/primary_button.dart';
 import 'package:user_app/utils/circle_painter.dart';
+import 'package:user_app/widgets/text_widget.dart';
 
 import '../main.dart';
 
@@ -19,12 +20,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _phoneNumberController = TextEditingController();
   double _height;
-
-  int _current = 0;
   List images = [
     Constants.welcomeScreen,
-    Constants.welcomeScreen,
-    Constants.welcomeScreen
   ];
   String search;
   List<T> map<T>(List list, Function handler) {
@@ -128,12 +125,6 @@ class _LoginState extends State<Login> {
                         //  pauseAutoPlayOnTouch: Duration(seconds: 5),
                         initialPage: 0,
                         height: size.height / 2.6,
-
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _current = index;
-                          });
-                        },
                       ),
                       items: images.map((imgUrl) {
                         return Builder(
@@ -161,21 +152,15 @@ class _LoginState extends State<Login> {
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Center(
-                                          child: Text(
-                                            "Get insights by looking into your",
-                                            style: TextStyle(
-                                              fontSize: size.height / 50,
-                                              color: Colors.black,
-                                            ),
+                                          child: TextWidget(
+                                            "We are excited for having you here",
+                                            textType: "para-bold",
                                           ),
                                         ),
                                         Center(
-                                          child: Text(
-                                            " payment history",
-                                            style: TextStyle(
-                                              fontSize: size.height / 50,
-                                              color: Colors.black,
-                                            ),
+                                          child: TextWidget(
+                                            "Login to place your order.",
+                                            textType: "para-bold",
                                           ),
                                         ),
                                       ],
@@ -187,31 +172,7 @@ class _LoginState extends State<Login> {
                       }).toList(),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15, top: 5),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: map<Widget>(images, (index, url) {
-                          return _current == index
-                              ? Container(
-                                  width: 9,
-                                  height: 9,
-                                  margin: EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Constants.buttonBgColor),
-                                )
-                              : Container(
-                                  width: 9,
-                                  height: 9,
-                                  margin: EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Constants.buttonBgColor)),
-                                );
-                        })),
-                  ),
+                  Padding(padding: EdgeInsets.all(20)),
                   Container(
                     height: _height,
                     width: size.width,
@@ -231,14 +192,9 @@ class _LoginState extends State<Login> {
                                 Transform(
                                   transform:
                                       Matrix4.translationValues(0, 6, 0.0),
-                                  child: Text(
+                                  child: TextWidget(
                                     "Please enter your phone number",
-                                    style: TextStyle(
-                                        fontSize: size.height / 50,
-                                        letterSpacing: 0.3,
-                                        color: Constants.headingTextBlack,
-                                        fontWeight: FontWeight.w600),
-                                    textAlign: TextAlign.center,
+                                    textType: "para-bold",
                                   ),
                                 ),
                                 Row(
@@ -272,11 +228,9 @@ class _LoginState extends State<Login> {
                                   ],
                                 ),
                                 // SizedBox(height: 10),
-                                Text(
+                                TextWidget(
                                   'OTP Will be sent to your phone number',
-                                  style: TextStyle(
-                                      color: Constants.secondaryTextColor,
-                                      fontSize: size.height / 60),
+                                  textType: "para-bold",
                                 ),
                               ],
                             ),

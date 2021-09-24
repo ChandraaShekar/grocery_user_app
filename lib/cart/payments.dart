@@ -568,7 +568,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       TextWidget(
-                                        'Delivery',
+                                        'Delivery charges',
                                         textType: "para",
                                       ),
                                       SizedBox(
