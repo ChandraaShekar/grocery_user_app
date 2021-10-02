@@ -42,7 +42,7 @@ class PlatformState extends State<Platform> {
           foregroundColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: TextWidget('Tryfrutte', textType: "heading"),
+          title: TextWidget('Frutte', textType: "heading"),
         ),
         body: Padding(
           padding: const EdgeInsets.only(left: 0),

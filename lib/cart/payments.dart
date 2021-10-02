@@ -534,7 +534,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.22,
+                          height: MediaQuery.of(context).size.height * 0.24,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,

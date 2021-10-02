@@ -10,6 +10,7 @@ import 'package:user_app/utils/header.dart';
 import 'package:http/http.dart' as http;
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/text_widget.dart';
+import 'package:location/location.dart';
 
 class AddressSearchMap extends StatefulWidget {
   final Widget onSave;
@@ -30,6 +31,14 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
   TextEditingController flatNo = new TextEditingController();
   TextEditingController landMark = new TextEditingController();
   List addressTypes = ["Home", "Work", "Other"];
+   int check = 0;
+
+  Location location = new Location();
+  LocationData _locationData;
+  PermissionStatus _permissionGranted;
+  bool _serviceEnabled;
+  double lat;
+  double lng;
 
   @override
   void initState() {
@@ -73,12 +82,121 @@ class _AddressSearchMapState extends State<AddressSearchMap> {
     getFromCoords(latitude, longitude);
   }
 
+  _loadLocation() async {
+    _permissionGranted = await location.hasPermission();
+    print(_permissionGranted);
+    if (_permissionGranted == PermissionStatus.granted) {
+      _serviceEnabled = await location.serviceEnabled();
+
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          print("No Thanks");
+          setState(() {
+            check = 1;
+          });
+          return;
+        } else {
+          print("Clicked Ok");
+          _locationData = await location.getLocation();
+          print("lat : " +
+              _locationData.latitude.toString() +
+              "long : " +
+              _locationData.longitude.toString());
+          setState(() {
+            lat = _locationData.latitude;
+            lng = _locationData.longitude;
+            check = 1;
+          });
+        }
+      } else {
+        _locationData = await location.getLocation();
+        print("lat : " +
+            _locationData.latitude.toString() +
+            "long : " +
+            _locationData.longitude.toString());
+        setState(() {
+          lat = _locationData.latitude;
+          lng = _locationData.longitude;
+          check = 1;
+        });
+      }
+    } else {
+      //location permission in settings
+      _permissionGranted = await location.requestPermission();
+
+      if (_permissionGranted == PermissionStatus.granted) {
+        //checking gps
+        _serviceEnabled = await location.serviceEnabled();
+
+        if (!_serviceEnabled) {
+          _serviceEnabled = await location.requestService();
+          if (!_serviceEnabled) {
+            print("No Thanks");
+            setState(() {
+              lat = 0;
+              lng = 0;
+              check = 1;
+            });
+            return;
+          } else {
+            print("Clicked Ok");
+            _locationData = await location.getLocation();
+            print("lat : " +
+                _locationData.latitude.toString() +
+                "long : " +
+                _locationData.longitude.toString());
+            setState(() {
+              lat = _locationData.latitude;
+              lng = _locationData.longitude;
+              check = 1;
+            });
+
+          }
+        } else {
+          _locationData = await location.getLocation();
+          print("lat : " +
+              _locationData.latitude.toString() +
+              "long : " +
+              _locationData.longitude.toString());
+
+          setState(() {
+            lat = _locationData.latitude;
+            lng = _locationData.longitude;
+            check = 1;
+          });
+        }
+      } else {
+        //when location permission rejected
+        setState(() {
+          lat = 0.0;
+          lng = 0.0;
+          check = 1;
+        });
+      }
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: Header.appBar('Pick your location', null, true, context, false),
+        appBar: Header.appBar(
+          'Pick your location',
+           Center(
+             child: TextButton(
+               child: Text('Current Location'),
+               onPressed: (){
+                   _loadLocation();
+               },
+               )),
+              true,
+              context,
+              false
+            ),
         body: Stack(
           // mainAxisAlignment: MainAxisAlignment.start,
           children: [

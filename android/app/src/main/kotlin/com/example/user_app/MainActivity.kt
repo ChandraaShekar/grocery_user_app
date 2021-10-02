@@ -1,4 +1,4 @@
-package com.redginzr.userapp
+package com.frutte.app
 
 import io.flutter.embedding.android.FlutterActivity
 

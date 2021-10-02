@@ -196,16 +196,8 @@ class MyApp extends StatelessWidget {
                 {
                   return Scaffold(
                     body: Container(
-                        height: MediaQuery.of(context).size.height,
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              Constants.splashScreen,
-                              height: MediaQuery.of(context).size.height,
-                              width: MediaQuery.of(context).size.width,
-                            ),
-                          ],
-                        )),
+                     color: Colors.white,
+                        ),
                   );
                 }
               default:
