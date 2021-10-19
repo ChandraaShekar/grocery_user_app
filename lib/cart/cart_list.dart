@@ -25,10 +25,12 @@ class _CartListState extends State<CartList> {
   double delivery = 0;
   double tax = 0;
   double taxPercentage = 0;
+  double packingPrice = 0;
   double total = 0;
   List packs = [];
   bool loaded = false;
   String deliveryRemark = "None";
+  Map additionalInfo = {};
 
   @override
   void initState() {
@@ -39,7 +41,6 @@ class _CartListState extends State<CartList> {
           MyApp.cartList['packs'] != null) {
         loadPrice();
       }
-      loaded = true;
     });
     setState(() {});
   }
@@ -49,6 +50,10 @@ class _CartListState extends State<CartList> {
     List resp = await cartHandler.getDeliveryPrice();
     if (resp[0] == 200) {
       int del = int.parse(resp[1][0]['delivery_price']);
+      packingPrice = double.parse(resp[1][0]['packaging_price']);
+      // setState(() {
+      additionalInfo = resp[1][0];
+      // });
       delivery = del * 1.0;
       taxPercentage = double.parse(resp[1][0]['tax_percentage']);
       deliveryRemark = resp[1][0]['remarks'];
@@ -66,8 +71,9 @@ class _CartListState extends State<CartList> {
       print("ELEMENT: $jData");
     });
     tax = (subtotal * taxPercentage).toInt() / 100;
-    total = ((subtotal + tax + delivery) * 100).toInt() / 100;
+    total = ((subtotal + tax + delivery + packingPrice) * 100).toInt() / 100;
     print(resp);
+    loaded = true;
     setState(() {});
   }
 
@@ -410,14 +416,18 @@ class _CartListState extends State<CartList> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  TextWidget("GST",
+                                                  TextWidget(
+                                                      "GST ($taxPercentage%)",
                                                       textType: "para"),
-                                                  TextWidget("Packaging",
+                                                  TextWidget(
+                                                      "Packaging ($packingPrice/-)",
                                                       textType: "para")
                                                 ],
                                               )),
                                           TextWidget(
-                                            '₹ ' + tax.toStringAsFixed(2),
+                                            '₹ ' +
+                                                (tax + packingPrice)
+                                                    .toStringAsFixed(2),
                                             textType: "para-bold",
                                           )
                                         ]),

@@ -48,20 +48,27 @@ class _PackageDescriptionState extends State<PackageDescription> {
 
   void load() async {
     List resp = await packsHandler.getPackInfo(widget.packId);
-
-    packInfo = resp[1];
-    packProducts = resp[1]['products'];
-    packProducts.forEach((element) {
-      orginalPrice += double.parse(element['price']) *
-          int.parse(element['item_pack_quantity']);
-    });
-    orginalFixedPrice = orginalPrice;
-    packPrice = double.parse(packInfo['pack_info']['pack_offer_price']);
-    packFixedPrice = packPrice;
-    tax = (packPrice * 5).toInt() / 100;
-    totalPrice = packPrice + tax;
-    discount = packPrice / orginalPrice;
-    loading = false;
+    List resp2 = await cartHandler.getDeliveryPrice();
+    // print(resp);
+    if (resp[0] == 200 && resp2[0] == 200) {
+      packInfo = resp[1];
+      packProducts = resp[1]['products'];
+      log("$packProducts");
+      packProducts.forEach((element) {
+        orginalPrice += double.parse(element['price']) *
+            int.parse(element['item_pack_quantity']);
+      });
+      orginalFixedPrice = orginalPrice;
+      packPrice = double.parse(packInfo['pack_info']['pack_offer_price']);
+      packFixedPrice = packPrice;
+      tax = (packPrice * double.parse(resp2[1][0]['tax_percentage'])).toInt() /
+          100;
+      totalPrice = packPrice + tax;
+      discount = packPrice / orginalPrice;
+      if (orginalFixedPrice > 0) {
+        loading = false;
+      }
+    }
     setState(() {});
   }
 
@@ -192,7 +199,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                     const EdgeInsets.only(left: 10, right: 10),
                                 child: Center(
                                     child: Text(
-                                        "Note: You can get an offer of ${((packPrice / orginalPrice) * 100).toStringAsFixed(2)}% on this pack only if the original price of this pack is greater than ${packInfo['pack_info']['limit_for_offer']}/-",
+                                        "Note: You can get an offer of ${(100 - ((packPrice / orginalPrice) * 100)).toStringAsFixed(2)}% on this pack only if the original price of this pack is greater than ${packInfo['pack_info']['limit_for_offer']}/-",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: size.height / 60,
@@ -473,7 +480,7 @@ class _PackageDescriptionState extends State<PackageDescription> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 15.0, horizontal: 5.0),
                                     child: TextWidget(
-                                        "${((this.packPrice / this.orginalPrice) * double.parse(productInfo['price']) * 100).toInt() / 100}/-",
+                                        "${(((this.packPrice / this.orginalPrice) * double.parse(productInfo['price']) * 100) / 100).toStringAsFixed(2)}/-",
                                         textType: "subheading")),
                                 Expanded(child: Container()),
                                 Container(
@@ -512,9 +519,9 @@ class _PackageDescriptionState extends State<PackageDescription> {
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15.0),
-                                child: TextWidget(
-                                    "${productInfo['product_description']}",
-                                    textType: "para"),
+                                child: HtmlWidget(
+                                  "${productInfo['product_description']}",
+                                ),
                               )
                             ]),
                       ),
