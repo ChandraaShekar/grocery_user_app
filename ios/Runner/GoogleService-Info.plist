@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>39043087257-6364qb3ftg9qthkna3nqlt0aoau38klh.apps.googleusercontent.com</string>
+	<string>39043087257-gqmhgp54bu3kf6rt01cbunlos7gq1gha.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.39043087257-6364qb3ftg9qthkna3nqlt0aoau38klh</string>
+	<string>com.googleusercontent.apps.39043087257-gqmhgp54bu3kf6rt01cbunlos7gq1gha</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>39043087257-fkev6317v1t8ki2ihdl7ruruldobcqli.apps.googleusercontent.com</string>
+	<string>39043087257-32937dmujho35hgmf1s8qiru99bcjo45.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAvpniT5SgLar83lr1J4zRrl0GdmuEhHkQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.frutte.app</string>
+	<string>com.tryfrutte.groceryapp</string>
 	<key>PROJECT_ID</key>
 	<string>groceryapp-b0e60</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:39043087257:ios:a75beb8b856ca313887108</string>
+	<string>1:39043087257:ios:dd24a35effaadb00887108</string>
 </dict>
 </plist>

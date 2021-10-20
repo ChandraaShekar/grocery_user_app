@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -58,6 +59,7 @@ class _DashboardTabsState extends State<DashboardTabs>
     // });
     changeDisplayAddress(MyApp.selectedAddressId);
     setState(() {});
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("NEW MESSAGE ${message.notification}");
       RemoteNotification notification = message.notification;
@@ -70,7 +72,22 @@ class _DashboardTabsState extends State<DashboardTabs>
           NotificationDetails(
               android: AndroidNotificationDetails(
                   channel.id, channel.name, channel.description,
-                  color: Constants.kMain, playSound: true, icon: '@drawable/notify')),
+                  color: Constants.kMain,
+                  playSound: true,
+                  icon: '@drawable/notify')),
+        );
+      }
+      if (notification != null) {
+        // iOS notification has to be implemented
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+              iOS: IOSNotificationDetails(
+                presentSound: true,
+                presentAlert: true,
+              )),
         );
       }
     });
@@ -79,6 +96,7 @@ class _DashboardTabsState extends State<DashboardTabs>
       addressDialog();
     }
   }
+
 
   changeDisplayAddress(int i) async {
     if (MyApp.addresses == null) {

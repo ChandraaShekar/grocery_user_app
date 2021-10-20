@@ -402,6 +402,7 @@ class _CartListState extends State<CartList> {
                                                     decorationStyle:
                                                         TextDecorationStyle
                                                             .dashed,
+                                                            fontSize: size.height/ 56,
                                                     decorationThickness: 1.5,
                                                     decoration: TextDecoration
                                                         .underline),
@@ -411,9 +412,9 @@ class _CartListState extends State<CartList> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   TextWidget("GST",
-                                                      textType: "para"),
+                                                      textType: "label-light"),
                                                   TextWidget("Packaging",
-                                                      textType: "para")
+                                                      textType: "label-light")
                                                 ],
                                               )),
                                           TextWidget(

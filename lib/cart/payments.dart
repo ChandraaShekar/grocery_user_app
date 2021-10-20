@@ -613,6 +613,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                             style: TextStyle(
                                                 decorationStyle:
                                                     TextDecorationStyle.dashed,
+                                                fontSize: size.height/ 56,
                                                 decorationThickness: 1.5,
                                                 decoration:
                                                     TextDecoration.underline),
@@ -622,9 +623,9 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               TextWidget("GST",
-                                                  textType: "para"),
+                                                  textType: "label-light"),
                                               TextWidget("Packaging",
-                                                  textType: "para")
+                                                  textType: "label-light")
                                             ],
                                           )),
                                       TextWidget(
