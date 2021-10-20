@@ -8,9 +8,8 @@ class Help extends StatefulWidget {
 }
 
 class _HelpState extends State<Help> {
-  String phone = "+91-9890987889";
-  String phone2 = "+91-9890987889";
-  String email = "app@mail.com";
+  String phone = "+91-8977900118";
+  String email = "support@tryfrutte.com";
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class _HelpState extends State<Help> {
                   ),
                   TextButton(
                       onPressed: () {
-                        launchURL('tel:'+phone);
+                        launchURL('tel:' + phone);
                       },
                       child: Text(
                         phone,
@@ -58,21 +57,6 @@ class _HelpState extends State<Help> {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                "or",
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-             TextButton(
-              onPressed: (){
-                launchURL('tel:'+phone2);
-              },
-              child:Text(phone2,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.blue),)),
-              SizedBox(
-                height: 40,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -85,7 +69,7 @@ class _HelpState extends State<Help> {
                   ),
                   TextButton(
                       onPressed: () {
-                         launchURL('mailto:'+email);
+                        launchURL('mailto:' + email);
                       },
                       child: Text(
                         email,

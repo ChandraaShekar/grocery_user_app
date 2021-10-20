@@ -10,6 +10,7 @@ import 'package:user_app/cart/order_placed.dart';
 import 'package:user_app/main.dart';
 import 'package:user_app/services/constants.dart';
 import 'package:user_app/utils/header.dart';
+import 'package:user_app/utils/url_launcher.dart';
 import 'package:user_app/widgets/cart_card.dart';
 import 'package:user_app/widgets/primaryButton.dart';
 import 'package:user_app/widgets/text_widget.dart';
@@ -459,10 +460,15 @@ class _OrderHistoryInfoState extends State<OrderHistoryInfo> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               100)),
-                                                  child: Icon(Icons
-                                                      .phone_in_talk_outlined)),
+                                                  child: IconButton(
+                                                      icon: Icon(Icons
+                                                          .phone_in_talk_outlined),
+                                                      onPressed: () {
+                                                        launchURL(
+                                                            'tel:${deliveryPartnerInfo['phone_number']}');
+                                                      })),
                                             ),
-                                            onTap: () async {})
+                                            onTap: null)
                                         : SizedBox()
                                   ],
                                 ),

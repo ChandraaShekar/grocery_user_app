@@ -46,6 +46,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   String deliveryRemark = "None";
   double newOfferPrice = 0.0;
   double taxPercentage = 0.0;
+  double packingPrice = 0.0;
   bool isScheduled = false;
   DateTime selectedDate = DateTime.now();
   String paymentMethod = "Cash on Delivery";
@@ -54,7 +55,8 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
   void loadPrice() async {
     List resp = await cartHandler.getDeliveryPrice();
     if (resp[0] == 200) {
-      int del = int.parse(resp[1][0]['delivery_price']);
+      double del = double.parse(resp[1][0]['delivery_price']);
+      packingPrice = double.parse(resp[1][0]['packaging_price']);
       delivery = del * 1.0;
       taxPercentage = double.parse(resp[1][0]['tax_percentage']);
       deliveryRemark = resp[1][0]['remarks'];
@@ -73,7 +75,7 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
       print("ELEMENT: $jData");
     });
     tax = (subtotal * taxPercentage).toInt() / 100;
-    total = ((subtotal + tax + delivery) * 100).toInt() / 100;
+    total = ((subtotal + tax + delivery + packingPrice) * 100).toInt() / 100;
     setState(() {});
   }
 
@@ -622,14 +624,18 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              TextWidget("GST",
-                                                  textType: "label-light"),
-                                              TextWidget("Packaging",
-                                                  textType: "label-light")
+                                              TextWidget(
+                                                  "GST ($taxPercentage%)",
+                                                  textType: "para"),
+                                              TextWidget(
+                                                  "Packaging ($packingPrice/-)",
+                                                  textType: "para")
                                             ],
                                           )),
                                       TextWidget(
-                                        '₹ ' + tax.toStringAsFixed(2),
+                                        '₹ ' +
+                                            (tax + packingPrice)
+                                                .toStringAsFixed(2),
                                         textType: "para-bold",
                                       )
                                     ]),
@@ -986,7 +992,6 @@ class _PaymentsState extends State<Payments> with TickerProviderStateMixin {
                                 .toInt(),
                         "name": "Order Id: #${resp[1]['order_id']}",
                         "description": "One final step to finish the order",
-                        // "order_id": resp[1]['order_id'],
                         "timeout": 180,
                         "prefil": {
                           "contact": MyApp.userInfo['phone_no'],
