@@ -49,7 +49,15 @@ dependencies:
   expandable_widgets:
   progress_indicators:
   location: 
+  flutter_native_splash:
 
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/splash.png
+  ios: true
+  android: false
+  web: false
+  ios_content_mode: center
 
 dev_dependencies:
   flutter_test:
